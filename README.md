@@ -23,8 +23,15 @@ scribble.on('.className', '#ElementId')
 
 ```javascript
 
-scribble.on('.IDontKnow')
-   .triangle({background: '#111', border: '1px solid #000'}, 0, 0, 100);
+scribble.on('.one')
+    .square(10, 10, 100, {
+        background: '#888', 
+        border: '4px #111'
+    })
+    .square(50, 100, 40, {
+        background: '#000', 
+        border: '4px gold'  
+    })
 
 ```
 
