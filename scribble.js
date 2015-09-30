@@ -2,16 +2,13 @@ var scribble = (function(){
    this.contexts = [];
    this.on = function(){
        [].slice.call(arguments);
-       console.log(arguments);
-
        for (var i = 0; i < arguments.length; i++){
           this.createCanvasContext(arguments[i]);
        }
-
        return this;
    }
 
-   this.createCanvasContext = function(el) {
+   this.createCanvasContext = function(el){
        var canvas = document.querySelector(el),
            context = canvas.getContext('2d');
 
@@ -32,7 +29,6 @@ var scribble = (function(){
             argsPattern = argsPattern.slice(1);
           }
        }
-
        return args;
    }
 

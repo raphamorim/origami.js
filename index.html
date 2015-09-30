@@ -11,9 +11,12 @@
     <script src="scribble.js"></script>
     <script>
         console.log(scribble);
-        scribble.on('.one', '.two')
-           .square(1,2,100)
-           .square(10,20,10);
+        var i = 1;
+        setInterval(function() {
+            scribble.on(".one", ".two")
+                .square(100, 10, i++)
+        }, 30);
+
     </script>
 </body>
 </html>
