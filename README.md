@@ -21,37 +21,7 @@ scribble.on('.className', '#ElementId')
 
 ```
 
-## Square
-
-```javascript
-
-scribble.on('.one', '.one')
-    .square(10, 10, 100, {
-        background: '#888', 
-        border: '4px #111'
-    })
-    .square(50, 100, 40, {
-        background: '#000', 
-        border: '4px gold'  
-    })
-
-```
-
-## Line
-
-```javascript
-
-scribble.on('.one')
-    .line({x: 10, y: 10}, {x: 10, y: 200}, {
-        background: '#888', 
-        border: '4px #111'
-    })
-
-```
-
-## Rectangule
-
-## Rect
+## Rect (square && rectangule)
 
 ```javascript
 
@@ -64,6 +34,18 @@ scribble.on('.canvas')
         background: '#000', 
         border: '4px gold'  
     });    
+
+```
+
+## Line
+
+```javascript
+
+scribble.on('.one')
+    .line({x: 10, y: 10}, {x: 10, y: 200}, {
+        background: '#888', 
+        border: '4px #111'
+    })
 
 ```
 
