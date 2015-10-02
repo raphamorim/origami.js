@@ -10,15 +10,27 @@
 
     <script src="scribble.js"></script>
     <script>
+    
+        // Problema pegar mais de um elemento com seletor repetido
+
+        scribble.on('.one', '.one')
+            ._list()
+            .rect(10, 10, 50, 100, {
+                background: '#888', 
+                border: '4px #999'
+            })
+            .rect(50, 10, 40, {
+                background: '#000', 
+                border: '4px gold'  
+            });    
+
         scribble.on('.one')
-            .square(10, 10, 100, {
+            .line({x: 10, y: 10}, {x: 10, y: 200}, {
                 background: '#888', 
                 border: '4px #111'
             })
-            .square(50, 100, 40, {
-                background: '#000', 
-                border: '4px gold'  
-            })
+
+
     </script>
 </body>
 </html>

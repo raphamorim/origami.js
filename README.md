@@ -21,9 +21,11 @@ scribble.on('.className', '#ElementId')
 
 ```
 
+## Square
+
 ```javascript
 
-scribble.on('.one')
+scribble.on('.one', '.one')
     .square(10, 10, 100, {
         background: '#888', 
         border: '4px #111'
@@ -35,23 +37,68 @@ scribble.on('.one')
 
 ```
 
+## Line
+
+```javascript
+
+scribble.on('.one')
+    .line({x: 10, y: 10}, {x: 10, y: 200}, {
+        background: '#888', 
+        border: '4px #111'
+    })
+
+```
+
+## Rectangule
+
+## Rect
+
+```javascript
+
+scribble.on('.canvas')
+    .rect(10, 10, 50, 100, {
+        background: '#888', 
+        border: '4px #999'
+    })
+    .rect(50, 10, 40, {
+        background: '#000', 
+        border: '4px gold'  
+    });    
+
+```
+
+## Clear
+
+```javascript
+
+scribble.clear('.one') 
+
+```
+
 Roadmap APIs:
 
 - Next Release
- - line (2d) ???
+ - line (2d) [CHECKED] 
  - square (2d) [CHECKED]
+ - rectangule (2d) [CHECKED]
  - triangule (2d)
- - rectangule (2d)
  - circle (2d)
  - image (2d)
  - text (2d)
+
 - Future Releases
+ - render with textures
+ - switch to WebGL 
  - cube (3d)
  - cone (3d)
- - cylinder
+ - cylinder (3d)
 
 Canvas html5 animation
 How it will work??
+
+Suggestions: 
+    interpolação D3 (animação) tween
+
 
 ```javascript
 var i = 1;
