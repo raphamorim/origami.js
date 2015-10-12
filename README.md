@@ -4,14 +4,6 @@
 
 ## Usage
 
-Application Usage??
-
-Gradient Cases??
-
-Select element??
-
-Read Css convert in canvas style?? (Can use css module, I guess)
-
 ```javascript
 
 scribble.on('.className', '#ElementId')
@@ -49,11 +41,81 @@ scribble.on('.one')
 
 ```
 
+## Circle
+
+```javascript
+scribble.on('.element')
+    .circle(100, 75, 50, {
+        background: '#000', 
+        border: '4px gold'  
+    })
+
+```
+
+## Polygon 
+
+```javascript
+
+scribble.on('.one')
+    .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+        background: '#888', 
+        border: '4px #000'
+    })
+    
+```
+
+## Text
+
+```javascript
+
+scribble.on('.one')
+    .text("Hello World", 100, 100, {
+        color: '#000',
+        font: '70px Helvetica',
+        align: 'center',
+        border: '10px gold'
+    })
+
+```
+
+
+## Image
+
+```javascript
+
+var img = document.querySelector('#my-image');
+scribble.on('.canvas')
+    .image(img, 10, 10)
+
+```
+
 ## Clear
 
 ```javascript
 
 scribble.clear('.one') 
+
+```
+
+## Repeat
+
+```javascript
+    
+    scribble
+        .on('#demo-1')
+        .set({
+            inc: 35,
+            circle: {
+                border: "1px #000",
+                radius: "30"
+            }
+        })
+        .repeat(15, function(set){
+            circle(0, set.inc)
+            repeat(15, function(def){
+                circle(def.inc, (set.inc-35))  
+            })
+        })
 
 ```
 
@@ -63,10 +125,17 @@ Roadmap APIs:
  - line (2d) [CHECKED] 
  - square (2d) [CHECKED]
  - rectangule (2d) [CHECKED]
- - triangule (2d)
- - circle (2d)
- - image (2d)
- - text (2d)
+ - triangle (2d)
+    ?? qual o problema com a borda ??
+ - circle (2d) [CHECKED]
+    ?? qual o problema com a borda ??
+ - image (2d) [CHECKED]
+ - text (2d) 
+ - gradient Cases
+ - animation
+ - rotate
+ - gh-page with examples and tutorial 
+ - write tests :)
 
 - Future Releases
  - render with textures
