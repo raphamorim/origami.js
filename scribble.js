@@ -1,48 +1,46 @@
 var scribble = (function() {
+  this.sb = null;
   this.contexts = [];
-  this.allContexts = [];
   this.settings = {
     inc: 0,
     defaults: {
-      circle: {
+      arc: {
         background: 'rgba(0, 0, 0, 0)',
         strokeStyle: null,
         lineWidth: null,
-      }, 
+      },
       rect: {
         background: 'rgba(0, 0, 0, 0)',
         strokeStyle: null,
         lineWidth: null,
-      }, 
+      },
       polygon: {
         background: 'rgba(0, 0, 0, 0)',
         strokeStyle: null,
         lineWidth: null,
-      }, 
+      },
       text: {}
     }
   };
-  this.on = function() {
-    [].slice.call(arguments);
-    contexts = [];
-    for (var i = 0; i < arguments.length; i++) {
-      this._createCanvasContext(arguments[i]);
-    }
+
+  this.init = function(el) {
+    this.sb = null;
+    this._createCanvasContext(el);
     return this;
   }
 
   this.set = function(config) {
     if(!config) return this;
     if(config.inc) settings.inc = config.inc;
-    if (config.circle) {
-      if (config.circle.background)
-        settings.defaults.circle['background'] = config.circle.background;
-      if (config.circle.radius)
-        settings.defaults.circle['radius'] = config.circle.radius;
-      if (config.circle.border) {
-        config.circle.border = config.circle.border.split(' ');
-        settings.defaults.circle['strokeStyle'] = config.circle.border[0].replace(/[^0-9]/g, '');
-        settings.defaults.circle['lineWidth'] = config.circle.border[1];
+    if (config.arc) {
+      if (config.arc.background)
+        settings.defaults.arc['background'] = config.circle.background;
+      if (config.arc.radius)
+        settings.defaults.arc['radius'] = config.circle.radius;
+      if (config.arc.border) {
+        config.arc.border = config.circle.border.split(' ');
+        settings.defaults.arc['strokeStyle'] = config.circle.border[0].replace(/[^0-9]/g, '');
+        settings.defaults.arc['lineWidth'] = config.circle.border[1];
       }
     }
     return this;
@@ -54,16 +52,16 @@ var scribble = (function() {
   }
 
   this._existsContext = function(sel) {
-    for (var i = 0; i < allContexts.length; i++) {
-      if (allContexts[i].sel === sel) return allContexts[i];
+    for (var i = 0; i < contexts.length; i++) {
+      if (contexts[i].sel === sel) return contexts[i];
     }
     return false;
   }
 
-  this._createCanvasContext = function(el) {    
+  this._createCanvasContext = function(el) {
     var existentContext = this._existsContext(el);
     if (existentContext) {
-      this.contexts.push(existentContext)
+      this.sb = existentContext;
       return;
     }
     var canvas = document.querySelector(el),
@@ -75,8 +73,8 @@ var scribble = (function() {
         height: (canvas.height || null),
       };
 
-    this.allContexts.push(current)
     this.contexts.push(current)
+    this.sb = current;
   }
 
   this._list = function() {
@@ -103,22 +101,20 @@ var scribble = (function() {
   this.rect = function() {
     var args = this.args(([].slice.call(arguments) || [])),
       style = (args.style || {});
-    
+
     if (style.border) {
       style.border = style.border.split(' ');
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
-    for (var i = 0; i < contexts.length; i++) {
-      contexts[i].ctx.beginPath();
-      contexts[i].ctx.fillStyle = (style.background)? style.background : "rgba(0, 0, 0, 0)";
-      contexts[i].ctx.fillRect(args.x, args.y, args.width, (args.height || args.width));
+    sb.ctx.beginPath();
+    sb.ctx.fillStyle = (style.background)? style.background : "rgba(0, 0, 0, 0)";
+    sb.ctx.fillRect(args.x, args.y, args.width, (args.height || args.width));
 
-      contexts[i].ctx.lineWidth = (style.border)? style.border[0] : null;
-      contexts[i].ctx.strokeStyle = (style.border)? style.border[1] : null;
-      contexts[i].ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
-      contexts[i].ctx.closePath();
-    }
+    sb.ctx.lineWidth = (style.border)? style.border[0] : null;
+    sb.ctx.strokeStyle = (style.border)? style.border[1] : null;
+    sb.ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
+    sb.ctx.closePath();
     return this;
   }
 
@@ -128,40 +124,36 @@ var scribble = (function() {
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
-    for (var i = 0; i < contexts.length; i++) {
-      contexts[i].ctx.beginPath();
-      contexts[i].ctx.moveTo((pointA.x || 0), (pointA.y || 0));
-      contexts[i].ctx.lineTo((pointB.x || 0), (pointB.y || 0));
+    sb.ctx.beginPath();
+    sb.ctx.moveTo((pointA.x || 0), (pointA.y || 0));
+    sb.ctx.lineTo((pointB.x || 0), (pointB.y || 0));
 
-      contexts[i].ctx.lineWidth = (style.border)? style.border[0] : null;
-      contexts[i].ctx.strokeStyle = (style.border)? style.border[1] : null;
-      contexts[i].ctx.stroke();
-      contexts[i].ctx.closePath();
-    }
+    sb.ctx.lineWidth = (style.border)? style.border[0] : null;
+    sb.ctx.strokeStyle = (style.border)? style.border[1] : null;
+    sb.ctx.stroke();
+    sb.ctx.closePath();
     return this;
   }
 
-  this.circle = function() {
-    var args = this.args(([].slice.call(arguments) || []), 
+  this.arc = function() {
+    var args = this.args(([].slice.call(arguments) || []),
         ['x', 'y', 'r', 'sAngle', 'eAngle']),
       style = (args.style || {}),
-      def = this.settings.defaults.circle;
+      def = this.settings.defaults.arc;
 
     if (style.border) {
       style.border = style.border.split(' ');
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
-    for (var i = 0; i < contexts.length; i++) {
-      contexts[i].ctx.beginPath();
-      contexts[i].ctx.arc(args.x, args.y, (args.r || def.radius), (args.sAngle || 0), (args.eAngle || 2*Math.PI));
-      contexts[i].ctx.fillStyle = (style.background)? style.background : def.background;
-      contexts[i].ctx.fill();
-      contexts[i].ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
-      contexts[i].ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;      
-      contexts[i].ctx.stroke();
-      contexts[i].ctx.closePath();
-    }
+    sb.ctx.beginPath();
+    sb.ctx.arc(args.x, args.y, (args.r || def.radius), (args.sAngle || 0), (args.eAngle || 2*Math.PI));
+    sb.ctx.fillStyle = (style.background)? style.background : def.background;
+    sb.ctx.fill();
+    sb.ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
+    sb.ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;
+    sb.ctx.stroke();
+    sb.ctx.closePath();
     return this;
   }
 
@@ -171,7 +163,7 @@ var scribble = (function() {
       style = {};
 
     for (var i = 0; i < args.length; i++) {
-      if (!args[i]) break;    
+      if (!args[i]) break;
       if (args[i].x && args[i].y)
         points.push(args[i]);
       else
@@ -183,21 +175,20 @@ var scribble = (function() {
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
-    for (var i = 0; i < contexts.length; i++) {
-      contexts[i].ctx.beginPath();
-      contexts[i].ctx.fillStyle = (style.background)? style.background : "rgba(0, 0, 0, 0)";
-      contexts[i].ctx.lineWidth = (style.border)? style.border[0] : null;
-      contexts[i].ctx.strokeStyle = (style.border)? style.border[1] : null;
-      for (var p = 0; p < points.length; p++) {
-        if (p)
-          contexts[i].ctx.lineTo(points[p].x, points[p].y);
-        else
-          contexts[i].ctx.moveTo(points[p].x, points[p].y);
-      }
-      contexts[i].ctx.stroke();
-      contexts[i].ctx.fill();
-      contexts[i].ctx.closePath();
+    sb.ctx.beginPath();
+    sb.ctx.fillStyle = (style.background)? style.background : "rgba(0, 0, 0, 0)";
+    sb.ctx.lineWidth = (style.border)? style.border[0] : null;
+    sb.ctx.strokeStyle = (style.border)? style.border[1] : null;
+    for (var p = 0; p < points.length; p++) {
+      if (p)
+        sb.ctx.lineTo(points[p].x, points[p].y);
+      else
+        sb.ctx.moveTo(points[p].x, points[p].y);
     }
+    sb.ctx.stroke();
+    sb.ctx.fill();
+    sb.ctx.closePath();
+    return this;
   }
 
   this.image = function(image, x, y, width, height) {
@@ -206,9 +197,7 @@ var scribble = (function() {
         clearInterval(readyToDraw);
         if (!width) width = image.naturalWidth;
         if (!height) height = image.naturalHeight;
-        for (var i = 0; i < contexts.length; i++) {
-          contexts[i].ctx.drawImage(image, x, y, width, height);
-        }
+        sb.ctx.drawImage(image, x, y, width, height);
       }
     }, 10);
     return this;
@@ -223,18 +212,15 @@ var scribble = (function() {
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
-    for (var i = 0; i < contexts.length; i++) {
-      contexts[i].ctx.lineWidth = (style.border)? style.border[0] : null;
-      contexts[i].ctx.strokeStyle = (style.border)? style.border[1] : null;
-      contexts[i].ctx.font = style.font;
-      contexts[i].ctx.fillStyle = style.color;
-      contexts[i].ctx.textAlign = style.align;
-      contexts[i].ctx.fillText(text, x, y);
-      contexts[i].ctx.strokeText(text, x, y);
-
-      contexts[i].ctx.fill();
-      contexts[i].ctx.stroke();
-    }
+    sb.ctx.lineWidth = (style.border)? style.border[0] : null;
+    sb.ctx.strokeStyle = (style.border)? style.border[1] : null;
+    sb.ctx.font = style.font;
+    sb.ctx.fillStyle = style.color;
+    sb.ctx.textAlign = style.align;
+    sb.ctx.fillText(text, x, y);
+    sb.ctx.strokeText(text, x, y);
+    sb.ctx.fill();
+    sb.ctx.stroke();
 
     return this;
   }
@@ -243,19 +229,15 @@ var scribble = (function() {
     var repeatSets = JSON.parse(JSON.stringify(this.settings));
     for (var i = 1; i < times; i++) {
       repeatSets.inc = (this.settings.inc * i);
-      cb.call(this, repeatSets);      
+      cb.call(this, repeatSets);
     }
     return this;
   }
 
   this.clear = function() {
-    for (var i = 0; i < this.contexts.length; i++) {
-      contexts[i].ctx.clearRect(0, 0, contexts[i].width, contexts[i].height);
-    }
+    sb.ctx.clearRect(0, 0, sb.width, sb.height);
     return this;
   }
 
-  return {
-    on: this.on.bind(this)
-  }
+  return this.init.bind(this);
 })();

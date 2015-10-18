@@ -2,14 +2,17 @@
 
 > HTML5 Canvas for Humans
 
+**Initially** it's a tool for teaching geometry, web and javascript in schools.
+
+**Currently** it's a powerful library to create using HTML5 Canvas
+
 ## Usage
 
 ```javascript
 
-scribble.on('.className', '#ElementId')
+scribble('#my-canvas')
    .square(4, 50, 120) // (x, y, size)
    .circle(31, 32, 120) // (x, y, height, width, radius)
-   .draw();
 
 ```
 
@@ -17,7 +20,7 @@ scribble.on('.className', '#ElementId')
 
 ```javascript
 
-scribble.on('.canvas')
+scribble('.canvas')
     .rect(10, 10, 50, 100, {
         background: '#888', 
         border: '4px #999'
@@ -33,7 +36,7 @@ scribble.on('.canvas')
 
 ```javascript
 
-scribble.on('.one')
+scribble('.one')
     .line({x: 10, y: 10}, {x: 10, y: 200}, {
         background: '#888', 
         border: '4px #111'
@@ -44,8 +47,8 @@ scribble.on('.one')
 ## Circle
 
 ```javascript
-scribble.on('.element')
-    .circle(100, 75, 50, {
+scribble('.element')
+    .arc(100, 75, 50, {
         background: '#000', 
         border: '4px gold'  
     })
@@ -56,7 +59,7 @@ scribble.on('.element')
 
 ```javascript
 
-scribble.on('.one')
+scribble('.one')
     .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
         background: '#888', 
         border: '4px #000'
@@ -68,7 +71,7 @@ scribble.on('.one')
 
 ```javascript
 
-scribble.on('.one')
+scribble('.one')
     .text("Hello World", 100, 100, {
         color: '#000',
         font: '70px Helvetica',
@@ -84,7 +87,7 @@ scribble.on('.one')
 ```javascript
 
 var img = document.querySelector('#my-image');
-scribble.on('.canvas')
+scribble('.canvas')
     .image(img, 10, 10)
 
 ```
@@ -93,7 +96,7 @@ scribble.on('.canvas')
 
 ```javascript
 
-scribble.clear('.one') 
+scribble('.one').clear() 
 
 ```
 
@@ -101,8 +104,7 @@ scribble.clear('.one')
 
 ```javascript
     
-    scribble
-        .on('#demo-1')
+    scribble('#demo-1')
         .set({
             inc: 35,
             circle: {
@@ -134,8 +136,13 @@ Roadmap APIs:
  - gradient Cases
  - animation
  - rotate
+ - getContext
+ - quadraticCurveTo
  - gh-page with examples and tutorial 
+ - gh-page with examples by other users 
+    (o legal q outros podem dar feedback sobre)
  - write tests :)
+
 
 - Future Releases
  - render with textures
