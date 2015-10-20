@@ -1,4 +1,4 @@
-# Scribble.js
+![Scribble Logo](https://raw.githubusercontent.com/raphamorim/scribble-js/master/logos/scribble-log.png)
 
 > HTML5 Canvas for Humans
 
@@ -44,7 +44,7 @@ scribble('.one')
 
 ```
 
-## Circle
+## Arc
 
 ```javascript
 scribble('.element')
@@ -161,7 +161,7 @@ Suggestions:
 ```javascript
 var i = 1;
 setInterval(function() {
-    scribble.on(".one", ".two")
+    scribble(".one")
         .square(100, 10, i++)
 }, 30);
 ```
