@@ -1,4 +1,4 @@
-![Scribble Logo](https://raw.githubusercontent.com/raphamorim/scribble-js/master/logos/logo-scribble-original.png)
+![Scribble Logo](https://raw.githubusercontent.com/raphamorim/scribble-js/master/logos/logo-scribble-original.png?token=ADdlCsi81Mhh4PEQl2-NqERkhhsq86tmks5WLuNswA%3D%3D)
 
 > HTML5 Canvas for Humans
 
