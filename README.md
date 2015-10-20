@@ -100,24 +100,32 @@ scribble('.one').clear()
 
 ```
 
+## getContext
+
+```javascript
+
+var ctx = scribble('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
+
+```
+
 ## Repeat
 
 ```javascript
     
-    scribble('#demo-1')
-        .set({
-            inc: 35,
-            circle: {
-                border: "1px #000",
-                radius: "30"
-            }
+scribble('#demo-1')
+    .set({
+        inc: 35,
+        circle: {
+            border: "1px #000",
+            radius: "30"
+        }
+    })
+    .repeat(15, function(set){
+        circle(0, set.inc)
+        repeat(15, function(def){
+            circle(def.inc, (set.inc-35))  
         })
-        .repeat(15, function(set){
-            circle(0, set.inc)
-            repeat(15, function(def){
-                circle(def.inc, (set.inc-35))  
-            })
-        })
+    })
 
 ```
 
@@ -125,18 +133,19 @@ Roadmap APIs:
 
 - Next Release
  - line (2d) [CHECKED] 
- - square (2d) [CHECKED]
- - rectangule (2d) [CHECKED]
+ - rect (2d) [CHECKED]
  - triangle (2d)
     ?? qual o problema com a borda ??
- - circle (2d) [CHECKED]
+ - arc (2d) [CHECKED]
     ?? qual o problema com a borda ??
  - image (2d) [CHECKED]
- - text (2d) 
- - gradient Cases
+ - text (2d) [CHECKED]
+ - getContext [CHECKED]
+
+ - create gradient to use
  - animation
+ - on (event)
  - rotate
- - getContext
  - quadraticCurveTo
  - gh-page with examples and tutorial 
  - gh-page with examples by other users 

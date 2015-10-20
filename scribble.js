@@ -34,13 +34,13 @@ var scribble = (function() {
     if(config.inc) settings.inc = config.inc;
     if (config.arc) {
       if (config.arc.background)
-        settings.defaults.arc['background'] = config.circle.background;
+        settings.defaults.arc['background'] = config.arc.background;
       if (config.arc.radius)
-        settings.defaults.arc['radius'] = config.circle.radius;
+        settings.defaults.arc['radius'] = config.arc.radius;
       if (config.arc.border) {
-        config.arc.border = config.circle.border.split(' ');
-        settings.defaults.arc['strokeStyle'] = config.circle.border[0].replace(/[^0-9]/g, '');
-        settings.defaults.arc['lineWidth'] = config.circle.border[1];
+        config.arc.border = config.arc.border.split(' ');
+        settings.defaults.arc['strokeStyle'] = config.arc.border[0].replace(/[^0-9]/g, '');
+        settings.defaults.arc['lineWidth'] = config.arc.border[1];
       }
     }
     return this;
@@ -232,6 +232,10 @@ var scribble = (function() {
       cb.call(this, repeatSets);
     }
     return this;
+  }
+
+  this.getContext = function() {
+    return sb.ctx;
   }
 
   this.clear = function() {
