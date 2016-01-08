@@ -1,4 +1,4 @@
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/logos/logo-seishu.png?token=ADdlCsi81Mhh4PEQl2-NqERkhhsq86tmks5WLuNswA%3D%3D)
+![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/logos/logo-seishu.jpg)
 
 > HTML5 Canvas for Humans
 
@@ -152,5 +152,5 @@ seishu('#demo-1')
 - cylinder (3d)
 
 Suggestions: 
-    interpolação D3 (animação) tween
+    interpolation D3 (animation) tween
 
