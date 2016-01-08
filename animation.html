@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seishu Animation</title>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script src="seishu.js"></script>
+    <script>
+
+    function draw() {
+        seishu('#canvas')
+            .globalCompositeOperation('destination-over')
+            .clear()
+            .save()
+            .translate(150,150)
+            .rotate( ((2*Math.PI)/60)*new Date().getSeconds() + ((2*Math.PI)/60000)*new Date().getMilliseconds() )
+            .translate(105,0)
+            .image('images/Canvas_earth.png', -12, -12)
+            .restore()
+            .arc(150,150,105, {
+                'border': '1px #FFF'
+            })
+            .image('images/Canvas_sun.png')
+            .nextFrame(draw);
+    }
+
+    </script>
+</body>
+</html>

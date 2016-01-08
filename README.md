@@ -1,26 +1,16 @@
-![Scribble Logo](https://raw.githubusercontent.com/raphamorim/scribble-js/master/logos/logo-scribble-original.png?token=ADdlCsi81Mhh4PEQl2-NqERkhhsq86tmks5WLuNswA%3D%3D)
+![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/logos/logo-seishu.png?token=ADdlCsi81Mhh4PEQl2-NqERkhhsq86tmks5WLuNswA%3D%3D)
 
 > HTML5 Canvas for Humans
 
-**Initially** it's a tool for teaching geometry, web and javascript in schools.
-
-**Currently** it's a powerful library to create using HTML5 Canvas
+Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
 
 ## Usage
 
-```javascript
-
-scribble('#my-canvas')
-   .square(4, 50, 120) // (x, y, size)
-   .circle(31, 32, 120) // (x, y, height, width, radius)
-
-```
-
-## Rect (square && rectangule)
+### Rect
 
 ```javascript
 
-scribble('.canvas')
+seishu('.canvas')
     .rect(10, 10, 50, 100, {
         background: '#888', 
         border: '4px #999'
@@ -32,11 +22,11 @@ scribble('.canvas')
 
 ```
 
-## Line
+### Line
 
 ```javascript
 
-scribble('.one')
+seishu('.one')
     .line({x: 10, y: 10}, {x: 10, y: 200}, {
         background: '#888', 
         border: '4px #111'
@@ -44,10 +34,10 @@ scribble('.one')
 
 ```
 
-## Arc
+### Arc
 
 ```javascript
-scribble('.element')
+seishu('.element')
     .arc(100, 75, 50, {
         background: '#000', 
         border: '4px gold'  
@@ -55,11 +45,11 @@ scribble('.element')
 
 ```
 
-## Polygon 
+### Polygon 
 
 ```javascript
 
-scribble('.one')
+seishu('.one')
     .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
         background: '#888', 
         border: '4px #000'
@@ -67,11 +57,11 @@ scribble('.one')
     
 ```
 
-## Text
+### Text
 
 ```javascript
 
-scribble('.one')
+seishu('.one')
     .text("Hello World", 100, 100, {
         color: '#000',
         font: '70px Helvetica',
@@ -81,38 +71,37 @@ scribble('.one')
 
 ```
 
-
-## Image
+### Image
 
 ```javascript
 
 var img = document.querySelector('#my-image');
-scribble('.canvas')
+seishu('.canvas')
     .image(img, 10, 10)
 
 ```
 
-## Clear
+### Clear
 
 ```javascript
 
-scribble('.one').clear() 
+seishu('.one').clear() 
 
 ```
 
-## getContext
+### getContext
 
 ```javascript
 
-var ctx = scribble('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
+var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
 
 ```
 
-## Repeat
+### Repeat
 
 ```javascript
     
-scribble('#demo-1')
+seishu('#demo-1')
     .set({
         inc: 35,
         circle: {
@@ -129,48 +118,39 @@ scribble('#demo-1')
 
 ```
 
-Roadmap APIs:
+## Roadmap APIs:
 
 - Next Release
  - line (2d) [CHECKED] 
  - rect (2d) [CHECKED]
  - triangle (2d)
-    ?? qual o problema com a borda ??
  - arc (2d) [CHECKED]
-    ?? qual o problema com a borda ??
  - image (2d) [CHECKED]
  - text (2d) [CHECKED]
  - getContext [CHECKED]
-
+ - play
+ - pause
+ - sprite
+ - quadraticCurveTo
  - create gradient to use
+ - mirror (horizontal and vertical)
+ - write tests :)
  - animation
  - on (event)
  - rotate
- - quadraticCurveTo
+ - centerOf
  - gh-page with examples and tutorial 
  - gh-page with examples by other users 
-    (o legal q outros podem dar feedback sobre)
  - write tests :)
 
+## Future Releases
 
-- Future Releases
- - render with textures
- - switch to WebGL 
- - cube (3d)
- - cone (3d)
- - cylinder (3d)
-
-Canvas html5 animation
-How it will work??
+- render with textures
+- switch to WebGL 
+- cube (3d)
+- cone (3d)
+- cylinder (3d)
 
 Suggestions: 
     interpolação D3 (animação) tween
 
-
-```javascript
-var i = 1;
-setInterval(function() {
-    scribble(".one")
-        .square(100, 10, i++)
-}, 30);
-```

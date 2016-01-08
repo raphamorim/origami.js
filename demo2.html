@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>seishu Demo 2</title>
+</head>
+<body>
+    <canvas id="demo-1" width="500" height="500"></canvas>
+    <script src="seishu.js"></script>
+    <script>
+
+    seishu('#demo-1')
+        .set({
+            inc: 23,
+            sum: .0001,
+            arc: {
+                border: '1px #666', 
+                radius: '19'
+            }
+        })
+        .nextFrame(draw)
+
+    var i = 0,
+        arr = [0.0001, 0.0005];
+    function getValue() {
+        if (arr.length)
+            return arr.pop();
+        else
+            arr = [0.0001, 0.0005];
+            return getValue();
+    }
+
+    function draw() {
+        i = i + 0.1;
+        seishu('#demo-1')
+            .clear()
+            .repeat(30, function(s) {
+                arc(0, s.inc - 20)
+                arc(18, s.inc, 2, {
+                    background: 'darkred',
+                    border: '1px darkred'
+                })
+                repeat(30, function(s1) {
+                    arc(s1.inc, s.inc - 20)
+                    save()
+                    translate(s1.inc, s.inc - 20)
+                    rotate(i)
+                    arc(18, 0, 2, {
+                        background: 'darkred',
+                        border: '1px darkred'
+                    })
+                    restore()
+                })
+            })
+            .nextFrame(draw)
+    }
+
+    </script>
+</body>
+</html>
