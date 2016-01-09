@@ -18,11 +18,11 @@ The Seishu began as a project to teach javascript and geometry to children and t
 
 seishu('.canvas')
     .rect(10, 10, 50, 100, {
-        background: '#888', 
+        background: '#888',
         border: '4px #999'
     })
     .rect(50, 10, 40, {
-        background: '#000', 
+        background: '#000',
         border: '4px gold'  
     });    
 
@@ -34,7 +34,7 @@ seishu('.canvas')
 
 seishu('.one')
     .line({x: 10, y: 10}, {x: 10, y: 200}, {
-        background: '#888', 
+        background: '#888',
         border: '4px #111'
     })
 
@@ -45,22 +45,22 @@ seishu('.one')
 ```javascript
 seishu('.element')
     .arc(100, 75, 50, {
-        background: '#000', 
+        background: '#000',
         border: '4px gold'  
     })
 
 ```
 
-### Polygon 
+### Polygon
 
 ```javascript
 
 seishu('.one')
     .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
-        background: '#888', 
+        background: '#888',
         border: '4px #000'
     })
-    
+
 ```
 
 ### Text
@@ -94,7 +94,7 @@ seishu('.canvas').image('images/dog.jpg', 10, 10)
 
 ```javascript
 
-seishu('.one').clear() 
+seishu('.one').clear()
 
 ```
 
@@ -109,7 +109,7 @@ var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
 ### Repeat
 
 ```javascript
-    
+
 seishu('#demo-1')
     .set({
         inc: 35,
@@ -130,7 +130,7 @@ seishu('#demo-1')
 ## Roadmap APIs:
 
 - Next Release
- - line (2d) [CHECKED] 
+ - line (2d) [CHECKED]
  - rect (2d) [CHECKED]
  - triangle (2d)
  - arc (2d) [CHECKED]
@@ -150,18 +150,25 @@ seishu('#demo-1')
  - on (event)
  - rotate
  - centerOf
- - gh-page with examples and tutorial 
- - gh-page with examples by other users 
+ - gh-page with examples and tutorial
+ - gh-page with examples by other users
  - write tests :)
 
 ## Future Releases
 
 - render with textures
-- switch to WebGL 
+- switch to WebGL
 - cube (3d)
 - cone (3d)
 - cylinder (3d)
 
-Suggestions: 
+Suggestions:
     interpolation D3 (animation) tween
 
+## Contributing
+
+Want to contribute? [Follow these recommendations](https://github.com/raphamorim/seishu.js/blob/master/CONTRIBUTING.md).
+
+## License
+
+[![CC0](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
