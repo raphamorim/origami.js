@@ -222,15 +222,13 @@
   }
 
   this.translate = function(x, y){
-    if (typeof(x) === 'string') {
-      if (x === 'center') {
-        x = sb.width / 2;
-        y = sb.height / 2;
-      }
-      if (x === 'reset') {
-        x = -sb.width / 2;
-        y = -sb.height / 2;
-      }
+    if (x === 'center') {
+      x = sb.width / 2;
+      y = sb.height / 2;
+    }
+    if (x === 'reset' || (x == null && y == null)) {
+      x = -sb.width / 2;
+      y = -sb.height / 2;
     }
     sb.ctx.translate(x, y);
     return this;
@@ -246,7 +244,7 @@
     return this;
   }
 
-  this.globalCompositeOperation = function(param) {
+  this.globalComposite = function(param) {
     sb.ctx.globalCompositeOperation = param;
     return this;
   }

@@ -127,10 +127,10 @@ seishu('#demo-1')
 
 ```
 
-### globalCompositeOperation
+### globalComposite
 
+Similar to globalCompositeOperation
 Default: `source-over`
-Options:
 
 ```javascript
 
@@ -152,6 +152,10 @@ seishu('#my-canvas').translate('center');
 // OR
 
 seishu('#my-canvas').translate(10, 50);
+
+// OR
+
+seishu('#my-canvas').translate(); // Equals: reset
 
 ```
 
@@ -236,8 +240,7 @@ function draw() {
  - image (2d) [CHECKED]
  - text (2d) [CHECKED]
  - getContext [CHECKED]
- - play
- - pause
+ - stop animation [CHECKED]
  - sprite
  - use seishu by context instead selector
  - quadraticCurveTo
