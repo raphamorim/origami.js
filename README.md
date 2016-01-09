@@ -28,28 +28,40 @@ seishu('.canvas')
 
 ```
 
+###### Result:
+
+![rect](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/rect.png)
+
 ### line
 
 ```javascript
 
 seishu('.one')
-    .line({x: 10, y: 10}, {x: 10, y: 200}, {
+    .line({x: 10, y: 10}, {x: 150, y: 200}, {
         background: '#888',
         border: '4px #111'
     })
 
 ```
 
+###### Result:
+
+![line](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/line.png)
+
 ### arc
 
 ```javascript
 seishu('.element')
     .arc(100, 75, 50, {
-        background: '#000',
+        background: '#2A80B9',
         border: '4px gold'  
     })
 
 ```
+
+###### Result:
+
+![arc](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/arc.png)
 
 ### polygon
 
@@ -57,25 +69,32 @@ seishu('.element')
 
 seishu('.one')
     .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
-        background: '#888',
-        border: '4px #000'
+      background: '#2A80B9',
     })
 
 ```
+
+###### Result:
+
+![polygon](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/polygon.png)
 
 ### text
 
 ```javascript
 
 seishu('.one')
-    .text("Hello World", 100, 100, {
-        color: '#000',
-        font: '70px Helvetica',
-        align: 'center',
-        border: '10px gold'
-    })
+  .text("Nice!", 100, 100, {
+    color: '#000',
+    font: '70px Helvetica',
+    align: 'center',
+    border: '2px gold'
+  })
 
 ```
+
+###### Result:
+
+![text](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/text.png)
 
 ### image
 
