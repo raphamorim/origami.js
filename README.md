@@ -1,4 +1,4 @@
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/logos/logo-seishu.jpg)
+![Origami Logo](https://raw.githubusercontent.com/raphamorim/origami.js/master/logos/logo-origami.jpg)
 
 > HTML5 Canvas for Humans
 
@@ -8,7 +8,7 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 
 Learn the canvas API for many developers has been an additional task. But it might be easier, for simple reasons: chainable canvas, stylize objects using the same notation CSS, easy access to the context using selector.
 
-The Seishu began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the context 2d, but in the future will also support WebGL).
+The Origami began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the context 2d, but in the future will also support WebGL).
 
 ## Usage
 
@@ -16,77 +16,92 @@ The Seishu began as a project to teach javascript and geometry to children and t
 
 ```javascript
 
-seishu('.canvas')
-    .rect(10, 10, 50, 100, {
-        background: '#888',
-        border: '4px #999'
-    })
-    .rect(50, 10, 40, {
-        background: '#000',
-        border: '4px gold'  
-    });    
+origami('.canvas')
+  .rect(10, 10, 50, 100, {
+    background: 'lightblue',
+    border: '4px #999'
+  })
+  .rect(50, 10, 40, {
+    background: 'lightgreen',
+    border: '10px green'  
+  });       
 
 ```
+
+###### Result:
+
+![rect](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/rect.png)
 
 ### line
 
 ```javascript
 
-seishu('.one')
-    .line({x: 10, y: 10}, {x: 10, y: 200}, {
-        background: '#888',
-        border: '4px #111'
-    })
+origami('.one')
+  .line({x: 10, y: 10}, {x: 150, y: 200}, {
+    background: '#888' })
 
 ```
+
+###### Result:
+
+![line](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/line.png)
 
 ### arc
 
 ```javascript
-seishu('.element')
-    .arc(100, 75, 50, {
-        background: '#000',
-        border: '4px gold'  
-    })
+origami('.element')
+  .arc(100, 75, 50, {
+    background: '#2A80B9',
+    border: '4px gold' })
 
 ```
 
-### polygon 
+###### Result:
+
+![arc](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/arc.png)
+
+### polygon
 
 ```javascript
 
-seishu('.one')
-    .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
-        background: '#888',
-        border: '4px #000'
-    })
+origami('.one')
+  .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+    background: '#2A80B9' })
 
 ```
+
+###### Result:
+
+![polygon](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/polygon.png)
 
 ### text
 
 ```javascript
 
-seishu('.one')
-    .text("Hello World", 100, 100, {
-        color: '#000',
-        font: '70px Helvetica',
-        align: 'center',
-        border: '10px gold'
-    })
+origami('.one')
+  .text("Nice!", 100, 100, {
+    color: '#000',
+    font: '70px Helvetica',
+    align: 'center',
+    border: '2px gold'
+  })
 
 ```
+
+###### Result:
+
+![text](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/text.png)
 
 ### image
 
 ```javascript
 
 var img = document.querySelector('#my-image');
-seishu('.canvas').image(img, 10, 10)
+origami('.canvas').image(img, 10, 10, width, height)
 
 // OR
 
-seishu('.canvas').image('images/dog.jpg', 10, 10)
+origami('.canvas').image('images/dog.jpg', 10, 10)
 
 ```
 
@@ -94,7 +109,15 @@ seishu('.canvas').image('images/dog.jpg', 10, 10)
 
 ```javascript
 
-seishu('.one').clear()
+origami('.one').clear()
+
+```
+
+### canvasBackground
+
+```javascript
+
+origami('#demo-1').canvasBackground('#2A80B9')
 
 ```
 
@@ -102,7 +125,10 @@ seishu('.one').clear()
 
 ```javascript
 
-var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
+var ctx = origami('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
+
+// You can use origami with contextObject too :)
+origami(ctx).canvasBackground('blue');
 
 ```
 
@@ -110,7 +136,7 @@ var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
 
 ```javascript
 
-seishu('#demo-1')
+origami('#demo-1')
     .set({
         inc: 35,
         circle: {
@@ -130,11 +156,12 @@ seishu('#demo-1')
 ### globalComposite
 
 Similar to globalCompositeOperation
+
 Default: `source-over`
 
 ```javascript
 
-seishu('#my-canvas').globalCompositeOperation('source-in')
+origami('#my-canvas').globalCompositeOperation('source-in')
 
 ```
 
@@ -147,23 +174,47 @@ Adicional Options:
 
 ```javascript
 
-seishu('#my-canvas').translate('center');
+origami('#my-canvas').translate('center');
 
 // OR
 
-seishu('#my-canvas').translate(10, 50);
+origami('#my-canvas').translate(10, 50);
 
 // OR
 
-seishu('#my-canvas').translate(); // Equals: reset
+origami('#my-canvas').translate(); // Equals: reset
 
 ```
+
+### flip
+
+Alert: Experimental feature
+
+Default: `horizontal`
+
+Options: `horizontal`, `vertical`
+
+```javascript
+
+origami('#demo-1')
+  .flip('horizontal')
+  .image('images/person.jpg', 0, 0, 200, 200)
+
+```
+
+###### Original Image
+
+![Person](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/person.jpg)
+
+###### Result
+
+![Person](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/flip.png)
 
 ### rotate
 
 ```javascript
 
-seishu('#my-canvas').rotate(degrees);
+origami('#my-canvas').rotate(degrees);
 
 ```
 
@@ -171,7 +222,7 @@ seishu('#my-canvas').rotate(degrees);
 
 ```javascript
 
-seishu('#my-canvas').restore();
+origami('#my-canvas').restore();
 
 ```
 
@@ -179,11 +230,38 @@ seishu('#my-canvas').restore();
 
 ```javascript
 
-seishu('#my-canvas').save();
+origami('#my-canvas').save();
 
 ```
 
 ## Animation
+
+### sprite
+
+`frames`: required
+
+`src`: required
+
+`speed`: optional
+
+`loop`: optional (default: `true`)
+
+```javascript
+
+origami('#demo-1')
+  .canvasBackground('#2A80B9')
+  .sprite(40, 30, {
+    src: 'images/coin-sprite.png',
+    frames: 10,
+    speed: 60,
+    loop: true
+  })
+
+```
+
+###### Result:
+
+![Sprite Example](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/coin-sprite.gif)
 
 ### nextFrame
 
@@ -191,7 +269,7 @@ Causes execution of a callback (through requestAnimationFrame)
 
 ```javascript
 
-seishu('#demo-1').nextFrame(frame)
+origami('#demo-1').nextFrame(frame)
 
 ```
 
@@ -201,7 +279,7 @@ Stop frame animation
 
 ```javascript
 
-seishu('#demo-1').stop(frame)
+origami('#demo-1').stop(frame)
 
 ```
 
@@ -212,7 +290,7 @@ seishu('#demo-1').stop(frame)
 var rotation = 0;
 function draw() {
     rotation = rotation + 0.1;
-    seishu('#demo-1')
+    origami('#demo-1')
         .clear()
         .arc(150, 150, 100)
         .save()
@@ -227,23 +305,21 @@ function draw() {
 
 ##### Result:
 
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/circle-rotate.gif)
+![Circle Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/circle-rotate.gif)
 
 
 ### Second Example:
 
-Rewrite [example of MDN on translation and rotation]() using Seishu.js
+Rewrite [example of MDN on translation and rotation]() using origami.js
 
 #### Original Code:
 
 ```javascript
 
 var sun = new Image();
-var moon = new Image();
 var earth = new Image();
 function init(){
   sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
-  moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
   earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
   window.requestAnimationFrame(draw);
 }
@@ -266,21 +342,12 @@ function draw() {
   ctx.fillRect(0,-12,50,24); // Shadow
   ctx.drawImage(earth,-12,-12);
 
-  // Moon
-  ctx.save();
-  ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
-  ctx.translate(0,28.5);
-  ctx.drawImage(moon,-3.5,-3.5);
-  ctx.restore();
-
   ctx.restore();
   
   ctx.beginPath();
   ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
   ctx.stroke();
- 
   ctx.drawImage(sun,0,0,300,300);
-
   window.requestAnimationFrame(draw);
 }
 
@@ -288,12 +355,12 @@ init();
 
 ```
 
-#### Rewrited Code with Seishu.js:
+#### Rewrited Code with origami.js:
 
 ```javascript
 
 function draw() {
-    seishu('#canvas')
+    origami('#canvas')
         .globalComposite('destination-over')
         .clear()
         .save()
@@ -313,7 +380,7 @@ function draw() {
 
 ##### Result:
 
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/earth-rotate.gif)
+![Earth Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/earth-rotate.gif)
 
 
 ## Roadmap:
@@ -326,18 +393,17 @@ function draw() {
  - image (2d) [CHECKED]
  - text (2d) [CHECKED]
  - getContext [CHECKED]
+ - rotate [CHECKED]
+ - translate [CHECKED]
  - stop animation [CHECKED]
- - sprite
- - use seishu by context instead selector
- - quadraticCurveTo
- - create gradient to use
- - mirror (horizontal and vertical)
+ - sprite [CHECKED]
+ - scale [CHECKED]
+ - mirror (horizontal and vertical) [CHECKED]
+ - use origami by context instead selector [CHECKED]
+ - on (event) 
  - compute CSS style to canvas objects
-    - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')`
+    - e.g: `origami('#element-id').rect(50, 10, 40).style('.square-class')`
  - write tests :)
- - animation
- - on (event)
- - rotate
  - centerOf
  - docs with examples and tutorial 
  - docs with examples by other users 
@@ -346,6 +412,10 @@ function draw() {
 
 ## Future Releases
 
+- quadraticCurveTo
+- centerOf
+- animation based on CSS
+- own create gradient to use
 - render with textures
 - switch to WebGL
 - cube (3d)
@@ -357,7 +427,7 @@ Suggestions:
 
 ## Contributing
 
-Want to contribute? [Follow these recommendations](https://github.com/raphamorim/seishu.js/blob/master/CONTRIBUTING.md).
+Want to contribute? [Follow these recommendations](https://github.com/raphamorim/origami.js/blob/master/CONTRIBUTING.md).
 
 ## License
 

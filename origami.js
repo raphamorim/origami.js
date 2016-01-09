@@ -7,17 +7,17 @@
     defaults: {
       arc: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       rect: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       polygon: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       line: {
@@ -26,7 +26,8 @@
       },
       text: {
         font: '14px Helvetica',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
+        color: '#000',
         lineWidth: null,
       }
     }
@@ -62,30 +63,37 @@
     return this;
   }
 
-  this._existsContext = function(sel) {
+  this._existsContext = function(el) {
     for (var i = 0; i < contexts.length; i++) {
-      if (contexts[i].sel === sel) return contexts[i];
+      if (contexts[i].element.isEqualNode(el)) 
+        return contexts[i];
     }
     return false;
   }
 
   this._createCanvasContext = function(el) {
+    if (el.canvas)
+      el = el.canvas;
+    else
+      el = document.querySelector(el);
+    
     var existentContext = this._existsContext(el);
     if (existentContext) {
       this.sb = existentContext;
       return;
     }
-    var canvas = document.querySelector(el);
-    if (!canvas.getContext)
+    
+    if (!el.getContext)
       return console.log('Error: Please check if your browser support canvas and verify if it\'s a valid canvas element.');
-    var context = canvas.getContext('2d'),
+
+    var context = el.getContext('2d'),
       current = {
-        sel: el,
-        element: canvas,
+        element: el,
+        flip: false,
         frame: null,
         ctx: (context || false),
-        width: (canvas.width || null),
-        height: (canvas.height || null),
+        width: (el.width || null),
+        height: (el.height || null),
       };
 
     this.contexts.push(current);
@@ -165,7 +173,7 @@
 
     sb.ctx.beginPath();
     sb.ctx.arc(args.x, args.y, (args.r || def.radius), (args.sAngle || 0), (args.eAngle || 2*Math.PI));
-    sb.ctx.fillStyle = (style.background)? style.background : def.background;
+    sb.ctx.fillStyle = (style.background || style.bg)? (style.background || style.bg) : def.background;
     sb.ctx.fill();
     sb.ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
     sb.ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;
@@ -209,15 +217,34 @@
     return this;
   }
 
-  this.image = function(image, x, y, width, height) {
+  this.image = function(image, x, y, width, height, sx, sy, sw, sh) {
+    if (!image)
+      return this;
     if (typeof(image) === 'string') {
       var img = new Image();
       img.src = image;
       image = img;
     }
-    if (!width) width = image.naturalWidth;
-    if (!height) height = image.naturalHeight;
-    sb.ctx.drawImage(image, (x || 0), (y || 0), width, height);
+    image.addEventListener('load', function() {
+      if (!width) width = image.naturalWidth;
+      if (!height) height = image.naturalHeight;
+      sb.ctx.save();
+      if (sb.flip) {
+        if (sb.flip === 'horizontal') {
+          sb.ctx.scale(-1, 1);
+          width = width* -1;
+        }
+        if (sb.flip === 'vertical') {
+          sb.ctx.scale(1, -1);
+          height = height* -1;
+        }
+      }
+
+      sb.ctx.beginPath();
+      sb.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
+      sb.ctx.closePath();
+      sb.ctx.restore();
+    }, false);
     return this;
   }
 
@@ -231,6 +258,11 @@
       y = -sb.height / 2;
     }
     sb.ctx.translate(x, y);
+    return this;
+  }
+
+  this.canvasBackground = function(color){
+    sb.element.style.backgroundColor = color;
     return this;
   }
 
@@ -265,26 +297,29 @@
     return this;
   }
 
-  this.text = function(text, x, y, style) {
+  this.text = function(text, x, y, style){
+    if (!style) style = {};
     var def = this.settings.defaults.text;
     if (style.border) {
       style.border = style.border.split(' ');
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
+    sb.ctx.beginPath();
     sb.ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
     sb.ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;
     sb.ctx.font = (style.font || def.font);
-    sb.ctx.fillStyle = style.color;
-    sb.ctx.textAlign = style.align;
+    sb.ctx.fillStyle = (style.color || def.color);
+    sb.ctx.textAlign = (style.align || def.align);
     sb.ctx.fillText(text, x, y);
     sb.ctx.strokeText(text, x, y);
     sb.ctx.fill();
     sb.ctx.stroke();
+    sb.ctx.closePath();
     return this;
   }
 
-  this.repeat = function(times, fn) {
+  this.repeat = function(times, fn){
     var repeatSets = JSON.parse(JSON.stringify(this.settings));
     for (var i = 1; i < times; i++) {
       repeatSets.inc = (this.settings.inc * i);
@@ -293,17 +328,91 @@
     return this;
   }
 
-  this.getContext = function() {
+  this.getContext = function(){
     return sb.ctx;
   }
 
-  this.clear = function() {
+  this.scale = function(width, height){
+    sb.ctx.scale(width, height);
+    return this;
+  }
+
+  this.flip = function(type){
+    sb.flip = 'horizontal';
+    if (type && typeof(type) === 'string')
+      sb.flip = type;
+    return this;
+  }
+
+  this.flipEnd = function(){
+    sb.flip = false;
+    return this;
+  }
+
+  this.sprite = function(x, y, config){
+    if (!config || !config.src) 
+      return this;
+
+    var self = this,
+        image  = new Image(),
+        frames = (config.frames || 0),
+        loop   = (config.loop || true),
+        speed  = (config.speed || 10);
+    image.src = config.src;
+    image.addEventListener('load', function() {
+      var width = image.naturalWidth,
+          height = image.naturalHeight,
+          dw = width / frames;
+
+      // sprite properties
+      var sprite = {
+        image: image,
+        posX: 0,
+        posY: 0,
+        frame: frames,
+        loop: loop,
+        width: dw,
+        height: height,
+        dx: x,
+        speed: speed,
+        dy: y,
+        totalWidth: width,
+        anim: null
+      };
+
+      self._drawSprite(sprite);
+    }, false);
+    return this;
+  }
+
+  this._drawSprite = function(sprite){
+    if (sprite.posX === sprite.totalWidth) {
+      if (sprite.loop === false) {
+        window.cancelAnimationFrame(sprite.anim);
+        return;
+      }
+      sprite.posX = 0;
+    }
+
+    sb.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
+    sb.ctx.beginPath();
+    sb.ctx.drawImage(sprite.image, sprite.posX, sprite.posY, 
+      sprite.width, sprite.height, sprite.dx, sprite.dy, 
+      sprite.width, sprite.height);
+    sb.ctx.closePath();
+    sprite.posX = sprite.posX + sprite.width;
+    setTimeout(function(){ 
+      sprite.anim = window.requestAnimationFrame(this._drawSprite.bind(this, sprite));
+    }, sprite.speed);
+  }
+
+  this.clear = function(){
     sb.ctx.clearRect(0, 0, sb.width, sb.height);
     return this;
   }
 
   if (typeof window === "object")
-    window.seishu = this.init.bind(this);
+    window.origami = this.init.bind(this);
   if (typeof module === "object" && typeof module.exports === "object")
     module.exports = this.init.bind(this);
 }());

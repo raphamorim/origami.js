@@ -1,0 +1,23 @@
+{
+  "name": "origami.js",
+  "version": "0.3.0",
+  "description": "HTML5 Canvas for Humans",
+  "main": "origami.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphamorim/origami.js.git"
+  },
+  "author": "Raphael Amorim",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/raphamorim/origami.js/issues"
+  },
+  "homepage": "https://github.com/raphamorim/origami.js#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "0.3.0"
+  }
+}
