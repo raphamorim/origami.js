@@ -181,7 +181,7 @@ seishu('#my-canvas').save();
 
 ## Animation
 
-## nextFrame
+### nextFrame
 
 Causes execution of a callback (through requestAnimationFrame)
 
@@ -191,7 +191,7 @@ seishu('#demo-1').nextFrame(frame)
 
 ```
 
-## stopFrame
+### stopFrame
 
 Stop frame animation
 
@@ -201,7 +201,7 @@ seishu('#demo-1').stop(frame)
 
 ```
 
-## Example
+### Example:
 
 ```javascript
 
@@ -223,7 +223,7 @@ function draw() {
 
 ##### Result:
 
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/cricle-rotate.gif)
+![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/circle-rotate.gif)
 
 
 ## Roadmap APIs:
