@@ -317,13 +317,15 @@
     var self = this,
         image  = new Image(),
         frames = (config.frames || 0),
-        loop   = (config.loop || true);
+        loop   = (config.loop || true),
+        speed  = (config.speed || 10);
     image.src = config.src;
     image.addEventListener('load', function() {
       var width = image.naturalWidth,
           height = image.naturalHeight,
           dw = width / frames;
       
+
       self._drawSprite({
         image: image,
         posX: 0,
@@ -333,6 +335,7 @@
         width: dw,
         height: height,
         dx: x,
+        speed: speed,
         dy: y,
         totalWidth: width,
         anim: null
@@ -346,21 +349,21 @@
     if (sprite.posX === sprite.totalWidth) {
       if (sprite.loop === false) {
         window.cancelAnimationFrame(sprite.anim);
-        console.log(1)
         return;
       }
       sprite.posX = 0;
     }
 
-    sb.ctx.clearRect(0, 0, sb.width, sb.height);
-    // sb.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
+    sb.ctx.clearRect(sprite.posX, sprite.posY, sprite.width, sprite.height);
     sb.ctx.beginPath();
     sb.ctx.drawImage(sprite.image, sprite.posX, sprite.posY, 
       sprite.width, sprite.height, sprite.dx, sprite.dy, 
       sprite.width, sprite.height);
     sb.ctx.closePath();
     sprite.posX = sprite.posX + sprite.width;
-    sprite.anim = window.requestAnimationFrame(this._drawSprite.bind(this, sprite));
+    setTimeout(function(){ 
+      sprite.anim = window.requestAnimationFrame(this._drawSprite.bind(this, sprite));
+    }, sprite.speed);
   }
 
   this.clear = function(){

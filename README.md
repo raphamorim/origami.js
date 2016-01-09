@@ -195,13 +195,20 @@ seishu('#my-canvas').save();
 
 ### sprite
 
+`frames`: required
+`src`: required
+`speed`: optional
+`loop`: optional (default: `true`)
+
 ```javascript
 
 seishu('#demo-1')
   .canvasBackground('#2A80B9')
   .sprite(40, 30, {
     src: 'images/coin-sprite.png',
-    frames: 10
+    frames: 10,
+    speed: 60,
+    loop: true
   })
 
 ```
