@@ -211,7 +211,6 @@
   }
 
   this.image = function(image, x, y, width, height, sx, sy, sw, sh) {
-    var readyToDraw = false;
     if (typeof(image) === 'string') {
       var img = new Image();
       img.src = image;
@@ -276,7 +275,7 @@
     return this;
   }
 
-  this.text = function(text, x, y, style) {
+  this.text = function(text, x, y, style){
     if (!style) style = {};
     var def = this.settings.defaults.text;
     if (style.border) {
@@ -298,7 +297,7 @@
     return this;
   }
 
-  this.repeat = function(times, fn) {
+  this.repeat = function(times, fn){
     var repeatSets = JSON.parse(JSON.stringify(this.settings));
     for (var i = 1; i < times; i++) {
       repeatSets.inc = (this.settings.inc * i);
@@ -307,11 +306,64 @@
     return this;
   }
 
-  this.getContext = function() {
+  this.getContext = function(){
     return sb.ctx;
   }
 
-  this.clear = function() {
+  this.sprite = function(x, y, config){
+    if (!config || !config.src) 
+      return this;
+
+    var self = this,
+        image  = new Image(),
+        frames = (config.frames || 0),
+        loop   = (config.loop || true);
+    image.src = config.src;
+    image.addEventListener('load', function() {
+      var width = image.naturalWidth,
+          height = image.naturalHeight,
+          dw = width / frames;
+      
+      self._drawSprite({
+        image: image,
+        posX: 0,
+        posY: 0,
+        frame: frames,
+        loop: loop,
+        width: dw,
+        height: height,
+        dx: x,
+        dy: y,
+        totalWidth: width,
+        anim: null
+      });
+
+    }, false);
+    return this;
+  }
+
+  this._drawSprite = function(sprite){
+    if (sprite.posX === sprite.totalWidth) {
+      if (sprite.loop === false) {
+        window.cancelAnimationFrame(sprite.anim);
+        console.log(1)
+        return;
+      }
+      sprite.posX = 0;
+    }
+
+    sb.ctx.clearRect(0, 0, sb.width, sb.height);
+    // sb.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
+    sb.ctx.beginPath();
+    sb.ctx.drawImage(sprite.image, sprite.posX, sprite.posY, 
+      sprite.width, sprite.height, sprite.dx, sprite.dy, 
+      sprite.width, sprite.height);
+    sb.ctx.closePath();
+    sprite.posX = sprite.posX + sprite.width;
+    sprite.anim = window.requestAnimationFrame(this._drawSprite.bind(this, sprite));
+  }
+
+  this.clear = function(){
     sb.ctx.clearRect(0, 0, sb.width, sb.height);
     return this;
   }

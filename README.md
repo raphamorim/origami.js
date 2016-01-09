@@ -98,6 +98,14 @@ seishu('.one').clear()
 
 ```
 
+### canvasBackground
+
+```javascript
+
+seishu('#demo-1').canvasBackground('#2A80B9')
+
+```
+
 ### getContext
 
 ```javascript
@@ -185,6 +193,23 @@ seishu('#my-canvas').save();
 
 ## Animation
 
+### sprite
+
+```javascript
+
+seishu('#demo-1')
+  .canvasBackground('#2A80B9')
+  .sprite(40, 30, {
+    src: 'images/coin-sprite.png',
+    frames: 10
+  })
+
+```
+
+###### Result:
+
+![Sprite Example](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/coin-sprite.gif)
+
 ### nextFrame
 
 Causes execution of a callback (through requestAnimationFrame)
@@ -227,7 +252,7 @@ function draw() {
 
 ##### Result:
 
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/circle-rotate.gif)
+![Circle Rotate](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/circle-rotate.gif)
 
 
 ### Second Example:
@@ -269,9 +294,7 @@ function draw() {
   ctx.beginPath();
   ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
   ctx.stroke();
- 
   ctx.drawImage(sun,0,0,300,300);
-
   window.requestAnimationFrame(draw);
 }
 
@@ -304,7 +327,7 @@ function draw() {
 
 ##### Result:
 
-![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/earth-rotate.gif)
+![Earth Rotate](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/earth-rotate.gif)
 
 
 ## Roadmap:
@@ -317,8 +340,11 @@ function draw() {
  - image (2d) [CHECKED]
  - text (2d) [CHECKED]
  - getContext [CHECKED]
+ - rotate [CHECKED]
+ - translate [CHECKED]
  - stop animation [CHECKED]
- - sprite
+ - on (event) 
+ - sprite [CHECKED]
  - use seishu by context instead selector
  - quadraticCurveTo
  - create gradient to use
@@ -326,9 +352,6 @@ function draw() {
  - compute CSS style to canvas objects
     - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')`
  - write tests :)
- - animation
- - on (event)
- - rotate
  - centerOf
  - docs with examples and tutorial
  - docs with examples by other users
@@ -337,6 +360,7 @@ function draw() {
 
 ## Future Releases
 
+- animation based on CSS
 - render with textures
 - switch to WebGL
 - cube (3d)
