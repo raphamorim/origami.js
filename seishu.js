@@ -7,17 +7,17 @@
     defaults: {
       arc: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       rect: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       polygon: {
         background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       line: {
@@ -26,7 +26,8 @@
       },
       text: {
         font: '14px Helvetica',
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
+        color: '#000',
         lineWidth: null,
       }
     }
@@ -165,7 +166,7 @@
 
     sb.ctx.beginPath();
     sb.ctx.arc(args.x, args.y, (args.r || def.radius), (args.sAngle || 0), (args.eAngle || 2*Math.PI));
-    sb.ctx.fillStyle = (style.background)? style.background : def.background;
+    sb.ctx.fillStyle = (style.background || style.bg)? (style.background || style.bg) : def.background;
     sb.ctx.fill();
     sb.ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
     sb.ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;
@@ -209,15 +210,20 @@
     return this;
   }
 
-  this.image = function(image, x, y, width, height) {
+  this.image = function(image, x, y, width, height, sx, sy, sw, sh) {
+    var readyToDraw = false;
     if (typeof(image) === 'string') {
       var img = new Image();
       img.src = image;
       image = img;
     }
-    if (!width) width = image.naturalWidth;
-    if (!height) height = image.naturalHeight;
-    sb.ctx.drawImage(image, (x || 0), (y || 0), width, height);
+    image.addEventListener('load', function() {
+      if (!width) width = image.naturalWidth;
+      if (!height) height = image.naturalHeight;
+      sb.ctx.beginPath();
+      sb.ctx.drawImage(image, (x || 0), (y || 0), width, height);
+      sb.ctx.closePath();
+    }, false);
     return this;
   }
 
@@ -231,6 +237,11 @@
       y = -sb.height / 2;
     }
     sb.ctx.translate(x, y);
+    return this;
+  }
+
+  this.canvasBackground = function(color){
+    sb.element.style.backgroundColor = color;
     return this;
   }
 
@@ -266,21 +277,24 @@
   }
 
   this.text = function(text, x, y, style) {
+    if (!style) style = {};
     var def = this.settings.defaults.text;
     if (style.border) {
       style.border = style.border.split(' ');
       style.border[0] = style.border[0].replace(/[^0-9]/g, '');
     }
 
+    sb.ctx.beginPath();
     sb.ctx.lineWidth = (style.border)? style.border[0] : def.lineWidth;
     sb.ctx.strokeStyle = (style.border)? style.border[1] : def.strokeStyle;
     sb.ctx.font = (style.font || def.font);
-    sb.ctx.fillStyle = style.color;
-    sb.ctx.textAlign = style.align;
+    sb.ctx.fillStyle = (style.color || def.color);
+    sb.ctx.textAlign = (style.align || def.align);
     sb.ctx.fillText(text, x, y);
     sb.ctx.strokeText(text, x, y);
     sb.ctx.fill();
     sb.ctx.stroke();
+    sb.ctx.closePath();
     return this;
   }
 
