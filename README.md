@@ -17,14 +17,14 @@ The Seishu began as a project to teach javascript and geometry to children and t
 ```javascript
 
 seishu('.canvas')
-    .rect(10, 10, 50, 100, {
-        background: '#888',
-        border: '4px #999'
-    })
-    .rect(50, 10, 40, {
-        background: '#000',
-        border: '4px gold'  
-    });    
+  .rect(10, 10, 50, 100, {
+    background: 'lightblue',
+    border: '4px #999'
+  })
+  .rect(50, 10, 40, {
+    background: 'lightgreen',
+    border: '10px green'  
+  });       
 
 ```
 
@@ -37,10 +37,8 @@ seishu('.canvas')
 ```javascript
 
 seishu('.one')
-    .line({x: 10, y: 10}, {x: 150, y: 200}, {
-        background: '#888',
-        border: '4px #111'
-    })
+  .line({x: 10, y: 10}, {x: 150, y: 200}, {
+    background: '#888' })
 
 ```
 
@@ -52,10 +50,9 @@ seishu('.one')
 
 ```javascript
 seishu('.element')
-    .arc(100, 75, 50, {
-        background: '#2A80B9',
-        border: '4px gold'  
-    })
+  .arc(100, 75, 50, {
+    background: '#2A80B9',
+    border: '4px gold' })
 
 ```
 
@@ -68,9 +65,8 @@ seishu('.element')
 ```javascript
 
 seishu('.one')
-    .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
-      background: '#2A80B9',
-    })
+  .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+    background: '#2A80B9' })
 
 ```
 
