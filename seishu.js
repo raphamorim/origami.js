@@ -63,30 +63,36 @@
     return this;
   }
 
-  this._existsContext = function(sel) {
+  this._existsContext = function(el) {
     for (var i = 0; i < contexts.length; i++) {
-      if (contexts[i].sel === sel) return contexts[i];
+      if (contexts[i].element.isEqualNode(el)) 
+        return contexts[i];
     }
     return false;
   }
 
   this._createCanvasContext = function(el) {
+    if (el.canvas)
+      el = el.canvas;
+    else
+      el = document.querySelector(el);
+    
     var existentContext = this._existsContext(el);
     if (existentContext) {
       this.sb = existentContext;
       return;
     }
-    var canvas = document.querySelector(el);
-    if (!canvas.getContext)
+    
+    if (!el.getContext)
       return console.log('Error: Please check if your browser support canvas and verify if it\'s a valid canvas element.');
-    var context = canvas.getContext('2d'),
+
+    var context = el.getContext('2d'),
       current = {
-        sel: el,
-        element: canvas,
+        element: el,
         frame: null,
         ctx: (context || false),
-        width: (canvas.width || null),
-        height: (canvas.height || null),
+        width: (el.width || null),
+        height: (el.height || null),
       };
 
     this.contexts.push(current);
@@ -324,9 +330,9 @@
       var width = image.naturalWidth,
           height = image.naturalHeight,
           dw = width / frames;
-      
 
-      self._drawSprite({
+      // sprite properties
+      var sprite = {
         image: image,
         posX: 0,
         posY: 0,
@@ -339,8 +345,9 @@
         dy: y,
         totalWidth: width,
         anim: null
-      });
+      };
 
+      self._drawSprite(sprite);
     }, false);
     return this;
   }

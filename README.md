@@ -127,6 +127,9 @@ seishu('#demo-1').canvasBackground('#2A80B9')
 
 var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
 
+// You can use Seishu with contextObject too :)
+seishu(ctx).canvasBackground('blue');
+
 ```
 
 ### repeat
@@ -153,6 +156,7 @@ seishu('#demo-1')
 ### globalComposite
 
 Similar to globalCompositeOperation
+
 Default: `source-over`
 
 ```javascript
@@ -211,8 +215,11 @@ seishu('#my-canvas').save();
 ### sprite
 
 `frames`: required
+
 `src`: required
+
 `speed`: optional
+
 `loop`: optional (default: `true`)
 
 ```javascript
@@ -365,9 +372,9 @@ function draw() {
  - rotate [CHECKED]
  - translate [CHECKED]
  - stop animation [CHECKED]
- - on (event) 
  - sprite [CHECKED]
- - use seishu by context instead selector
+ - use seishu by context instead selector [CHECKED]
+ - on (event) 
  - quadraticCurveTo
  - create gradient to use
  - mirror (horizontal and vertical)
