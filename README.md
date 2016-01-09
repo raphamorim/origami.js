@@ -12,7 +12,7 @@ The Seishu began as a project to teach javascript and geometry to children and t
 
 ## Usage
 
-### Rect
+### rect
 
 ```javascript
 
@@ -28,7 +28,7 @@ seishu('.canvas')
 
 ```
 
-### Line
+### line
 
 ```javascript
 
@@ -40,7 +40,7 @@ seishu('.one')
 
 ```
 
-### Arc
+### arc
 
 ```javascript
 seishu('.element')
@@ -51,7 +51,7 @@ seishu('.element')
 
 ```
 
-### Polygon 
+### polygon 
 
 ```javascript
 
@@ -63,7 +63,7 @@ seishu('.one')
     
 ```
 
-### Text
+### text
 
 ```javascript
 
@@ -77,7 +77,7 @@ seishu('.one')
 
 ```
 
-### Image
+### image
 
 ```javascript
 
@@ -90,7 +90,7 @@ seishu('.canvas').image('images/dog.jpg', 10, 10)
 
 ```
 
-### Clear
+### clear
 
 ```javascript
 
@@ -106,7 +106,7 @@ var ctx = seishu('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
 
 ```
 
-### Repeat
+### repeat
 
 ```javascript
     
@@ -127,12 +127,111 @@ seishu('#demo-1')
 
 ```
 
+### globalCompositeOperation
+
+Default: `source-over`
+Options:
+
+```javascript
+
+seishu('#my-canvas').globalCompositeOperation('source-in')
+
+```
+
+### translate
+
+Adicional Options: 
+
+- `center` (apply in canvas center)
+- `reset` (apply in canvas `x: 0, y: 0` coordinates)
+
+```javascript
+
+seishu('#my-canvas').translate('center');
+
+// OR
+
+seishu('#my-canvas').translate(10, 50);
+
+```
+
+### rotate
+
+```javascript
+
+seishu('#my-canvas').rotate(degrees);
+
+```
+
+### restore
+
+```javascript
+
+seishu('#my-canvas').restore();
+
+```
+
+### save
+
+```javascript
+
+seishu('#my-canvas').save();
+
+```
+
+## Animation
+
+## nextFrame
+
+Causes execution of a callback (through requestAnimationFrame)
+
+```javascript
+
+seishu('#demo-1').nextFrame(frame)
+
+```
+
+## stopFrame
+
+Stop frame animation
+
+```javascript
+
+seishu('#demo-1').stop(frame)
+
+```
+
+## Example
+
+```javascript
+
+var rotation = 0;
+function draw() {
+    rotation = rotation + 0.1;
+    seishu('#demo-1')
+        .clear()
+        .arc(150, 150, 100)
+        .save()
+        .translate(150, 150)
+        .rotate(rotation)
+        .arc(18, 50, 5, {
+            background: 'darkred'})
+        .restore()
+        .nextFrame(draw) }
+
+```
+
+##### Result:
+
+![seishu Logo](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/cricle-rotate.gif)
+
+
 ## Roadmap APIs:
 
 - Next Release
  - line (2d) [CHECKED] 
  - rect (2d) [CHECKED]
- - triangle (2d)
+ - polygon (2d) [CHECKED]
  - arc (2d) [CHECKED]
  - image (2d) [CHECKED]
  - text (2d) [CHECKED]
@@ -140,18 +239,20 @@ seishu('#demo-1')
  - play
  - pause
  - sprite
+ - use seishu by context instead selector
  - quadraticCurveTo
  - create gradient to use
  - mirror (horizontal and vertical)
  - compute CSS style to canvas objects
-    - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')
+    - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')`
  - write tests :)
  - animation
  - on (event)
  - rotate
  - centerOf
- - gh-page with examples and tutorial 
- - gh-page with examples by other users 
+ - docs with examples and tutorial 
+ - docs with examples by other users 
+ - docs with live console 
  - write tests :)
 
 ## Future Releases

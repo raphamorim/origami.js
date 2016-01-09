@@ -82,6 +82,7 @@
       current = {
         sel: el,
         element: canvas,
+        frame: null,
         ctx: (context || false),
         width: (canvas.width || null),
         height: (canvas.height || null),
@@ -255,16 +256,16 @@
     return this;
   }
 
-  this.nextFrame = (function(callback) {
-    return window.requestAnimationFrame || 
-    window.webkitRequestAnimationFrame || 
-    window.mozRequestAnimationFrame || 
-    window.oRequestAnimationFrame || 
-    window.msRequestAnimationFrame ||
-    function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-    };
-  })();
+  this.stop = function(){
+    window.cancelAnimationFrame(sb.frame);
+    sb.frame = false;
+    return this;
+  }
+
+  this.nextFrame = function(fn){
+    sb.frame = window.requestAnimationFrame(fn);
+    return this;
+  }
 
   this.text = function(text, x, y, style) {
     var def = this.settings.defaults.text;
