@@ -4,6 +4,12 @@
 
 Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
 
+# Why?
+
+Learn the canvas API for many developers has been an additional task. But it might be easier, for simple reasons: chainable canvas, stylize objects using the same notation CSS, easy access to the context using selector.
+
+The Seishu began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the context 2d, but in the future will also support WebGL).
+
 ## Usage
 
 ### Rect
@@ -76,8 +82,11 @@ seishu('.one')
 ```javascript
 
 var img = document.querySelector('#my-image');
-seishu('.canvas')
-    .image(img, 10, 10)
+seishu('.canvas').image(img, 10, 10)
+
+// OR
+
+seishu('.canvas').image('images/dog.jpg', 10, 10)
 
 ```
 
@@ -134,6 +143,8 @@ seishu('#demo-1')
  - quadraticCurveTo
  - create gradient to use
  - mirror (horizontal and vertical)
+ - compute CSS style to canvas objects
+    - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')
  - write tests :)
  - animation
  - on (event)
