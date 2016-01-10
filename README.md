@@ -97,7 +97,7 @@ seishu('.one')
 ```javascript
 
 var img = document.querySelector('#my-image');
-seishu('.canvas').image(img, 10, 10)
+seishu('.canvas').image(img, 10, 10, width, height)
 
 // OR
 
@@ -185,6 +185,30 @@ seishu('#my-canvas').translate(10, 50);
 seishu('#my-canvas').translate(); // Equals: reset
 
 ```
+
+### flip
+
+Alert: Experimental feature
+
+Default: `horizontal`
+
+Options: `horizontal`, `vertical`
+
+```javascript
+
+seishu('#demo-1')
+  .flip('horizontal')
+  .image('images/person.jpg', 0, 0, 200, 200)
+
+```
+
+###### Original Image
+
+![Person](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/person.jpg)
+
+###### Result
+
+![Person](https://raw.githubusercontent.com/raphamorim/seishu.js/master/images/examples/flip.png)
 
 ### rotate
 
@@ -373,11 +397,11 @@ function draw() {
  - translate [CHECKED]
  - stop animation [CHECKED]
  - sprite [CHECKED]
+ - scale [CHECKED]
+ - mirror (horizontal and vertical) [CHECKED]
  - use seishu by context instead selector [CHECKED]
  - on (event) 
  - quadraticCurveTo
- - create gradient to use
- - mirror (horizontal and vertical)
  - compute CSS style to canvas objects
     - e.g: `seishu('#element-id').rect(50, 10, 40).style('.square-class')`
  - write tests :)
@@ -390,6 +414,7 @@ function draw() {
 ## Future Releases
 
 - animation based on CSS
+- own create gradient to use
 - render with textures
 - switch to WebGL
 - cube (3d)
