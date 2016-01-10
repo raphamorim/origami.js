@@ -89,6 +89,7 @@
     var context = el.getContext('2d'),
       current = {
         element: el,
+        flip: false,
         frame: null,
         ctx: (context || false),
         width: (el.width || null),
@@ -217,6 +218,8 @@
   }
 
   this.image = function(image, x, y, width, height, sx, sy, sw, sh) {
+    if (!image)
+      return this;
     if (typeof(image) === 'string') {
       var img = new Image();
       img.src = image;
@@ -225,9 +228,22 @@
     image.addEventListener('load', function() {
       if (!width) width = image.naturalWidth;
       if (!height) height = image.naturalHeight;
+      sb.ctx.save();
+      if (sb.flip) {
+        if (sb.flip === 'horizontal') {
+          sb.ctx.scale(-1, 1);
+          width = width* -1;
+        }
+        if (sb.flip === 'vertical') {
+          sb.ctx.scale(1, -1);
+          height = height* -1;
+        }
+      }
+
       sb.ctx.beginPath();
       sb.ctx.drawImage(image, (x || 0), (y || 0), width, height);
       sb.ctx.closePath();
+      sb.ctx.restore();
     }, false);
     return this;
   }
@@ -316,6 +332,23 @@
     return sb.ctx;
   }
 
+  this.scale = function(width, height){
+    sb.ctx.scale(width, height);
+    return this;
+  }
+
+  this.flip = function(type){
+    sb.flip = 'horizontal';
+    if (type && typeof(type) === 'string')
+      sb.flip = type;
+    return this;
+  }
+
+  this.flipEnd = function(){
+    sb.flip = false;
+    return this;
+  }
+
   this.sprite = function(x, y, config){
     if (!config || !config.src) 
       return this;
@@ -361,7 +394,7 @@
       sprite.posX = 0;
     }
 
-    sb.ctx.clearRect(sprite.posX, sprite.posY, sprite.width, sprite.height);
+    sb.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
     sb.ctx.beginPath();
     sb.ctx.drawImage(sprite.image, sprite.posX, sprite.posY, 
       sprite.width, sprite.height, sprite.dx, sprite.dy, 
