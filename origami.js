@@ -241,7 +241,7 @@
       }
 
       sb.ctx.beginPath();
-      sb.ctx.drawImage(image, (x || 0), (y || 0), width, height);
+      sb.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
       sb.ctx.closePath();
       sb.ctx.restore();
     }, false);
@@ -412,7 +412,7 @@
   }
 
   if (typeof window === "object")
-    window.seishu = this.init.bind(this);
+    window.origami = this.init.bind(this);
   if (typeof module === "object" && typeof module.exports === "object")
     module.exports = this.init.bind(this);
 }());
