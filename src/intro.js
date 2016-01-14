@@ -8,4 +8,4 @@
  * Date: @DATE
  */
 
-(function( global ) {
+(function( window ) {
