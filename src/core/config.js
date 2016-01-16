@@ -32,7 +32,7 @@ var config = {
         lineWidth: null,
       },
       line: {
-        strokeStyle: null,
+        strokeStyle: 'rgba(0, 0, 0, 0)',
         lineWidth: null,
       },
       text: {
