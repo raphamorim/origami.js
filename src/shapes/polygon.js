@@ -1,22 +1,13 @@
 function Polygon() {
-  var args = ([].slice.call(arguments) || []),
+  var originalArgs = arguments;
+  var args = argumentsByRules([].slice.call(originalArgs) || []),
     points = [],
-    style = {},
+    style = args.style,
     def = Origami.defaults.polygon;
 
-  for (var i = 0; i < args.length; i++) {
-    if (!args[i]) 
-      break;
-
-    if (args[i].x && args[i].y)
-      points.push(args[i]);
-    else
-      style = args[i];
-  }
-
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
+  for (var i = 0; i < originalArgs.length; i++) {
+    if (originalArgs[i].x && originalArgs[i].y)
+      points.push(originalArgs[i]);
   }
 
   kami.ctx.beginPath();
