@@ -1,12 +1,7 @@
 function Rect() {
-  var args = Origami.args(([].slice.call(arguments) || [])),
+  var args = argumentsByRules(([].slice.call(arguments) || [])),
     style = (args.style || {}),
     def = Origami.defaults.rect;
-
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
-  }
 
   kami.ctx.beginPath();
   kami.ctx.fillStyle = (style.background) ? style.background : def.background;

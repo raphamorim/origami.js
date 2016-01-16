@@ -4,6 +4,10 @@ Origami.init = function(el) {
     return this;
 }
 
+Origami.styles = function() {
+    return this;
+}
+
 Origami._createKami = function(el) {
     if (el.canvas)
         el = el.canvas;
@@ -33,21 +37,6 @@ Origami._createKami = function(el) {
     kami = current;
 }
 
-Origami.args = function(argsArray, rules) {
-    var params = ['x', 'y', 'width', 'height'],
-        args = new Object();
-
-    if (rules) params = rules;
-    for (var i = 0; i < argsArray.length; i++) {
-        if (typeof(argsArray[i]) === "object")
-            args["style"] = argsArray[i];
-        else
-        if (params.length)
-            args[params.shift()] = argsArray[i];
-    }
-    return args;
-}
-
 Origami.set = function(config) {
     if (!config)
         return this;
@@ -68,4 +57,9 @@ Origami.set = function(config) {
         }
     }
     return this;
+}
+
+Origami.style = function() {
+    var args = Origami.args(([].slice.call(arguments) || []), 
+      ['x', 'y', 'r', 'sAngle', 'eAngle']);
 }
