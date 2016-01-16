@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
     function process( code, filepath ) {
-
-       return code
+        return code
 
             // Embed version
             .replace( /@VERSION/g, grunt.config( "pkg" ).version )
@@ -21,6 +20,7 @@ module.exports = function(grunt) {
                     "src/core/initialize.js",
                     "src/core/logging.js",
                     "src/core.js",
+                    "src/setter.js",
                     "src/utils.js",
                     "src/shapes/arc.js",
                     "src/shapes/image.js",
