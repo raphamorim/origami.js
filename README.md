@@ -10,6 +10,27 @@ Learn the canvas API for many developers has been an additional task. But it mig
 
 The Origami began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the context 2d, but in the future will also support WebGL).
 
+## Styling with CSS
+
+For those who use native canvas, you need to adapt to a different way to apply styles to a shape. The origami.js lets you use the CSS notation in a javascript object to use and apply on a shape.
+
+Let's see:
+
+```javascript
+var style = {
+  color: '#000',
+  font: '70px Helvetica',
+  align: 'center',
+  border: '2px gold'
+};
+
+origami('.canvas-class')
+  .text("Nice!", 100, 100, style)
+  .text("Really Nice!", 150, 150, style)
+```
+
+You can use pure CSS to style a shape. See [Shape](https://github.com/raphamorim/origami.js#shape).
+
 ## Usage
 
 ### rect
