@@ -87,8 +87,6 @@ CSS properties:
   top: 10px;
   left: 10px;
   width: 10px;
-  font-family: Helvetica;
-  color: #FFF;
 }
 ```
 
