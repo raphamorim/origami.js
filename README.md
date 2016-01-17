@@ -293,7 +293,7 @@ origami('#my-canvas').save();
 Wrapper to `addEventListener`
 
 ```javascript
-origami(".aa").on('click', clickEvent)
+origami(".canvas-class").on('click', clickEvent)
 
 function clickEvent(e) {
   console.log(e.pageX, e.pageY);
