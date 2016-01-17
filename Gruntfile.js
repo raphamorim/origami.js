@@ -1,19 +1,21 @@
 module.exports = function(grunt) {
-    function process( code, filepath ) {
+    function process(code, filepath) {
         return code
 
-            // Embed version
-            .replace( /@VERSION/g, grunt.config( "pkg" ).version )
+        // Embed version
+            .replace(/@VERSION/g, grunt.config("pkg").version)
 
-            // Embed date (yyyy-mm-ddThh:mmZ)
-            .replace( /@DATE/g, ( new Date() ).toISOString().replace( /:\d+\.\d+Z$/, "Z" ) );
+        // Embed date (yyyy-mm-ddThh:mmZ)
+        .replace(/@DATE/g, (new Date()).toISOString().replace(/:\d+\.\d+Z$/, "Z"));
     }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         concat: {
             "src-js": {
-                options: { process: process },
+                options: {
+                    process: process
+                },
                 src: [
                     "src/intro.js",
                     "src/core/config.js",
@@ -29,6 +31,7 @@ module.exports = function(grunt) {
                     "src/shapes/rect.js",
                     "src/shapes/sprite.js",
                     "src/shapes/text.js",
+                    "src/shapes/shape.js",
                     "src/shapes/index.js",
                     "src/resource.js",
                     "src/export.js",
@@ -36,12 +39,24 @@ module.exports = function(grunt) {
                 ],
                 dest: "dist/origami.js"
             }
-        }
+        },
+
+        uglify: {
+            my_target: {
+                options: {
+                    sourceMap: true
+                },
+                files: {
+                    'dist/origami.min.js': ['dist/origami.js'],
+                },
+            },
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask("build", ["concat"]);
+    grunt.registerTask("pre-build", ["concat"]);
+    grunt.registerTask("build", ["concat", "uglify"]);
 
 };

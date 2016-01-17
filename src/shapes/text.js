@@ -19,5 +19,6 @@ function TextShape(text, x, y, style) {
   kami.ctx.fill();
   kami.ctx.stroke();
   kami.ctx.closePath();
+  
   return this;
 }

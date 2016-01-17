@@ -32,5 +32,6 @@ function ImageShape(image, x, y, width, height, sx, sy, sw, sh) {
     kami.ctx.closePath();
     kami.ctx.restore();
   }, false);
+  
   return this;
 }
