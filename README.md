@@ -16,6 +16,10 @@ For those who use native canvas, you need to adapt to a different way to apply s
 
 Let's see:
 
+```html
+<canvas class="canvas-class"></canvas>
+```
+
 ```javascript
 var style = {
   color: '#000',
