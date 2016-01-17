@@ -1,9 +1,12 @@
 function Shape(style) {
     var style = Origami.virtualStyles[style];
+    if (!style)
+        return this;
+    
     var data = '<svg xmlns="http://www.w3.org/2000/svg" width="' + kami.width + 'px" height="' + kami.height + 'px">' +
         '<foreignObject width="100%" height="100%">' +
             '<div xmlns="http://www.w3.org/1999/xhtml">' +
-            '<div style="' + style.cssText + '">asaspk</div>' +
+            '<div style="' + style.cssText + '"></div>' +
         '</div></foreignObject>' +
         '</svg>';
 

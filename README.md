@@ -74,6 +74,37 @@ origami('.one')
 
 ![polygon](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/polygon.png)
 
+
+### shape
+
+CSS properties:
+
+```css
+.rect {
+  background: #000;
+  height: 100px;
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 10px;
+  font-family: Helvetica;
+  color: #FFF;
+}
+```
+
+Load Styles and apply style rules on Shape (empty object canvas)
+
+```javascript
+origami('#canvas-id')
+  .styles('.rect')
+  .shape('.rect')
+```
+
+###### Result:
+
+![text](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/shape.png)
+
+
 ### text
 
 ```javascript
