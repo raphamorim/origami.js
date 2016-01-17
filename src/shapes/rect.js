@@ -11,5 +11,6 @@ function Rect() {
   kami.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
   kami.ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
   kami.ctx.closePath();
+  
   return this;
 }

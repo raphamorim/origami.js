@@ -46,7 +46,7 @@ function drawSprite(sprite) {
   }
 
   kami.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
-  
+
   kami.ctx.beginPath();
   kami.ctx.drawImage(sprite.image, sprite.posX, sprite.posY,
     sprite.width, sprite.height, sprite.dx, sprite.dy,
