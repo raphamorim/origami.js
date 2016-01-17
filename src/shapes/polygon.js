@@ -25,5 +25,6 @@ function Polygon() {
   kami.ctx.stroke();
   kami.ctx.fill();
   kami.ctx.closePath();
+  
   return this;
 }

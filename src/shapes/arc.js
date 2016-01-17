@@ -14,5 +14,6 @@ function Arc() {
   kami.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
   kami.ctx.stroke();
   kami.ctx.closePath();
+  
   return this;
 }

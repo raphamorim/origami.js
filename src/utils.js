@@ -30,3 +30,12 @@ function argumentsByRules(argsArray, rules) {
 
     return args;
 }
+
+// Define Style Tree
+function defineDocumentStyles(origami) {
+    for (var i = 0; i < document.styleSheets.length; i++) {
+        var mysheet = document.styleSheets[i],
+            myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
+        origami.documentStyles.push(myrules);
+    }
+}
