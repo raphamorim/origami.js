@@ -16,6 +16,10 @@ For those who use native canvas, you need to adapt to a different way to apply s
 
 Let's see:
 
+```html
+<canvas class="canvas-class"></canvas>
+```
+
 ```javascript
 var style = {
   color: '#000',
@@ -450,9 +454,8 @@ function draw() {
  - scale [CHECKED]
  - mirror (horizontal and vertical) [CHECKED]
  - use origami by context instead selector [CHECKED]
- - on (event) 
- - compute CSS style to canvas objects
-    - e.g: `origami('#element-id').rect(50, 10, 40).style('.square-class')`
+ - compute CSS style to canvas objects [CHECKED]
+ - on (event)
  - write tests :)
  - docs with examples and tutorial
  - docs with examples by other users
