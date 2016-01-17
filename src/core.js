@@ -26,6 +26,10 @@ Origami._getStyleRuleValue = function(selector) {
     }
 }
 
+Origami.on = function(ev, fn) {
+    kami.element.addEventListener(ev, fn);
+}
+
 Origami._createKami = function(el) {
     if (el.canvas)
         el = el.canvas;

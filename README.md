@@ -284,6 +284,18 @@ origami('#my-canvas').save();
 
 ```
 
+### on
+
+Wrapper to `addEventListener`
+
+```javascript
+origami(".aa").on('click', clickEvent)
+
+function clickEvent(e) {
+  console.log(e.pageX, e.pageY);
+}
+```
+
 ## Animation
 
 ### sprite
@@ -450,9 +462,8 @@ function draw() {
  - scale [CHECKED]
  - mirror (horizontal and vertical) [CHECKED]
  - use origami by context instead selector [CHECKED]
- - on (event) 
- - compute CSS style to canvas objects
-    - e.g: `origami('#element-id').rect(50, 10, 40).style('.square-class')`
+ - on (event) [CHECKED]
+ - compute CSS style to canvas objects [CHECKED]
  - write tests :)
  - docs with examples and tutorial
  - docs with examples by other users
@@ -461,6 +472,9 @@ function draw() {
 
 ## Future Releases
 
+- .hover, .click -> fn to current object
+- Improve `style` and `shape` (add more features)
+- `.element` (draw a entire element in canvas)
 - quadraticCurveTo
 - centerOf
 - animation based on CSS
