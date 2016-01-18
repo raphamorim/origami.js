@@ -4,7 +4,8 @@
   "description": "HTML5 Canvas for Humans",
   "main": "origami.js",
   "scripts": {
-    "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/*.html"
+    "test": "grunt",
+    "test:only": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/*.html"
   },
   "repository": {
     "type": "git",

@@ -56,7 +56,8 @@ module.exports = function(grunt) {
             test: {
                 cmd: 'npm',
                 args: [
-                    'test'
+                    'run',
+                    'test:only'
                 ]
             }
         }
@@ -67,6 +68,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-run');
 
     grunt.registerTask("test", ["run:test"]);
-    grunt.registerTask("origami:concat", ["concat"]);
-    grunt.registerTask("build", ["concat", "uglify", "test"]);
+    grunt.registerTask("build", ["concat"]);
+    grunt.registerTask("default", ["concat", "uglify", "test"]);
 };
