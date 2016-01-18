@@ -2,6 +2,8 @@
 
 > HTML5 Canvas for Humans
 
+[![Build Status](https://travis-ci.org/raphamorim/origami.js.svg)](https://travis-ci.org/raphamorim/origami.js)
+
 Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
 
 # Why?

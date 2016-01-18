@@ -36,6 +36,9 @@ Origami._createKami = function(el) {
     else
         el = document.querySelector(el);
 
+    if (!el)
+        this.error('Please use a valid selector or canvas context');
+
     var existentContext = exists(el, config.contexts);
     if (existentContext) {
         kami = existentContext;
@@ -43,7 +46,7 @@ Origami._createKami = function(el) {
     }
 
     if (!el.getContext)
-        return this.warning('Error: Please check if your browser support canvas and verify if it\'s a valid canvas element.');
+        this.error('Please verify if it\'s a valid canvas element');
 
     var context = el.getContext('2d'),
         current = {
