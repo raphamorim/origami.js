@@ -1,5 +1,11 @@
+sudo: false
 language: node_js
 node_js:
   - "0.10"
 script:
   - "npm test"
+before_install:
+  - npm install -g grunt-cli
+cache:
+  directories:
+    - node_modules
