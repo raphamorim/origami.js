@@ -51,12 +51,22 @@ module.exports = function(grunt) {
                 },
             },
         },
+
+        run: {
+            test: {
+                cmd: 'npm',
+                args: [
+                    'test'
+                ]
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-run');
 
-    grunt.registerTask("pre-build", ["concat"]);
-    grunt.registerTask("build", ["concat", "uglify"]);
-
+    grunt.registerTask("test", ["run:test"]);
+    grunt.registerTask("origami:concat", ["concat"]);
+    grunt.registerTask("build", ["concat", "uglify", "test"]);
 };
