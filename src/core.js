@@ -26,18 +26,15 @@ Origami._getStyleRuleValue = function(selector) {
     }
 }
 
-Origami.on = function(ev, fn) {
-    kami.element.addEventListener(ev, fn);
-}
-
 Origami._createKami = function(el) {
-    if (el.canvas)
-        el = el.canvas;
-    else
-        el = document.querySelector(el);
-
     if (!el)
         this.error('Please use a valid selector or canvas context');
+
+    if (el.canvas) {
+        el = el.canvas;
+    } else {
+        el = document.querySelector(el);
+    }
 
     var existentContext = exists(el, config.contexts);
     if (existentContext) {
@@ -60,31 +57,4 @@ Origami._createKami = function(el) {
 
     Origami.contexts.push(current);
     kami = current;
-}
-
-Origami.set = function(config) {
-    if (!config)
-        return this;
-    if (config.inc)
-        settings.inc = config.inc;
-    if (config.sum)
-        settings.sum = config.sum;
-    // TODO: set Work for rect, line, polygon, text 
-    if (config.arc) {
-        if (config.arc.background)
-            settings.defaults.arc['background'] = config.arc.background;
-        if (config.arc.radius)
-            settings.defaults.arc['radius'] = config.arc.radius;
-        if (config.arc.border) {
-            config.arc.border = config.arc.border.split(' ');
-            settings.defaults.arc['lineWidth'] = config.arc.border[0].replace(/[^0-9]/g, '');
-            settings.defaults.arc['strokeStyle'] = config.arc.border[1];
-        }
-    }
-    return this;
-}
-
-Origami.style = function() {
-    var args = Origami.args(([].slice.call(arguments) || []), 
-      ['x', 'y', 'r', 'sAngle', 'eAngle']);
 }

@@ -3,7 +3,7 @@ module.exports = function(grunt) {
         return code
 
         // Embed version
-            .replace(/@VERSION/g, grunt.config("pkg").version)
+        .replace(/@VERSION/g, grunt.config("pkg").version)
 
         // Embed date (yyyy-mm-ddThh:mmZ)
         .replace(/@DATE/g, (new Date()).toISOString().replace(/:\d+\.\d+Z$/, "Z"));
