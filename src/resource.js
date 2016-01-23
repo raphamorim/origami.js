@@ -16,6 +16,10 @@ Origami.canvasBackground = function(color) {
   return this;
 }
 
+Origami._getContexts = function() {
+  return Origami.contexts;
+}
+
 Origami.restore = function() {
   kami.ctx.restore();
   return this;
@@ -87,7 +91,7 @@ Origami.clear = function(){
   return this;
 }
 
-Origami.listContexts = function() {
-    this.logging('Current Contexts: ', this.contexts);
-    return this;
+Origami.on = function(ev, fn) {
+  kami.element.addEventListener(ev, fn);
+  return this;
 }

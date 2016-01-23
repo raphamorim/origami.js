@@ -10,6 +10,5 @@ Origami.defaults = Origami.settings.defaults;
 Origami.documentStyles = config.documentStyles;
 Origami.virtualStyles = config.virtualStyles;
 
-
 // Shortcut access to current context
 var kami = Origami.kami;
