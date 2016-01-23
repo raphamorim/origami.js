@@ -27,14 +27,14 @@ Origami._getStyleRuleValue = function(selector) {
 }
 
 Origami._createKami = function(el) {
-    if (!el)
-        this.error('Please use a valid selector or canvas context');
-
     if (el.canvas) {
         el = el.canvas;
     } else {
         el = document.querySelector(el);
     }
+
+    if (!el)
+        this.error('Please use a valid selector or canvas context');
 
     var existentContext = exists(el, config.contexts);
     if (existentContext) {
