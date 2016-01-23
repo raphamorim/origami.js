@@ -37,6 +37,30 @@ origami('.canvas-class')
 
 You can use pure CSS to style a shape. See [Shape](https://github.com/raphamorim/origami.js#shape).
 
+
+## Getting
+
+First at all, get Origami.js using [Download Option](https://github.com/raphamorim/origami.js/archive/master.zip) or via bower.
+
+To get using [Bower](http://bower.io) just run this command
+
+```sh
+bower install origamijs
+```
+
+Or get using NPM just run this command
+
+```sh
+npm install origamijs
+```
+
+Add the source before body tag end:
+
+```html
+<script src="origami.min.js"></script>
+</body>
+```
+
 ## Usage
 
 ### rect
@@ -449,6 +473,13 @@ function draw() {
 ##### Result:
 
 ![Earth Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/earth-rotate.gif)
+
+
+## Browser Support
+
+| <img src="http://raphamorim.com/assets/images/browser-support/chrome.png" width="100px" height="100px" alt="Chrome logo"> | <img src="http://raphamorim.com/assets/images/browser-support/firefox.png" width="100px" height="100px" alt="Firefox logo"> | <img src="http://raphamorim.com/assets/images/browser-support/ie.png" width="100px" height="100px" alt="Internet Explorer logo"> | <img src="http://raphamorim.com/assets/images/browser-support/opera.png" width="100px" height="100px" alt="Opera logo"> | <img src="http://raphamorim.com/assets/images/browser-support/safari.png" width="100px" height="100px" alt="Safari logo"> |
+|:---:|:---:|:---:|:---:|:---:|
+| 42+ ✔ | 40+ ✔ | 8+ ✔ | 29+ ✔ |  8+ ✔ |
 
 
 ## Roadmap:
