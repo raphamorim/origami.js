@@ -1,0 +1,23 @@
+{
+  "name": "origamijs",
+  "version": "0.3.0",
+  "homepage": "https://github.com/raphamorim/origami.js",
+  "authors": [
+    "Raphael Amorim <rapha850@gmail.com>"
+  ],
+  "description": "HTML5 Canvas for Humans",
+  "keywords": [
+    "canvas",
+    "webgl",
+    "jquery",
+    "css"
+  ],
+  "license": "GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
