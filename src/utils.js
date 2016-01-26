@@ -24,8 +24,8 @@ function argumentsByRules(argsArray, rules) {
     }
 
     if (args.style && args.style.border) {
-        args.border = style.border.split(' ');
-        args.border[0] = style.border[0].replace(/[^0-9]/g, '');
+        args.style.border = args.style.border.split(' ');
+        args.style.border[0] = args.style.border[0].replace(/[^0-9]/g, '');
     }
 
     return args;

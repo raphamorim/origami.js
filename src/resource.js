@@ -1,12 +1,19 @@
 Origami.translate = function(x, y) {
-  if (x === 'center') {
-    x = kami.width / 2;
-    y = kami.height / 2;
+  if (x === undefined || x === null) {
+    x = 'reset';
   }
-  if (x === 'reset' || (x == null && y == null)) {
-    x = -kami.width / 2;
-    y = -kami.height / 2;
+
+  if (typeof(x) === 'string') {
+    if (x === 'center') {
+      x = kami.width / 2;
+      y = kami.height / 2;
+    }
+    if (x === 'reset') {
+      x = -kami.width / 2;
+      y = -kami.height / 2;
+    }
   }
+
   kami.ctx.translate(x, y);
   return this;
 }
@@ -61,8 +68,8 @@ Origami.repeat = function(times, fn) {
 }
 
 Origami.setInc = function(value) {
-    if (value) settings.inc = value;
-    return this;
+  if (value) settings.inc = value;
+  return this;
 }
 
 Origami.getContext = function() {
@@ -86,7 +93,7 @@ Origami.flipEnd = function() {
   return this;
 }
 
-Origami.clear = function(){
+Origami.clear = function() {
   kami.ctx.clearRect(0, 0, kami.width, kami.height);
   return this;
 }

@@ -9,10 +9,8 @@ function ImageShape(image, x, y, width, height, sx, sy, sw, sh) {
   }
 
   image.addEventListener('load', function() {
-    if (!width) 
-      width = image.naturalWidth;
-    if (!height) 
-      height = image.naturalHeight;
+    width = (width || image.naturalWidth);
+    height = (height || image.naturalHeight);
     
     kami.ctx.save();
 
