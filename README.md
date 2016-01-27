@@ -74,8 +74,8 @@ origami('.canvas')
   })
   .rect(50, 10, 40, {
     background: 'lightgreen',
-    border: '10px green'  
-  });       
+    border: '10px green'
+  });
 
 ```
 
@@ -193,11 +193,11 @@ origami('.one').clear()
 
 ```
 
-### canvasBackground
+### background
 
 ```javascript
 
-origami('#demo-1').canvasBackground('#2A80B9')
+origami('#demo-1').background('#2A80B9')
 
 ```
 
@@ -227,7 +227,7 @@ origami('#demo-1')
     .repeat(15, function(set){
         circle(0, set.inc)
         repeat(15, function(def){
-            circle(def.inc, (set.inc-35))  
+            circle(def.inc, (set.inc-35))
         })
     })
 
@@ -247,7 +247,7 @@ origami('#my-canvas').globalCompositeOperation('source-in')
 
 ### translate
 
-Adicional Options: 
+Adicional Options:
 
 - `center` (apply in canvas center)
 - `reset` (apply in canvas `x: 0, y: 0` coordinates)
@@ -435,7 +435,7 @@ function draw() {
   ctx.drawImage(earth,-12,-12);
 
   ctx.restore();
-  
+
   ctx.beginPath();
   ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
   ctx.stroke();
@@ -457,7 +457,7 @@ function draw() {
         .clear()
         .save()
         .translate(150,150)
-        .rotate(((2*Math.PI)/60)*new Date().getSeconds() + 
+        .rotate(((2*Math.PI)/60)*new Date().getSeconds() +
             ((2*Math.PI)/60000)*new Date().getMilliseconds())
         .translate(105,0)
         .image('images/Canvas_earth.png', -12, -12)
