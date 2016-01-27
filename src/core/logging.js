@@ -1,13 +1,10 @@
-Origami.warning = function warning(message){
+var prefix = "[origami.js]";
+
+Origami.warning = function warning(message, obj){
     if (console && console.warn)
-        console.warn(message);
+        console.warn(prefix, message, obj);
 };
 
 Origami.error = function error(message){
-    throw new Error("Origami Error: " + message);
-};
-
-Origami.logging = function logging(message){
-    if (console && console.log)
-        console.log(message);
+    throw new Error(prefix, message);
 };

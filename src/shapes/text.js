@@ -1,5 +1,8 @@
 function TextShape(params) {
   var def = config.defaults.text,
+    text = params.text,
+    x = params.x,
+    y = params.y,
     style = params.style;
 
   if (!style)

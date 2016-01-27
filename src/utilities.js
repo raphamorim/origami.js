@@ -35,8 +35,8 @@ function argsByRules(argsArray, rules) {
         if (typeof(argsArray[i]) === "object")
             args["style"] = argsArray[i];
         else
-            if (params.length)
-                args[params.shift()] = argsArray[i];
+        if (params.length)
+            args[params.shift()] = argsArray[i];
     }
 
     if (!args.style) {
@@ -71,18 +71,18 @@ function defineDocumentStyles() {
  * @param {Object} options User options
  * @returns {Object} Merged values of defaults and options
  */
-function extend( a, b, undefOnly ) {
-    for ( var prop in b ) {
-        if ( hasOwn.call( b, prop ) ) {
+function extend(a, b, undefOnly) {
+    for (var prop in b) {
+        if (hasOwn.call(b, prop)) {
 
             // Avoid "Member not found" error in IE8 caused by messing with window.constructor
             // This block runs on every environment, so `global` is being used instead of `window`
             // to avoid errors on node.
-            if ( prop !== "constructor" || a !== global ) {
-                if ( b[ prop ] === undefined ) {
-                    delete a[ prop ];
-                } else if ( !( undefOnly && typeof a[ prop ] !== "undefined" ) ) {
-                    a[ prop ] = b[ prop ];
+            if (prop !== "constructor" || a !== global) {
+                if (b[prop] === undefined) {
+                    delete a[prop];
+                } else if (!(undefOnly && typeof a[prop] !== "undefined")) {
+                    a[prop] = b[prop];
                 }
             }
         }
@@ -103,4 +103,16 @@ function styleRuleValueFrom(selector, documentStyleRules) {
             return documentStyleRules[j].style;
         }
     }
+}
+
+/**
+ * Fake check to verify if image already have be loaded
+ * @private
+ * @param {String} image source
+ * @returns {Boolean} image load status
+ */
+function isCached(src) {
+    var image = new Image();
+    image.src = src;
+    return image.complete;
 }
