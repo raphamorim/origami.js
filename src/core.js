@@ -30,6 +30,7 @@ Origami.init = function(el) {
 
   config.contexts.push(current);
   paper = current;
+
   return this;
 }
 
