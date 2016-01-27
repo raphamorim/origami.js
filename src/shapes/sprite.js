@@ -1,4 +1,8 @@
-function Sprite(x, y, config) {
+function SpriteShape(params) {
+  var x = params.x,
+    y = params.y,
+    config = params.config;
+
   if (!config || !config.src)
     return this;
 
@@ -9,53 +13,60 @@ function Sprite(x, y, config) {
     speed = (config.speed || 10);
 
   image.src = config.src;
-
   image.addEventListener('load', function() {
     var width = image.naturalWidth,
       height = image.naturalHeight,
       dw = width / frames;
 
-    // sprite properties
-    var sprite = {
+    drawSprite.call(this, {
       image: image,
       posX: 0,
       posY: 0,
       frame: frames,
       loop: loop,
       width: dw,
+      widthTotal: width,
       height: height,
       dx: x,
-      speed: speed,
       dy: y,
-      totalWidth: width,
-      anim: null
-    };
-
-    drawSprite(sprite);
+      speed: speed,
+      animation: null
+    });
   }, false);
   return this;
 }
 
 function drawSprite(sprite) {
-  if (sprite.posX === sprite.totalWidth) {
+  if (sprite.posX === sprite.widthTotal) {
     if (sprite.loop === false) {
-      window.cancelAnimationFrame(sprite.anim);
+      window.cancelAnimationFrame(sprite.animation);
       return;
     }
     sprite.posX = 0;
   }
 
-  kami.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
+  this.paper.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
 
-  kami.ctx.beginPath();
-  kami.ctx.drawImage(sprite.image, sprite.posX, sprite.posY,
+  this.paper.ctx.beginPath();
+  this.paper.ctx.drawImage(sprite.image, sprite.posX, sprite.posY,
     sprite.width, sprite.height, sprite.dx, sprite.dy,
     sprite.width, sprite.height);
-  kami.ctx.closePath();
+  this.paper.ctx.closePath();
 
   sprite.posX = sprite.posX + sprite.width;
 
   setTimeout(function() {
-    sprite.anim = window.requestAnimationFrame(drawSprite.bind(this, sprite));
+    sprite.animation = window.requestAnimationFrame(drawSprite.bind(this, sprite));
   }, sprite.speed);
 }
+
+Screen.prototype.sprite = SpriteShape;
+
+Origami.sprite = function(x, y, config) {
+  queue('rect', {
+    x: x,
+    y: y,
+    config: config
+  });
+  return this;
+};

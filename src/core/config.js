@@ -4,9 +4,11 @@
  * `config` initialized at top of scope
  */
 
+var Origami = {};
+
 var config = {
   // Current Paper
-  kami: null,
+  paper: null,
 
   // Document Styles
   documentStyles: [],
@@ -17,36 +19,38 @@ var config = {
   // All contexts saved
   contexts: [],
 
-  // All settings
-  settings: {
-    inc: 0,
-    sum: 0,
-      defaults: {
-        arc: {
-        background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'rgba(0, 0, 0, 0)',
-        lineWidth: null,
-      },
-      rect: {
-        background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'rgba(0, 0, 0, 0)',
-        lineWidth: null,
-      },
-      polygon: {
-        background: 'rgba(0, 0, 0, 0)',
-        strokeStyle: 'rgba(0, 0, 0, 0)',
-        lineWidth: null,
-      },
-      line: {
-        strokeStyle: 'rgba(0, 0, 0, 0)',
-        lineWidth: null,
-      },
-      text: {
-        font: '14px Helvetica',
-        strokeStyle: 'rgba(0, 0, 0, 0)',
-        color: '#000',
-        lineWidth: null,
-      }
+  // Flag to loadingData
+  loadingData: false,
+
+  // Origami Shapes Defaults
+  defaults: {
+    arc: {
+      background: 'rgba(0, 0, 0, 0)',
+      strokeStyle: 'rgba(0, 0, 0, 0)',
+      lineWidth: null,
+    },
+    rect: {
+      background: 'rgba(0, 0, 0, 0)',
+      strokeStyle: 'rgba(0, 0, 0, 0)',
+      lineWidth: null,
+    },
+    polygon: {
+      background: 'rgba(0, 0, 0, 0)',
+      strokeStyle: 'rgba(0, 0, 0, 0)',
+      lineWidth: null,
+    },
+    line: {
+      strokeStyle: 'rgba(0, 0, 0, 0)',
+      lineWidth: null,
+    },
+    text: {
+      font: '14px Helvetica',
+      strokeStyle: 'rgba(0, 0, 0, 0)',
+      color: '#000',
+      lineWidth: null,
     }
   }
 };
+
+// Global access to paper
+var paper = config.paper;

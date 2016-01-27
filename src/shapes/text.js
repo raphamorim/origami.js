@@ -1,24 +1,36 @@
-function TextShape(text, x, y, style) {
+function TextShape(params) {
+  var def = config.defaults.text,
+    style = params.style;
+
   if (!style)
     style = {};
 
-  var def = Origami.defaults.text;
   if (style.border) {
     style.border = style.border.split(' ');
     style.border[0] = style.border[0].replace(/[^0-9]/g, '');
   }
 
-  kami.ctx.beginPath();
-  kami.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  kami.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
-  kami.ctx.font = (style.font || def.font);
-  kami.ctx.fillStyle = (style.color || def.color);
-  kami.ctx.textAlign = (style.align || def.align);
-  kami.ctx.fillText(text, x, y);
-  kami.ctx.strokeText(text, x, y);
-  kami.ctx.fill();
-  kami.ctx.stroke();
-  kami.ctx.closePath();
-  
-  return this;
+  paper.ctx.beginPath();
+  paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
+  paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  paper.ctx.font = (style.font || def.font);
+  paper.ctx.fillStyle = (style.color || def.color);
+  paper.ctx.textAlign = (style.align || def.align);
+  paper.ctx.fillText(text, x, y);
+  paper.ctx.strokeText(text, x, y);
+  paper.ctx.fill();
+  paper.ctx.stroke();
+  paper.ctx.closePath();
 }
+
+Screen.prototype.text = TextShape;
+
+Origami.text = function(text, x, y, style) {
+  queue('text', {
+    text: text,
+    x: x,
+    y: y,
+    style: style
+  });
+  return this;
+};
