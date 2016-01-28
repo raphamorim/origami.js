@@ -8,9 +8,9 @@ Origami.init = function(el) {
   if (!el)
     this.error('Please use a valid selector or canvas context');
 
-  var existentContext = exists(el, config.contexts);
+  var existentContext = exists(el, this.contexts);
   if (existentContext) {
-    paper = existentContext;
+    this.paper = existentContext;
     return;
   }
 
@@ -21,21 +21,22 @@ Origami.init = function(el) {
   var current = {
     element: el,
     queue: [],
+    index: this.contexts.length,
     flip: false,
     frame: null,
-    ctx: (context || false),
-    width: (el.width || null),
-    height: (el.height || null),
+    ctx: context,
+    width: el.width,
+    height: el.height,
   };
 
-  config.contexts.push(current);
-  paper = current;
+  this.contexts.push(current);
+  this.paper = current;
 
   return this;
 }
 
 Origami.styles = function() {
-  if (!config.documentStyles)
+  if (!this.documentStyles)
     defineDocumentStyles(Origami);
 
   var selectors = arguments;
@@ -43,16 +44,20 @@ Origami.styles = function() {
     return this;
 
   for (var i = 0; i < selectors.length; i++) {
-    var style = styleRuleValueFrom(selectors[i], (config.documentStyles[0] || []));
+    var style = styleRuleValueFrom(selectors[i], (this.documentStyles[0] || []));
     Origami.virtualStyles[selectors[i]] = style;
   }
   return this;
 }
 
-Origami.contexts = function() {
-  return config.contexts;
+Origami.getContexts = function() {
+  return this.contexts;
 }
 
-Origami.currentCanvasContext = function() {
-  return paper.ctx;
+Origami.getPaper = function() {
+  return this.paper;
+}
+
+Origami.canvasCtx = function() {
+  return this.paper.ctx;
 }
