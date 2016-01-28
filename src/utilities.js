@@ -10,11 +10,11 @@ var hasOwn = Object.prototype.hasOwnProperty;
  * @returns {NodeItem} NodeItem exitent in array
  */
 function exists(el, arr) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i].element.isEqualNode(el))
-            return arr[i];
-    }
-    return false;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].element.isEqualNode(el))
+      return arr[i];
+  }
+  return false;
 }
 
 /**
@@ -25,30 +25,30 @@ function exists(el, arr) {
  * @returns {Object} arguments filtered
  */
 function argsByRules(argsArray, rules) {
-    var params = ['x', 'y', 'width', 'height'],
-        args = {};
+  var params = ['x', 'y', 'width', 'height'],
+    args = {};
 
-    if (rules)
-        params = rules;
+  if (rules)
+    params = rules;
 
-    for (var i = 0; i < argsArray.length; i++) {
-        if (typeof(argsArray[i]) === "object")
-            args["style"] = argsArray[i];
-        else
-        if (params.length)
-            args[params.shift()] = argsArray[i];
-    }
+  for (var i = 0; i < argsArray.length; i++) {
+    if (typeof(argsArray[i]) === "object")
+      args["style"] = argsArray[i];
+    else
+    if (params.length)
+      args[params.shift()] = argsArray[i];
+  }
 
-    if (!args.style) {
-        args.style = {};
-    }
+  if (!args.style) {
+    args.style = {};
+  }
 
-    if (args.style.border) {
-        args.style.border = args.style.border.split(' ');
-        args.style.border[0] = args.style.border[0].replace(/[^0-9]/g, '');
-    }
+  if (args.style.border) {
+    args.style.border = args.style.border.split(' ');
+    args.style.border[0] = args.style.border[0].replace(/[^0-9]/g, '');
+  }
 
-    return args;
+  return args;
 }
 
 /**
@@ -57,11 +57,11 @@ function argsByRules(argsArray, rules) {
  * @returns undefined
  */
 function defineDocumentStyles() {
-    for (var i = 0; i < document.styleSheets.length; i++) {
-        var mysheet = document.styleSheets[i],
-            myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
-        config.documentStyles.push(myrules);
-    }
+  for (var i = 0; i < document.styleSheets.length; i++) {
+    var mysheet = document.styleSheets[i],
+      myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
+    config.documentStyles.push(myrules);
+  }
 }
 
 /**
@@ -72,22 +72,22 @@ function defineDocumentStyles() {
  * @returns {Object} Merged values of defaults and options
  */
 function extend(a, b, undefOnly) {
-    for (var prop in b) {
-        if (hasOwn.call(b, prop)) {
+  for (var prop in b) {
+    if (hasOwn.call(b, prop)) {
 
-            // Avoid "Member not found" error in IE8 caused by messing with window.constructor
-            // This block runs on every environment, so `global` is being used instead of `window`
-            // to avoid errors on node.
-            if (prop !== "constructor" || a !== global) {
-                if (b[prop] === undefined) {
-                    delete a[prop];
-                } else if (!(undefOnly && typeof a[prop] !== "undefined")) {
-                    a[prop] = b[prop];
-                }
-            }
+      // Avoid "Member not found" error in IE8 caused by messing with window.constructor
+      // This block runs on every environment, so `global` is being used instead of `window`
+      // to avoid errors on node.
+      if (prop !== "constructor" || a !== global) {
+        if (b[prop] === undefined) {
+          delete a[prop];
+        } else if (!(undefOnly && typeof a[prop] !== "undefined")) {
+          a[prop] = b[prop];
         }
+      }
     }
-    return a;
+  }
+  return a;
 }
 
 /**
@@ -98,11 +98,11 @@ function extend(a, b, undefOnly) {
  * @returns {Object} Merged values of defaults and options
  */
 function styleRuleValueFrom(selector, documentStyleRules) {
-    for (var j = 0; j < documentStyleRules.length; j++) {
-        if (documentStyleRules[j].selectorText && documentStyleRules[j].selectorText.toLowerCase() === selector) {
-            return documentStyleRules[j].style;
-        }
+  for (var j = 0; j < documentStyleRules.length; j++) {
+    if (documentStyleRules[j].selectorText && documentStyleRules[j].selectorText.toLowerCase() === selector) {
+      return documentStyleRules[j].style;
     }
+  }
 }
 
 /**
@@ -112,7 +112,16 @@ function styleRuleValueFrom(selector, documentStyleRules) {
  * @returns {Boolean} image load status
  */
 function isCached(src) {
-    var image = new Image();
-    image.src = src;
-    return image.complete;
+  var image = new Image();
+  image.src = src;
+  return image.complete;
+}
+
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
 }

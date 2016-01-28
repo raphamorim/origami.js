@@ -6,8 +6,7 @@ function SpriteShape(params) {
   if (!config || !config.src)
     return this;
 
-  var self = this,
-    image = new Image(),
+  var image = new Image(),
     frames = (config.frames || 0),
     loop = (config.loop || true),
     speed = (config.speed || 10);

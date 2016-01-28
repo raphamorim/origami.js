@@ -27,6 +27,7 @@ function ImageShape(params) {
 Screen.prototype.image = ImageShape;
 
 Origami.image = function(image, x, y, width, height) {
+  var self = this;
   if (!image)
     return this;
 
@@ -46,18 +47,20 @@ Origami.image = function(image, x, y, width, height) {
 
   if (isCached(img.src)) {
     queue('image', item);
-    return this;
+    return self;
   }
 
   queue('image', item, false);
-  var reference = (paper.queue.length - 1);
+  var reference = (self.paper.queue.length - 1),
+    currentQueue = self.contexts[this.paper.index].queue[reference];
+
   image.addEventListener('load', function() {
-    if (!paper.queue[reference])
+    if (!currentQueue)
       return false;
-    paper.queue[reference].params.width = (item.width || image.naturalWidth);
-    paper.queue[reference].params.height = (item.height || image.naturalHeight);
-    paper.queue[reference].loaded = true;
+    currentQueue.params.width = (item.width || image.naturalWidth);
+    currentQueue.params.height = (item.height || image.naturalHeight);
+    currentQueue.loaded = true;
   });
 
-  return this;
+  return self;
 };

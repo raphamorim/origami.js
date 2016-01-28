@@ -13,17 +13,17 @@ function TextShape(params) {
     style.border[0] = style.border[0].replace(/[^0-9]/g, '');
   }
 
-  paper.ctx.beginPath();
-  paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
-  paper.ctx.font = (style.font || def.font);
-  paper.ctx.fillStyle = (style.color || def.color);
-  paper.ctx.textAlign = (style.align || def.align);
-  paper.ctx.fillText(text, x, y);
-  paper.ctx.strokeText(text, x, y);
-  paper.ctx.fill();
-  paper.ctx.stroke();
-  paper.ctx.closePath();
+  this.paper.ctx.beginPath();
+  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.font = (style.font || def.font);
+  this.paper.ctx.fillStyle = (style.color || def.color);
+  this.paper.ctx.textAlign = (style.align || def.align);
+  this.paper.ctx.fillText(text, x, y);
+  this.paper.ctx.strokeText(text, x, y);
+  this.paper.ctx.fill();
+  this.paper.ctx.stroke();
+  this.paper.ctx.closePath();
 }
 
 Screen.prototype.text = TextShape;

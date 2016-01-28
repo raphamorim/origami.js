@@ -4,9 +4,7 @@
  * `config` initialized at top of scope
  */
 
-var Origami = {};
-
-var config = {
+var Origami = {
   // Current Paper
   paper: null,
 
@@ -20,8 +18,10 @@ var config = {
   contexts: [],
 
   // Flag to loadingData
-  loadingData: false,
+  loadingData: false
+};
 
+var config = {
   // Origami Shapes Defaults
   defaults: {
     arc: {
@@ -51,6 +51,3 @@ var config = {
     }
   }
 };
-
-// Global access to paper
-var paper = config.paper;
