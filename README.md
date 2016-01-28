@@ -249,35 +249,25 @@ origami('#demo-1').background('#2A80B9')
 
 ```
 
-### getContext
+### getContexts
 
 ```javascript
 
-var ctx = origami('#canvas').getContext(); // CanvasRenderingContext2Dcanvas
-
-// You can use origami with contextObject too :)
-origami(ctx).canvasBackground('blue');
+console.log(origami.getContexts()); // Array of all Origami contexts
 
 ```
 
-### repeat
+### canvasCtx
 
 ```javascript
 
-origami('#demo-1')
-    .set({
-        inc: 35,
-        circle: {
-            border: "1px #000",
-            radius: "30"
-        }
-    })
-    .repeat(15, function(set){
-        circle(0, set.inc)
-        repeat(15, function(def){
-            circle(def.inc, (set.inc-35))
-        })
-    })
+var ctx = origami('#canvas').canvasCtx(); // CanvasRenderingContext2Dcanvas
+
+// After loaded you can use without specify selector/context
+console.log(origami.canvasCtx()) // CanvasRenderingContext2Dcanvas from '#canvas'
+
+// You can use origami with contextObject too :)
+origami(ctx).canvasBackground('blue');
 
 ```
 
@@ -316,7 +306,7 @@ origami('#my-canvas').translate(); // Equals: reset
 
 ### flip
 
-Alert: Experimental feature
+**Alert: Experimental feature**
 
 Default: `horizontal`
 
