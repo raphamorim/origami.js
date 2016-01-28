@@ -11,7 +11,7 @@ Origami.init = function(el) {
   var existentContext = exists(el, this.contexts);
   if (existentContext) {
     this.paper = existentContext;
-    return;
+    return this;
   }
 
   if (!el.getContext)

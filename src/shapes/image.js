@@ -5,6 +5,7 @@ function ImageShape(params) {
     width = params.width,
     height = params.height;
 
+    // console.log(params)
     this.paper.ctx.save();
 
     if (this.paper.flip) {
@@ -45,7 +46,10 @@ Origami.image = function(image, x, y, width, height) {
     height: height
   };
 
-  if (isCached(img.src)) {
+  if (image.complete) {
+    item.width = width || image.naturalWidth;
+    item.height = height || image.naturalHeight;
+
     queue('image', item);
     return self;
   }
