@@ -29,13 +29,13 @@ describe("Initialize: ", function() {
         });
 
         it("origami with invalid selector must throw error", function() {
-            var expectedMessage = "Origami Error: Please use a " +
+            var expectedMessage = "[origami.js] Please use a " +
                 "valid selector or canvas context";
             expect(origami.bind(this, 'a')).to.throw(expectedMessage);
         });
 
         it("origami with valid selector, but not a canvas must throw error", function() {
-            var expectedMessage = "Please verify if it\'s a " +
+            var expectedMessage = "[origami.js] Please verify if it\'s a " +
                 "valid canvas element";
             expect(origami.bind(this, 'body')).to.throw(expectedMessage);
         });
@@ -45,13 +45,13 @@ describe("Initialize: ", function() {
     context('Contexts', function() {
         it("check if has created origami context", function() {
             var origamiMock = origami(canvas.id),
-                contexts = origamiMock._getContexts();
+                contexts = origamiMock.getContexts();
 
             expect(contexts.length).to.be.equal(1);
             expect(contexts[0]).to.be.a('object');
             expect(contexts[0]).to.have
-                .all.keys('element', 'flip', 'frame',
-                    'ctx', 'width', 'height');
+                .all.keys('element', 'flip', 'index', 'queue',
+                    'frame', 'ctx', 'width', 'height');
 
             expect(contexts[0].flip).to.eql(false);
             expect(contexts[0].frame).to.eql(null);

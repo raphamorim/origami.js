@@ -1,4 +1,34 @@
-function ImageShape(image, x, y, width, height, sx, sy, sw, sh) {
+function ImageShape(params) {
+  var image = params.image,
+    x = params.x,
+    y = params.y,
+    width = params.width,
+    height = params.height;
+
+    // console.log(params)
+    this.paper.ctx.save();
+
+    if (this.paper.flip) {
+      if (this.paper.flip === 'horizontal') {
+        this.paper.ctx.scale(-1, 1);
+        width = width * -1;
+      }
+      if (this.paper.flip === 'vertical') {
+        this.paper.ctx.scale(1, -1);
+        height = height * -1;
+      }
+    }
+
+    this.paper.ctx.beginPath();
+    this.paper.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
+    this.paper.ctx.closePath();
+    this.paper.ctx.restore();
+}
+
+Screen.prototype.image = ImageShape;
+
+Origami.image = function(image, x, y, width, height) {
+  var self = this;
   if (!image)
     return this;
 
@@ -8,28 +38,33 @@ function ImageShape(image, x, y, width, height, sx, sy, sw, sh) {
     image = img;
   }
 
+  var item = {
+    image: image,
+    x: x,
+    y: y,
+    width: width,
+    height: height
+  };
+
+  if (image.complete) {
+    item.width = width || image.naturalWidth;
+    item.height = height || image.naturalHeight;
+
+    queue('image', item);
+    return self;
+  }
+
+  queue('image', item, false);
+  var reference = (self.paper.queue.length - 1),
+    currentQueue = self.contexts[this.paper.index].queue[reference];
+
   image.addEventListener('load', function() {
-    width = (width || image.naturalWidth);
-    height = (height || image.naturalHeight);
-    
-    kami.ctx.save();
+    if (!currentQueue)
+      return false;
+    currentQueue.params.width = (item.width || image.naturalWidth);
+    currentQueue.params.height = (item.height || image.naturalHeight);
+    currentQueue.loaded = true;
+  });
 
-    if (kami.flip) {
-      if (kami.flip === 'horizontal') {
-        kami.ctx.scale(-1, 1);
-        width = width * -1;
-      }
-      if (kami.flip === 'vertical') {
-        kami.ctx.scale(1, -1);
-        height = height * -1;
-      }
-    }
-
-    kami.ctx.beginPath();
-    kami.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
-    kami.ctx.closePath();
-    kami.ctx.restore();
-  }, false);
-  
-  return this;
-}
+  return self;
+};

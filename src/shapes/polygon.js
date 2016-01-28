@@ -1,30 +1,37 @@
-function Polygon() {
-  var originalArgs = arguments;
-  var args = argumentsByRules([].slice.call(originalArgs) || []),
-    points = [],
-    style = args.style,
-    def = Origami.defaults.polygon;
+function PolygonShape(params) {
+  var args = params.args,
+    style = params.style,
+    def = config.defaults.polygon;
 
-  for (var i = 0; i < originalArgs.length; i++) {
-    if (originalArgs[i].x && originalArgs[i].y)
-      points.push(originalArgs[i]);
-  }
+  this.paper.ctx.beginPath();
+  this.paper.ctx.fillStyle = (style.background) ? style.background : def.background;
+  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
 
-  kami.ctx.beginPath();
-  kami.ctx.fillStyle = (style.background) ? style.background : def.background;
-  kami.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  kami.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
-  
-  for (var p = 0; p < points.length; p++) {
+  for (var p = 0; p < args.length; p++) {
+    if (!args[p].x)
+      continue;
+
     if (p)
-      kami.ctx.lineTo(points[p].x, points[p].y);
+      this.paper.ctx.lineTo(args[p].x, args[p].y);
     else
-      kami.ctx.moveTo(points[p].x, points[p].y);
+      this.paper.ctx.moveTo(args[p].x, args[p].y);
   }
-  
-  kami.ctx.stroke();
-  kami.ctx.fill();
-  kami.ctx.closePath();
-  
-  return this;
+
+  this.paper.ctx.stroke();
+  this.paper.ctx.fill();
+  this.paper.ctx.closePath();
 }
+
+Screen.prototype.polygon = PolygonShape;
+
+Origami.polygon = function() {
+  var args = [].slice.call(arguments);
+  args = argsByRules(args);
+
+  queue('polygon', {
+    style: args.style,
+    args: arguments
+  });
+  return this;
+};
