@@ -33,6 +33,8 @@ var style = {
 origami('.canvas-class')
   .text("Nice!", 100, 100, style)
   .text("Really Nice!", 150, 150, style)
+
+origami.draw();
 ```
 
 You can use pure CSS to style a shape. See [Shape](https://github.com/raphamorim/origami.js#shape).
@@ -63,6 +65,22 @@ Add the source before body tag end:
 
 ## Usage
 
+### draw
+
+Method that performs the operation of drawing. If you forget to use, nothing will happen :)
+
+```javascript
+
+origami('#canvas')
+  .arc(100, 75, 50, {
+    background: '#2A80B9',
+    border: '4px gold' })
+  .draw();
+
+```
+
+![arc](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/arc.png)
+
 ### rect
 
 ```javascript
@@ -75,7 +93,8 @@ origami('.canvas')
   .rect(50, 10, 40, {
     background: 'lightgreen',
     border: '10px green'
-  });
+  })
+  .draw()
 
 ```
 
@@ -100,10 +119,15 @@ origami('.one')
 ### arc
 
 ```javascript
+
+var style = {
+  background: '#2A80B9',
+  border: '4px gold'
+}
+
 origami('.element')
-  .arc(100, 75, 50, {
-    background: '#2A80B9',
-    border: '4px gold' })
+  .arc(100, 75, 50, style)
+  .draw();
 
 ```
 
@@ -131,13 +155,17 @@ origami('.one')
 CSS properties:
 
 ```css
-.rect {
-  background: #000;
-  height: 100px;
-  position: relative;
-  top: 10px;
-  left: 10px;
-  width: 10px;
+.pac-man {
+  width: 0px;
+  height: 0px;
+  border-right: 60px solid transparent;
+  border-top: 60px solid red;
+  border-bottom: 60px solid red;
+  border-left: 60px solid red;
+  border-top-right-radius: 60px;
+  border-top-left-radius: 60px;
+  border-bottom-right-radius: 60px;
+  border-bottom-left-radius: 60px;
 }
 ```
 
@@ -145,8 +173,8 @@ Load Styles and apply style rules on Shape (empty object canvas)
 
 ```javascript
 origami('#canvas-id')
-  .styles('.rect')
-  .shape('.rect')
+  .styles('.pac-man')
+  .shape('.pac-man')
 ```
 
 ###### Result:
@@ -233,15 +261,15 @@ origami('#demo-1')
 
 ```
 
-### globalComposite
+### composition
 
-Similar to globalCompositeOperation
+Alias to globalCompositeOperation
 
 Default: `source-over`
 
 ```javascript
 
-origami('#my-canvas').globalCompositeOperation('source-in')
+origami('#my-canvas').composition('source-in')
 
 ```
 
@@ -291,6 +319,9 @@ origami('#demo-1')
 ![Person](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/flip.png)
 
 ### rotate
+
+Default: `slow`
+Options: `slow`, `normal`, `fast`
 
 ```javascript
 
@@ -417,7 +448,8 @@ function init(){
 }
 
 function draw() {
-  var ctx = document.getElementById('canvas').getContext('2d');
+  var canvas = document.getElementById('canvas'),
+      ctx = canvas.getContext('2d');
 
   ctx.globalCompositeOperation = 'destination-over';
   ctx.clearRect(0,0,300,300); // clear canvas
@@ -452,21 +484,24 @@ init();
 ```javascript
 
 function draw() {
-    origami('#canvas')
-        .globalComposite('destination-over')
-        .clear()
-        .save()
-        .translate(150,150)
-        .rotate(((2*Math.PI)/60)*new Date().getSeconds() +
-            ((2*Math.PI)/60000)*new Date().getMilliseconds())
-        .translate(105,0)
-        .image('images/Canvas_earth.png', -12, -12)
-        .restore()
-        .arc(150,150,105, {
-            'border': '1px #FFF'
-        })
-        .image('images/Canvas_sun.png')
-        .nextFrame(draw) }
+  origami('#canvas')
+    .composition('destination-over')
+    .clear()
+    .save()
+    .translate(150,150)
+    .rotate('slow')
+    .translate(105,0)
+    .image('images/Canvas_earth.png', -12, -12)
+    .restore()
+    .arc(150,150,105, {
+      border: '1px #FFF'
+    })
+    .image('images/Canvas_sun.png')
+    .load(function(canvas){
+      canvas.draw()
+      canvas.nextFrame(draw)
+    })
+}
 
 ```
 

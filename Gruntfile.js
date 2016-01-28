@@ -36,11 +36,8 @@ module.exports = function(grunt) {
 
     uglify: {
       my_target: {
-        options: {
-          sourceMap: true
-        },
         files: {
-          'dist/origami.min.js': ['dist/origami.js'],
+          'origami.min.js': ['dist/origami.js']
         },
       },
     },
