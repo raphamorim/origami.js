@@ -6,5 +6,5 @@ Origami.warning = function warning(message, obj){
 };
 
 Origami.error = function error(message){
-    throw new Error(prefix, message);
+    throw new Error(prefix.concat(' ' + message));
 };
