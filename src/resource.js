@@ -59,7 +59,7 @@ Origami.stop = function() {
   return this;
 }
 
-Origami.repeat = function(fn) {
+Origami.nextFrame = function(fn) {
   queue('nextFrame', {
     fn: fn
   })

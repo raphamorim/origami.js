@@ -18,7 +18,6 @@ Origami.draw = function(delay) {
 Origami.load = function(fn) {
   var mOrigami = clone(this);
   mOrigami.paper = this.paper;
-  console.log('ida', mOrigami.getPaper());
   var loadInterval = setInterval(function() {
     var dataLoad = mOrigami.paper.queue.filter(function(item) {
       return (item.loaded === false);

@@ -106,17 +106,11 @@ function styleRuleValueFrom(selector, documentStyleRules) {
 }
 
 /**
- * Fake check to verify if image already have be loaded
+ * Clone a object
  * @private
- * @param {String} image source
- * @returns {Boolean} image load status
+ * @param {Object} object
+ * @returns {Object} cloned object
  */
-function isCached(src) {
-  var image = new Image();
-  image.src = src;
-  return image.complete;
-}
-
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
