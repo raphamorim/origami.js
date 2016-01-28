@@ -109,6 +109,7 @@ origami('.canvas')
 origami('.one')
   .line({x: 10, y: 10}, {x: 150, y: 200}, {
     background: '#888' })
+  .draw();
 
 ```
 
@@ -142,6 +143,7 @@ origami('.element')
 origami('.one')
   .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
     background: '#2A80B9' })
+  .draw();
 
 ```
 
@@ -172,9 +174,12 @@ CSS properties:
 Load Styles and apply style rules on Shape (empty object canvas)
 
 ```javascript
+
 origami('#canvas-id')
   .styles('.pac-man')
   .shape('.pac-man')
+  .draw();
+
 ```
 
 ###### Result:
@@ -193,6 +198,7 @@ origami('.one')
     align: 'center',
     border: '2px gold'
   })
+  .draw()
 
 ```
 
@@ -210,6 +216,20 @@ origami('.canvas').image(img, 10, 10, width, height)
 // OR
 
 origami('.canvas').image('images/dog.jpg', 10, 10)
+
+```
+
+### load
+
+When you use images, external resources if you do not load them. The script can not run. The load method expects to obtain these resources when not cached.
+
+```javascript
+
+origami('.canvas')
+  .image('images/dog.jpg')
+  .load(function(canvas) {
+    canvas.draw();
+  })
 
 ```
 
