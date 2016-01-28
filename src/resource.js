@@ -48,6 +48,26 @@ Origami.translate = function(x, y) {
 }
 
 Origami.rotate = function(degrees) {
+  if (typeof(degrees) === 'undefined')
+    degrees = 'slow';
+
+  if (typeof(degrees) === 'string') {
+    // Slow
+    if (degrees === 'slow')
+      degrees = ((2*Math.PI)/60)*new Date().getSeconds() +
+        ((2*Math.PI)/60000)*new Date().getMilliseconds();
+
+    // Normal
+    else if (degrees === 'normal')
+      degrees = ((2*Math.PI)/30)*new Date().getSeconds() +
+        ((2*Math.PI)/30000)*new Date().getMilliseconds();
+
+    // Fast
+    else if (degrees === 'fast')
+      degrees = ((2*Math.PI)/6)*new Date().getSeconds() +
+        ((2*Math.PI)/6000)*new Date().getMilliseconds();
+  }
+
   queue('rotate', {
     degrees: degrees
   })
