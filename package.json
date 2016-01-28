@@ -2,7 +2,7 @@
   "name": "origamijs",
   "version": "0.4.0",
   "description": "HTML5 Canvas for Humans",
-  "main": "origami.js",
+  "main": "dist/origami.js",
   "scripts": {
     "test": "grunt",
     "test:only": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/*.html"
