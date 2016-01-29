@@ -5,8 +5,9 @@ Origami.draw = function(delay) {
 
   setTimeout(function() {
     for (var i = 0; i < queueList.length; i++) {
-      if (queueList[i].loaded === false)
+      if (queueList[i].loaded === false || queueList[i].failed) {
         Origami.warning('couldn\'t able to load:', queueList[i].params)
+      }
       abs[queueList[i].assign](queueList[i].params);
     }
     self.paper.queue = [];
@@ -20,7 +21,7 @@ Origami.load = function(fn) {
   mOrigami.paper = this.paper;
   var loadInterval = setInterval(function() {
     var dataLoad = mOrigami.paper.queue.filter(function(item) {
-      return (item.loaded === false);
+      return (item.loaded === false && !item.failed);
     });
 
     // When already loaded

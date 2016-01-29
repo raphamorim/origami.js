@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-01-29T00:38Z
+ * Date: 2016-01-29T00:58Z
  */
 
 (function( window ) {
@@ -145,8 +145,9 @@ Origami.draw = function(delay) {
 
   setTimeout(function() {
     for (var i = 0; i < queueList.length; i++) {
-      if (queueList[i].loaded === false)
+      if (queueList[i].loaded === false || queueList[i].failed) {
         Origami.warning('couldn\'t able to load:', queueList[i].params)
+      }
       abs[queueList[i].assign](queueList[i].params);
     }
     self.paper.queue = [];
@@ -160,7 +161,7 @@ Origami.load = function(fn) {
   mOrigami.paper = this.paper;
   var loadInterval = setInterval(function() {
     var dataLoad = mOrigami.paper.queue.filter(function(item) {
-      return (item.loaded === false);
+      return (item.loaded === false && !item.failed);
     });
 
     // When already loaded
@@ -450,6 +451,12 @@ Origami.image = function(image, x, y, width, height) {
     currentQueue.params.height = (item.height || image.naturalHeight);
     currentQueue.loaded = true;
   });
+
+  image.addEventListener('error', function() {
+    if (!currentQueue)
+      return false;
+    currentQueue.failed = true;
+  })
 
   return self;
 };
