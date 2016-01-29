@@ -44,8 +44,8 @@ describe("Initialize: ", function() {
 
     context('Contexts', function() {
         it("check if has created origami context", function() {
-            var origamiMock = origami(canvas.id),
-                contexts = origamiMock.getContexts();
+            origami(canvas.id);
+            var contexts = origami.getContexts();
 
             expect(contexts.length).to.be.equal(1);
             expect(contexts[0]).to.be.a('object');
@@ -64,5 +64,6 @@ describe("Initialize: ", function() {
 
     after(function(){
         document.body.removeChild(myCanvas);
+        origami.cleanContexts();
     });
 });

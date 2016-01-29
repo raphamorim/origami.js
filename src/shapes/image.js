@@ -5,9 +5,7 @@ function ImageShape(params) {
     width = params.width,
     height = params.height;
 
-    // console.log(params)
     this.paper.ctx.save();
-
     if (this.paper.flip) {
       if (this.paper.flip === 'horizontal') {
         this.paper.ctx.scale(-1, 1);
@@ -56,7 +54,7 @@ Origami.image = function(image, x, y, width, height) {
 
   queue('image', item, false);
   var reference = (self.paper.queue.length - 1),
-    currentQueue = self.contexts[this.paper.index].queue[reference];
+    currentQueue = config.contexts[this.paper.index].queue[reference];
 
   image.addEventListener('load', function() {
     if (!currentQueue)

@@ -8,7 +8,7 @@ Origami.init = function(el) {
   if (!el)
     this.error('Please use a valid selector or canvas context');
 
-  var existentContext = exists(el, this.contexts);
+  var existentContext = exists(el, config.contexts);
   if (existentContext) {
     this.paper = existentContext;
     return this;
@@ -21,7 +21,7 @@ Origami.init = function(el) {
   var current = {
     element: el,
     queue: [],
-    index: this.contexts.length,
+    index: config.contexts.length,
     flip: false,
     frame: null,
     ctx: context,
@@ -29,9 +29,8 @@ Origami.init = function(el) {
     height: el.height,
   };
 
-  this.contexts.push(current);
+  config.contexts.push(current);
   this.paper = current;
-
   return this;
 }
 
@@ -50,14 +49,18 @@ Origami.styles = function() {
   return this;
 }
 
-Origami.getContexts = function() {
-  return this.contexts;
-}
-
 Origami.getPaper = function() {
   return this.paper;
 }
 
 Origami.canvasCtx = function() {
   return this.paper.ctx;
+}
+
+Origami.getContexts = function() {
+  return config.contexts;
+}
+
+Origami.cleanContexts = function() {
+  config.contexts = [];
 }
