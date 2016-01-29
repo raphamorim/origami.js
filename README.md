@@ -473,7 +473,7 @@ function draw() {
 
 ##### Result:
 
-![Circle Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/example/animation-circle.gif)
+![Circle Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/animation-circle.gif)
 
 
 ### Second Example:
