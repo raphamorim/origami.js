@@ -6,6 +6,41 @@
 
 Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
 
+## Summary
+
+- [Why Origami.js?](#why)
+    - [Styling with CSS](#styling-with-css)
+- [Getting](#getting)
+- [Usage](#usage)
+    - [draw](#draw)
+    - [rect](#rect)
+    - [line](#line)
+    - [arc](#arc)
+    - [polygon](#polygon)
+    - [shape](#shape)
+    - [text](#text)
+    - [image](#image)
+    - [load](#load)
+    - [clear](#clear)
+    - [background](#background)
+    - [getContexts](#getContexts)
+    - [canvasCtx](#canvasCtx)
+    - [composition](#composition)
+    - [translate](#translate)
+    - [flip](#flip)
+    - [rotate](#rotate)
+    - [restore](#restore)
+    - [save](#save)
+    - [on](#on)
+- [Animation](#animation)
+    - [sprite](#sprite)
+    - [nextFrame](#nextFrame)
+    - [stopFrame](#stopFrame)
+    - [examples](#first-example)
+- [Browser Support](#browser-support)
+- [Contributing](#contributing)
+- [License](#license)
+
 # Why?
 
 Learn the canvas API for many developers has been an additional task. But it might be easier, for simple reasons: chainable canvas, stylize objects using the same notation CSS, easy access to the context using selector.
