@@ -64,5 +64,11 @@ Origami.image = function(image, x, y, width, height) {
     currentQueue.loaded = true;
   });
 
+  image.addEventListener('error', function() {
+    if (!currentQueue)
+      return false;
+    currentQueue.failed = true;
+  })
+
   return self;
 };
