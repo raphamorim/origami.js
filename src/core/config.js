@@ -6,8 +6,10 @@
 
 var Origami = {
   // Current Paper
-  paper: null,
+  paper: null
+};
 
+var config = {
   // Document Styles
   documentStyles: [],
 
@@ -17,11 +19,6 @@ var Origami = {
   // All contexts saved
   contexts: [],
 
-  // Flag to loadingData
-  loadingData: false
-};
-
-var config = {
   // Origami Shapes Defaults
   defaults: {
     arc: {

@@ -21,7 +21,7 @@ Origami.rect = function() {
 
   queue('rect', {
     style: args.style,
-    args: arguments
+    args: args
   });
   return this;
 };

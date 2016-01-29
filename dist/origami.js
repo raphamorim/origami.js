@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-01-28T05:07Z
+ * Date: 2016-01-29T00:38Z
  */
 
 (function( window ) {
@@ -18,8 +18,10 @@
 
 var Origami = {
   // Current Paper
-  paper: null,
+  paper: null
+};
 
+var config = {
   // Document Styles
   documentStyles: [],
 
@@ -29,11 +31,6 @@ var Origami = {
   // All contexts saved
   contexts: [],
 
-  // Flag to loadingData
-  loadingData: false
-};
-
-var config = {
   // Origami Shapes Defaults
   defaults: {
     arc: {
@@ -84,7 +81,7 @@ Origami.init = function(el) {
   if (!el)
     this.error('Please use a valid selector or canvas context');
 
-  var existentContext = exists(el, this.contexts);
+  var existentContext = exists(el, config.contexts);
   if (existentContext) {
     this.paper = existentContext;
     return this;
@@ -97,7 +94,7 @@ Origami.init = function(el) {
   var current = {
     element: el,
     queue: [],
-    index: this.contexts.length,
+    index: config.contexts.length,
     flip: false,
     frame: null,
     ctx: context,
@@ -105,9 +102,8 @@ Origami.init = function(el) {
     height: el.height,
   };
 
-  this.contexts.push(current);
+  config.contexts.push(current);
   this.paper = current;
-
   return this;
 }
 
@@ -126,10 +122,6 @@ Origami.styles = function() {
   return this;
 }
 
-Origami.getContexts = function() {
-  return this.contexts;
-}
-
 Origami.getPaper = function() {
   return this.paper;
 }
@@ -137,6 +129,15 @@ Origami.getPaper = function() {
 Origami.canvasCtx = function() {
   return this.paper.ctx;
 }
+
+Origami.getContexts = function() {
+  return config.contexts;
+}
+
+Origami.cleanContexts = function() {
+  config.contexts = [];
+}
+
 Origami.draw = function(delay) {
   var self = this;
   var abs = new Screen(self.paper),
@@ -391,9 +392,7 @@ function ImageShape(params) {
     width = params.width,
     height = params.height;
 
-    // console.log(params)
     this.paper.ctx.save();
-
     if (this.paper.flip) {
       if (this.paper.flip === 'horizontal') {
         this.paper.ctx.scale(-1, 1);
@@ -442,7 +441,7 @@ Origami.image = function(image, x, y, width, height) {
 
   queue('image', item, false);
   var reference = (self.paper.queue.length - 1),
-    currentQueue = self.contexts[this.paper.index].queue[reference];
+    currentQueue = config.contexts[this.paper.index].queue[reference];
 
   image.addEventListener('load', function() {
     if (!currentQueue)
@@ -546,7 +545,7 @@ Origami.rect = function() {
 
   queue('rect', {
     style: args.style,
-    args: arguments
+    args: args
   });
   return this;
 };

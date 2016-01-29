@@ -332,7 +332,7 @@ origami('#demo-1')
 
 ###### Original Image
 
-![Person](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/person.jpg)
+![Person](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/flip-original.jpg)
 
 ###### Result
 
@@ -404,7 +404,7 @@ origami('#demo-1')
 
 ###### Result:
 
-![Sprite Example](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/coin-sprite.gif)
+![Sprite Example](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/sprite.gif)
 
 ### nextFrame
 
@@ -448,7 +448,7 @@ function draw() {
 
 ##### Result:
 
-![Circle Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/circle-rotate.gif)
+![Circle Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/example/animation-circle.gif)
 
 
 ### Second Example:
@@ -527,7 +527,7 @@ function draw() {
 
 ##### Result:
 
-![Earth Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/earth-rotate.gif)
+![Earth Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/animation-earth.gif)
 
 
 ## Browser Support
