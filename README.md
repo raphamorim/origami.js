@@ -43,9 +43,9 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 
 # Why?
 
-Learn the canvas API for many developers has been an additional task. But it might be easier, for simple reasons: chainable canvas, stylize objects using the same notation CSS, easy access to the context using selector.
+For many developers, learning the canvas API can be challenging. But the learning curve might be reduced with a few simplifications: a chainable canvas, stylization of objects using familiar CSS notation, and easy access to the context using selectors.
 
-The Origami began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the context 2d, but in the future will also support WebGL).
+Origami began as a project to teach javascript and geometry to children and today has been used to simplify the way we work with canvas (currently only in the 2d context, but in the future it will also support WebGL).
 
 ## Styling with CSS
 
@@ -77,7 +77,7 @@ You can use pure CSS to style a shape. See [Shape](https://github.com/raphamorim
 
 ## Getting
 
-First at all, get Origami.js using [Download Option](https://github.com/raphamorim/origami.js/archive/master.zip) or via bower.
+First of all, get Origami.js using [Download Option](https://github.com/raphamorim/origami.js/archive/master.zip) or via bower.
 
 To get using [Bower](http://bower.io) just run this command
 
@@ -256,7 +256,7 @@ origami('.canvas').image('images/dog.jpg', 10, 10)
 
 ### load
 
-When you use images, external resources if you do not load them. The script can not run. The load method expects to obtain these resources when not cached.
+When you use images, external resources if you do not load them. The script cannot run. The load method expects to obtain these resources when not cached.
 
 ```javascript
 
@@ -320,7 +320,7 @@ origami('#my-canvas').composition('source-in')
 
 ### translate
 
-Adicional Options:
+Additional Options:
 
 - `center` (apply in canvas center)
 - `reset` (apply in canvas `x: 0, y: 0` coordinates)
@@ -524,7 +524,7 @@ init();
 
 ```
 
-#### Rewrited Code with origami.js:
+#### Rewritten Code with origami.js:
 
 ```javascript
 
