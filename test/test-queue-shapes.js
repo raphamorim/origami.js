@@ -181,6 +181,141 @@ describe("Drawing Queues - Shapes", function() {
 
     });
 
+    // Line Method
+    context('• Line', function() {
+        beforeEach(function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = 500;
+            canvas.height = 500;
+            document.body.appendChild(canvas);
+        });
+
+        afterEach(function() {
+            document.body.removeChild(document.querySelector('canvas'));
+            origami.cleanContexts();
+        })
+
+        context('-> ({x: 10, y: 15}, {x: 150, y: 205})',
+            function() {
+                it("should create a expected queue object", function() {
+                    var canvas = document.querySelector("canvas");
+                    expect(canvas).to.not.equal(null);
+                    origami('canvas').line(
+                        {x: 10, y: 15}, {x: 150, y: 205})
+
+                    var contexts = origami.getContexts();
+                    expect(contexts.length).to.be.equal(1);
+                    expect(contexts[0]).to.be.a('object');
+
+                    var queue = contexts[0].queue;
+                    expect(queue).to.be.a('array');
+                    expect(queue.length).to.be.equal(1);
+
+                    expect(queue[0]).to.have.all.keys(
+                        'assign', 'loaded', 'params');
+
+                    var params = queue[0].params;
+                    expect(queue[0].assign).to.eql("line");
+                    expect(queue[0].loaded).to.eql(undefined);
+                    expect(params).to.be.a('object');
+
+                    expect(params.pointA).to.be.a('object');
+                    expect(params.pointA.x).to.eql(10);
+                    expect(params.pointA.x).to.eql(10);
+                    expect(params.pointB).to.be.a('object');
+                    expect(params.pointB.x).to.eql(150);
+                    expect(params.pointB.y).to.eql(205);
+
+                    expect(params.style).to.eql({});
+                });
+             });
+        context('-> ({x: 200, y: 0}, {x: 10, y: 305}, {border: "1px #000"})',
+            function() {
+                it("should create a expected queue object", function() {
+                    var canvas = document.querySelector("canvas");
+                    expect(canvas).to.not.equal(null);
+                    origami('canvas').line({x: 200, y: 0}, {x: 10, y: 305},{
+                        border: '1px #000'
+                    })
+
+                    var contexts = origami.getContexts();
+                    expect(contexts.length).to.be.equal(1);
+                    expect(contexts[0]).to.be.a('object');
+
+                    var queue = contexts[0].queue;
+                    expect(queue).to.be.a('array');
+                    expect(queue.length).to.be.equal(1);
+
+                    expect(queue[0]).to.have.all.keys(
+                        'assign', 'loaded', 'params');
+
+                    var params = queue[0].params;
+                    expect(queue[0].assign).to.eql("line");
+                    expect(queue[0].loaded).to.eql(undefined);
+                    expect(params).to.be.a('object');
+
+                    expect(params.pointA).to.be.a('object');
+                    expect(params.pointA.x).to.eql(200);
+                    expect(params.pointA.y).to.eql(0);
+                    expect(params.pointB).to.be.a('object');
+                    expect(params.pointB.x).to.eql(10);
+                    expect(params.pointB.y).to.eql(305);
+
+                    expect(params.style).to.be.a('object');
+                    expect(params.style.border).to.be.a('array');
+                    expect(params.style.border[0]).to.eql('1');
+                    expect(params.style.border[1]).to.eql('#000');
+                });
+         });
+    });
+
+    // Polygon Method
+    context('• Polygon', function() {
+        beforeEach(function() {
+            var canvas = document.createElement("canvas");
+            canvas.width = 500;
+            canvas.height = 500;
+            document.body.appendChild(canvas);
+        });
+
+        afterEach(function() {
+            document.body.removeChild(document.querySelector('canvas'));
+            origami.cleanContexts();
+        })
+
+        context('-> ({x: 10, y: 15}, {x: 150, y: 205}, {x: 200, y: 5}, {background: "#F8F8F8"})',
+            function() {
+                it("should create a expected queue object", function() {
+                    var canvas = document.querySelector("canvas");
+                    expect(canvas).to.not.equal(null);
+                    origami('canvas').polygon({x: 10, y: 15}, {x: 150, y: 205},
+                        {x: 200, y: 5}, {background: "#F8F8F8"});
+
+                    var contexts = origami.getContexts();
+                    expect(contexts.length).to.be.equal(1);
+                    expect(contexts[0]).to.be.a('object');
+
+                    var queue = contexts[0].queue;
+                    expect(queue).to.be.a('array');
+                    expect(queue.length).to.be.equal(1);
+
+                    expect(queue[0]).to.have.all.keys(
+                        'assign', 'loaded', 'params');
+
+                    var params = queue[0].params;
+                    expect(queue[0].assign).to.eql("polygon");
+                    expect(queue[0].loaded).to.eql(undefined);
+                    expect(params).to.be.a('object');
+                    expect(params.args).to.be.a('array');
+                    expect(params.args.length).to.be.equal(4);
+
+                    expect(params.style).to.be.a('object');
+                    expect(params.style.background).to.eql('#F8F8F8');
+                    expect(params.style.border).to.eql(undefined);
+                });
+            });
+    });
+
     // Rect Method
     context('• Rect', function() {
         beforeEach(function() {
@@ -269,4 +404,5 @@ describe("Drawing Queues - Shapes", function() {
                 });
             });
     });
+
 });

@@ -26,12 +26,12 @@ function PolygonShape(params) {
 Screen.prototype.polygon = PolygonShape;
 
 Origami.polygon = function() {
-  var args = [].slice.call(arguments);
-  args = argsByRules(args);
+  var args = [].slice.call(arguments),
+    settedArgs = argsByRules(args);
 
   queue('polygon', {
-    style: args.style,
-    args: arguments
+    style: settedArgs.style,
+    args: args
   });
   return this;
 };

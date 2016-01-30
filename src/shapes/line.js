@@ -4,11 +4,6 @@ function LineShape(params) {
       pointA = params.pointA,
       pointB = params.pointB;
 
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
-  }
-
   this.paper.ctx.beginPath();
   this.paper.ctx.moveTo((pointA.x || 0), (pointA.y || 0));
   this.paper.ctx.lineTo((pointB.x || 0), (pointB.y || 0));
@@ -22,6 +17,14 @@ function LineShape(params) {
 Screen.prototype.line = LineShape;
 
 Origami.line = function(pointA, pointB, style) {
+  if (!style)
+    style = {};
+
+  if (style.border) {
+    style.border = style.border.split(' ');
+    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
+  }
+
   queue('line', {
     pointA: pointA,
     pointB: pointB,
