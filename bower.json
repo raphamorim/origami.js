@@ -1,6 +1,6 @@
 {
   "name": "origamijs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "main": "dist/origami.js",
   "homepage": "https://github.com/raphamorim/origami.js",
   "authors": [
