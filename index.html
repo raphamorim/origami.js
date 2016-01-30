@@ -37,45 +37,38 @@
         //     .styles(".a")
         //     .shape(".a")
 
-        // function draw() {
-        //     origami('.aa')
-        //     .canvasBackground('black')
-        //     .globalComposite('destination-over')
-        //     .clear()
-        //     .save()
-        //     .translate(150,150)
-        //     .rotate( ((2*Math.PI)/60)*new Date().getSeconds() + ((2*Math.PI)/60000)*new Date().getMilliseconds() )
-        //     .translate(105,0)
-        //     .image('images/Canvas_earth.png', -12, -12)
-        //     .restore()
-        //     .arc(150,150,105, {
-        //         'border': '1px #FFF'
-        //     })
-        //     .image('images/Canvas_sun.png')
-        //     // .nextFrame(draw);
-        // }
+        function draw() {
+            origami('.aa')
+            .background('black')
+            .composition('destination-over')
+            .clear()
+            .save()
+            .translate(150,150)
+            .rotate()
+            .translate(105,0)
+            .image('images/Canvas_earth.png', -12, -12)
+            .restore()
+            .arc(150,150,105, {
+                border: '1px #FFF'
+            })
+            // .image('images/Canvas_sun.png')
+            .load(function(o){
+                o.draw()
+                // .nextFrame(draw);
+            })
+        }
 
-        // draw();
+        draw();
 
-        origami('#demo-1')
-            .background('#2A80B9')
+        origami('.aa')
+            .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+            background: '#2A80B9' })
             .draw();
 
-        // origami('#demo-1')
-        //     .canvasBackground('#2A80B9')
-        //     .image('images/firefox.png', 100, 40, 100, 100)
-        //     .text("Mozilla", 160, 110, {
-        //         color: '#ECF0F1',
-        //         font: '30px Helvetica',
-        //     })
+        // origami.contexts = [];
 
-        // var o = origami('#demo-1');
-        // console.log(o._getContexts());
-
-
-        function click(e) {
-            console.log(e.pageX, e.pageY);
-        }
+        // console.log(origami.getContexts()[0].queue);
+        // console.log(origami.paper());
     </script>
 </body>
 </html>
