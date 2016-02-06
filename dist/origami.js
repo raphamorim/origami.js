@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.0
+ * Origami.js 0.4.1
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-01-30T17:22Z
+ * Date: 2016-02-06T22:24Z
  */
 
 (function( window ) {
@@ -386,6 +386,7 @@ Origami.arc = function() {
   });
   return this;
 };
+
 function ImageShape(params) {
   var image = params.image,
     x = params.x,
@@ -560,43 +561,28 @@ Origami.rect = function() {
   return this;
 };
 function SpriteShape(params) {
-  var x = params.x,
-    y = params.y,
-    config = params.config;
+  var properties = params.properties,
+    dw = params.width / properties.frames;
 
-  if (!config || !config.src)
-    return this;
-
-  var image = new Image(),
-    frames = (config.frames || 0),
-    loop = (config.loop || true),
-    speed = (config.speed || 10);
-
-  image.src = config.src;
-  image.addEventListener('load', function() {
-    var width = image.naturalWidth,
-      height = image.naturalHeight,
-      dw = width / frames;
-
-    drawSprite.call(this, {
-      image: image,
-      posX: 0,
-      posY: 0,
-      frame: frames,
-      loop: loop,
-      width: dw,
-      widthTotal: width,
-      height: height,
-      dx: x,
-      dy: y,
-      speed: speed,
-      animation: null
-    });
-  }, false);
-  return this;
+  drawSprite.call(this, {
+    image: params.image,
+    posX: 0,
+    posY: 0,
+    frame: properties.frames,
+    loop: properties.loop,
+    width: dw,
+    widthTotal: params.width,
+    height: params.height,
+    dx: params.x,
+    dy: params.y,
+    speed: properties.speed,
+    animation: null
+  });
 }
 
 function drawSprite(sprite) {
+  var self = this;
+
   if (sprite.posX === sprite.widthTotal) {
     if (sprite.loop === false) {
       window.cancelAnimationFrame(sprite.animation);
@@ -605,31 +591,73 @@ function drawSprite(sprite) {
     sprite.posX = 0;
   }
 
-  this.paper.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
+  self.paper.ctx.clearRect(sprite.dx, sprite.dy, sprite.width, sprite.height);
 
-  this.paper.ctx.beginPath();
-  this.paper.ctx.drawImage(sprite.image, sprite.posX, sprite.posY,
+  self.paper.ctx.beginPath();
+  self.paper.ctx.drawImage(sprite.image, sprite.posX, sprite.posY,
     sprite.width, sprite.height, sprite.dx, sprite.dy,
     sprite.width, sprite.height);
-  this.paper.ctx.closePath();
+  self.paper.ctx.closePath();
 
   sprite.posX = sprite.posX + sprite.width;
 
   setTimeout(function() {
-    sprite.animation = window.requestAnimationFrame(drawSprite.bind(this, sprite));
+    sprite.animation = window.requestAnimationFrame(drawSprite.bind(self, sprite));
   }, sprite.speed);
 }
 
 Screen.prototype.sprite = SpriteShape;
 
-Origami.sprite = function(x, y, config) {
-  queue('rect', {
+Origami.sprite = function(x, y, properties) {
+  var self = this;
+
+  if (!properties || !properties.src)
+    return this;
+
+  var image = new Image(),
+    frames = (properties.frames || 0),
+    loop = (properties.loop || true),
+    speed = (properties.speed || 10);
+
+  image.src = properties.src;
+
+  var item = {
     x: x,
     y: y,
-    config: config
+    image: image,
+    properties: properties,
+    width: 0,
+    height: 0
+  };
+
+  if (image.complete) {
+    item.width = image.naturalWidth;
+    item.height = image.naturalHeight;
+    queue('sprite', item);
+    return self;
+  }
+
+  queue('sprite', item, false);
+  var reference = (self.paper.queue.length - 1),
+    currentQueue = config.contexts[this.paper.index].queue[reference];
+
+  image.addEventListener('load', function() {
+    if (!currentQueue)
+      return false;
+    currentQueue.params.width = image.naturalWidth;
+    currentQueue.params.height = image.naturalHeight;
+    currentQueue.loaded = true;
   });
+
+  image.addEventListener('error', function() {
+    if (!currentQueue)
+      return false;
+    currentQueue.failed = true;
+  })
+
   return this;
 };
+
 function TextShape(params) {
   var def = config.defaults.text,
     text = params.text,

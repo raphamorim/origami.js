@@ -1,6 +1,6 @@
 {
   "name": "origamijs",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "HTML5 Canvas for Humans",
   "main": "dist/origami.js",
   "scripts": {
