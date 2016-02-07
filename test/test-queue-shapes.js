@@ -471,7 +471,6 @@ describe("Drawing Queues - Shapes", function() {
           expect(queue[0].assign).to.eql("sprite");
           expect(queue[0].loaded).to.eql(false);
           expect(params).to.be.a('object');
-          expect(params).to.be.a('object');
           expect(params.x).to.eql(15);
           expect(params.y).to.eql(30);
           expect(params.width).to.eql(0);
@@ -490,6 +489,61 @@ describe("Drawing Queues - Shapes", function() {
             done();
           })
         });
+    });
+  });
+
+  // Text
+  context('• Text', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('canvas'));
+      origami.cleanContexts();
+    })
+
+    context('-> ("hello world", 150, 160, styleObject)', function() {
+      it("should create a expected queue object",
+        function() {
+          var canvas = document.querySelector("canvas");
+          expect(canvas).to.not.equal(null);
+          origami('canvas').text('hello world', 150, 160, {
+            font: '70px Helvetica',
+            border: '2px gold'
+          })
+
+          var contexts = origami.getContexts();
+          expect(contexts.length).to.be.equal(1);
+          expect(contexts[0]).to.be.a('object');
+
+          var queue = contexts[0].queue;
+          expect(queue).to.be.a('array');
+          expect(queue.length).to.be.equal(1);
+
+          expect(queue[0]).to.have.all.keys(
+            'assign', 'loaded', 'params');
+
+          var params = queue[0].params;
+          expect(queue[0].assign).to.eql("text");
+
+          expect(queue[0].loaded).to.eql(undefined);
+          expect(params).to.be.a('object');
+          expect(params.text).to.eql("hello world");
+          expect(params.x).to.eql(150);
+          expect(params.y).to.eql(160);
+          expect(params.width).to.eql(undefined);
+          expect(params.height).to.eql(undefined);
+          expect(params.style).to.be.a('object');
+          expect(params.style.border).to.be.a('array');
+          expect(params.style.border[0]).to.eql('2');
+          expect(params.style.border[1]).to.eql('gold');
+          expect(params.style.font).to.eql('70px Helvetica');
+        });
+
     });
   });
 });

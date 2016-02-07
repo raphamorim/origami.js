@@ -5,14 +5,6 @@ function TextShape(params) {
     y = params.y,
     style = params.style;
 
-  if (!style)
-    style = {};
-
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
-  }
-
   this.paper.ctx.beginPath();
   this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
   this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
@@ -29,6 +21,14 @@ function TextShape(params) {
 Screen.prototype.text = TextShape;
 
 Origami.text = function(text, x, y, style) {
+  if (!style)
+    style = {};
+
+  if (style.border) {
+    style.border = style.border.split(' ');
+    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
+  }
+
   queue('text', {
     text: text,
     x: x,
