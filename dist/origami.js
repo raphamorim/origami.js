@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-07T00:34Z
+ * Date: 2016-02-07T02:11Z
  */
 
 (function( window ) {
@@ -538,14 +538,14 @@ function RectShape(params) {
     style = params.style,
     args = params.args;
 
-  paper.ctx.beginPath();
-  paper.ctx.fillStyle = (style.background) ? style.background : def.background;
-  paper.ctx.fillRect(args.x, args.y, args.width, (args.height || args.width));
+  this.paper.ctx.beginPath();
+  this.paper.ctx.fillStyle = (style.background) ? style.background : def.background;
+  this.paper.ctx.fillRect(args.x, args.y, args.width, (args.height || args.width));
 
-  paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
-  paper.ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
-  paper.ctx.closePath();
+  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
+  this.paper.ctx.closePath();
 }
 
 Screen.prototype.rect = RectShape;
@@ -560,6 +560,7 @@ Origami.rect = function() {
   });
   return this;
 };
+
 function SpriteShape(params) {
   var properties = params.properties,
     dw = params.width / properties.frames;

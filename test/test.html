@@ -10,6 +10,7 @@
         <script src="../dist/origami.min.js"></script>
         <script src="../node_modules/mocha/mocha.js"></script>
         <script src="../node_modules/chai/chai.js"></script>
+        <script src="../node_modules/imagediff/imagediff.js"></script>
         <script>
             mocha.ui('bdd');
             mocha.reporter('html');
@@ -19,6 +20,7 @@
         <!-- Test Scripts -->
         <script src="./test-initialize.js"></script>
         <script src="./test-queue-shapes.js"></script>
+        <script src="./test-draw.js"></script>
 
         <script>
             if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
