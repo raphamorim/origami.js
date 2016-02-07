@@ -139,8 +139,15 @@ describe("Draw method", function() {
           canvas2 = document.querySelector('#canvas2');
 
         origami('#canvas1')
-          .line({x: 10, y: 10}, {x: 150, y: 200},
-            {border: '1px #888' })
+          .line({
+            x: 10,
+            y: 10
+          }, {
+            x: 150,
+            y: 200
+          }, {
+            border: '1px #888'
+          })
           .draw();
 
         var ctx2 = canvas2.getContext('2d');
@@ -190,9 +197,19 @@ describe("Draw method", function() {
           canvas2 = document.querySelector('#canvas2');
 
         origami('#canvas1')
-          .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+          .polygon({
+            x: 100,
+            y: 110
+          }, {
+            x: 200,
+            y: 10
+          }, {
+            x: 300,
+            y: 110
+          }, {
             background: '#2A80B9',
-            border: '2px #000' })
+            border: '2px #000'
+          })
           .draw();
 
         var ctx2 = canvas2.getContext('2d');
@@ -205,6 +222,74 @@ describe("Draw method", function() {
         ctx2.lineTo(300, 110);
         ctx2.fill();
         ctx2.stroke();
+        ctx2.closePath();
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(canvas1, canvas2);
+          expect(isEqual).to.eql(true);
+
+          done();
+        }, 100);
+      });
+    });
+  });
+
+  // Rect Draw
+  context('rect', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.id = 'canvas1';
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+
+      var canvasMock = document.createElement("canvas");
+      canvasMock.id = 'canvas2';
+      canvasMock.width = 500;
+      canvasMock.height = 500;
+      document.body.appendChild(canvasMock);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('#canvas1'));
+      document.body.removeChild(document.querySelector('#canvas2'));
+      origami.cleanContexts();
+    })
+
+    context('with a valid rect', function() {
+      it("should create a rect in canvas", function(done) {
+        var canvas1 = document.querySelector('#canvas1'),
+          canvas2 = document.querySelector('#canvas2');
+
+        origami('#canvas1')
+          .rect(10, 10, 50, 100, {
+            background: 'lightblue',
+            border: '4px #999'
+          })
+          .rect(50, 10, 40, {
+            background: 'lightgreen',
+            border: '10px green'
+          })
+        .draw();
+
+        var ctx2 = canvas2.getContext('2d');
+
+        // First Rect
+        ctx2.beginPath();
+        ctx2.fillStyle = 'lightblue';
+        ctx2.fillRect(10, 10, 50, 100);
+        ctx2.lineWidth = 4;
+        ctx2.strokeStyle = '#999';
+        ctx2.strokeRect(10, 10, 50, 100);
+        ctx2.closePath();
+
+        // Second Rect
+        ctx2.beginPath();
+        ctx2.fillStyle = 'lightgreen';
+        ctx2.fillRect(50, 10, 40, 40);
+        ctx2.lineWidth = 10;
+        ctx2.strokeStyle = 'green';
+        ctx2.strokeRect(50, 10, 40, 40);
         ctx2.closePath();
 
         setTimeout(function() {
