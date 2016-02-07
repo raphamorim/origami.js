@@ -52,7 +52,7 @@ describe("Draw method", function() {
           expect(isEqual).to.eql(true);
 
           done();
-        }, 1500);
+        }, 100);
       });
     });
   });
@@ -80,7 +80,7 @@ describe("Draw method", function() {
     })
 
     context('with a valid image', function() {
-      it("should create a canvas with setted image", function(done) {
+      it("should draw the setted image", function(done) {
         var canvas1 = document.querySelector('#canvas1'),
           canvas2 = document.querySelector('#canvas2');
         var imageSource = '../images/firefox.png';
@@ -106,7 +106,113 @@ describe("Draw method", function() {
           expect(isEqual).to.eql(true);
 
           done();
-        }, 1500);
+        }, 400);
+      });
+    });
+  });
+
+  // Line Draw
+  context('line', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.id = 'canvas1';
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+
+      var canvasMock = document.createElement("canvas");
+      canvasMock.id = 'canvas2';
+      canvasMock.width = 500;
+      canvasMock.height = 500;
+      document.body.appendChild(canvasMock);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('#canvas1'));
+      document.body.removeChild(document.querySelector('#canvas2'));
+      origami.cleanContexts();
+    })
+
+    context('with a line with border', function() {
+      it("should draw a line in canvas", function(done) {
+        var canvas1 = document.querySelector('#canvas1'),
+          canvas2 = document.querySelector('#canvas2');
+
+        origami('#canvas1')
+          .line({x: 10, y: 10}, {x: 150, y: 200},
+            {border: '1px #888' })
+          .draw();
+
+        var ctx2 = canvas2.getContext('2d');
+        ctx2.beginPath();
+        ctx2.moveTo(10, 10);
+        ctx2.lineTo(150, 200);
+        ctx2.lineWidth = 1;
+        ctx2.strokeStyle = '#888';
+        ctx2.stroke();
+        ctx2.closePath();
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(canvas1, canvas2);
+          expect(isEqual).to.eql(true);
+
+          done();
+        }, 100);
+      });
+    });
+  });
+
+  // Polygon Draw
+  context('polygon', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.id = 'canvas1';
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+
+      var canvasMock = document.createElement("canvas");
+      canvasMock.id = 'canvas2';
+      canvasMock.width = 500;
+      canvasMock.height = 500;
+      document.body.appendChild(canvasMock);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('#canvas1'));
+      document.body.removeChild(document.querySelector('#canvas2'));
+      origami.cleanContexts();
+    })
+
+    context('with a valid polygon', function() {
+      it("should create a polygon in canvas", function(done) {
+        var canvas1 = document.querySelector('#canvas1'),
+          canvas2 = document.querySelector('#canvas2');
+
+        origami('#canvas1')
+          .polygon({x: 100, y: 110}, {x: 200, y: 10}, {x: 300, y: 110}, {
+            background: '#2A80B9',
+            border: '2px #000' })
+          .draw();
+
+        var ctx2 = canvas2.getContext('2d');
+        ctx2.beginPath();
+        ctx2.fillStyle = '#2A80B9';
+        ctx2.lineWidth = 2;
+        ctx2.strokeStyle = '#000';
+        ctx2.lineTo(100, 110);
+        ctx2.lineTo(200, 10);
+        ctx2.lineTo(300, 110);
+        ctx2.fill();
+        ctx2.stroke();
+        ctx2.closePath();
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(canvas1, canvas2);
+          expect(isEqual).to.eql(true);
+
+          done();
+        }, 100);
       });
     });
   });

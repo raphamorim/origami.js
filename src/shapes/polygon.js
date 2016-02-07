@@ -18,8 +18,8 @@ function PolygonShape(params) {
       this.paper.ctx.moveTo(args[p].x, args[p].y);
   }
 
-  this.paper.ctx.stroke();
   this.paper.ctx.fill();
+  this.paper.ctx.stroke();
   this.paper.ctx.closePath();
 }
 

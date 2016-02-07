@@ -142,8 +142,8 @@ origami('.canvas')
 ```javascript
 
 origami('.one')
-  .line({x: 10, y: 10}, {x: 150, y: 200}, {
-    background: '#888' })
+  .line({x: 10, y: 10}, {x: 150, y: 200}, 
+    {border: '1px #888'})
   .draw();
 
 ```

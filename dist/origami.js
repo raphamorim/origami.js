@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.2
+ * Origami.js 0.4.3
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-07T02:11Z
+ * Date: 2016-02-07T18:53Z
  */
 
 (function( window ) {
@@ -516,8 +516,8 @@ function PolygonShape(params) {
       this.paper.ctx.moveTo(args[p].x, args[p].y);
   }
 
-  this.paper.ctx.stroke();
   this.paper.ctx.fill();
+  this.paper.ctx.stroke();
   this.paper.ctx.closePath();
 }
 
@@ -533,6 +533,7 @@ Origami.polygon = function() {
   });
   return this;
 };
+
 function RectShape(params) {
   var def = config.defaults.rect,
     style = params.style,
