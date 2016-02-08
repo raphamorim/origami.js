@@ -559,7 +559,7 @@ function draw() {
 
 | <img src="http://raphamorim.com/assets/images/browser-support/chrome.png" width="100px" height="100px" alt="Chrome logo"> | <img src="http://raphamorim.com/assets/images/browser-support/firefox.png" width="100px" height="100px" alt="Firefox logo"> | <img src="http://raphamorim.com/assets/images/browser-support/ie.png" width="100px" height="100px" alt="Internet Explorer logo"> | <img src="http://raphamorim.com/assets/images/browser-support/opera.png" width="100px" height="100px" alt="Opera logo"> | <img src="http://raphamorim.com/assets/images/browser-support/safari.png" width="100px" height="100px" alt="Safari logo"> |
 |:---:|:---:|:---:|:---:|:---:|
-| 42+ ✔ | 40+ ✔ | 8+ ✔ | 29+ ✔ |  8+ ✔ |
+| 8+ ✔ | 9+ ✔ | 9+ ✔ | 10.1+ ✔ |  4+ ✔ |
 
 
 ## Roadmap:
