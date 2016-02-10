@@ -5,22 +5,22 @@ function ImageShape(params) {
     width = params.width,
     height = params.height;
 
-    this.paper.ctx.save();
-    if (this.paper.flip) {
-      if (this.paper.flip === 'horizontal') {
-        this.paper.ctx.scale(-1, 1);
-        width = width * -1;
-      }
-      if (this.paper.flip === 'vertical') {
-        this.paper.ctx.scale(1, -1);
-        height = height * -1;
-      }
+  this.paper.ctx.save();
+  if (this.paper.flip) {
+    if (this.paper.flip === 'horizontal') {
+      this.paper.ctx.scale(-1, 1);
+      width = width * -1;
     }
+    if (this.paper.flip === 'vertical') {
+      this.paper.ctx.scale(1, -1);
+      height = height * -1;
+    }
+  }
 
-    this.paper.ctx.beginPath();
-    this.paper.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
-    this.paper.ctx.closePath();
-    this.paper.ctx.restore();
+  this.paper.ctx.beginPath();
+  this.paper.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
+  this.paper.ctx.closePath();
+  this.paper.ctx.restore();
 }
 
 Screen.prototype.image = ImageShape;

@@ -4,9 +4,10 @@ function PolygonShape(params) {
     def = config.defaults.polygon;
 
   this.paper.ctx.beginPath();
+  this.paper.ctx.setLineDash(style.borderStyle);
   this.paper.ctx.fillStyle = (style.background) ? style.background : def.background;
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
 
   for (var p = 0; p < args.length; p++) {
     if (!args[p].x)
@@ -20,6 +21,7 @@ function PolygonShape(params) {
 
   this.paper.ctx.fill();
   this.paper.ctx.stroke();
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 

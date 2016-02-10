@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-07T19:06Z
+ * Date: 2016-02-10T20:25Z
  */
 
 (function( window ) {
@@ -222,17 +222,41 @@ function argsByRules(argsArray, rules) {
       args[params.shift()] = argsArray[i];
   }
 
-  if (!args.style) {
-    args.style = {};
-  }
-
-  if (args.style.border) {
-    args.style.border = args.style.border.split(' ');
-    args.style.border[0] = args.style.border[0].replace(/[^0-9]/g, '');
-  }
-
+  args.style = normalizeStyle(args.style);
   return args;
 }
+
+function normalizeStyle(style) {
+  if (!style)
+    style = {};
+
+  if (style.border) {
+    style.border = style.border.split(' ');
+    if (!style.borderSize)
+      style.borderSize = style.border[0];
+    if (!style.borderStyle)
+      style.borderStyle = style.border[1];
+    if (!style.borderColor)
+      style.borderColor = style.border[2];
+  }
+
+  if (style.borderSize)
+    style.borderSize = style.borderSize.replace(/[^0-9]/g, '');
+
+  if (style.borderStyle) {
+    if (style.borderStyle === 'solid')
+      style.borderStyle = [];
+    else if (style.borderStyle === 'dashed')
+      style.borderStyle = [12];
+    else if (style.borderStyle === 'dotted')
+      style.borderStyle = [3];
+  } else {
+    style.borderStyle = [];
+  }
+
+  return style;
+}
+
 
 /**
  * Return all documentStyles to a especified origami context
@@ -295,13 +319,14 @@ function styleRuleValueFrom(selector, documentStyleRules) {
  * @returns {Object} cloned object
  */
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
+  if (null == obj || "object" != typeof obj) return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
 }
+
 function Screen(currentContext) {
   this.paper = currentContext;
 }
@@ -366,12 +391,14 @@ function ArcShape(params) {
     def = config.defaults.arc;
 
   this.paper.ctx.beginPath();
+  this.paper.ctx.setLineDash(style.borderStyle);
   this.paper.ctx.arc(args.x, args.y, (args.r || def.radius), (args.sAngle || 0), (args.eAngle || 2 * Math.PI));
   this.paper.ctx.fillStyle = (style.background || style.bg) ? (style.background || style.bg) : def.background;
   this.paper.ctx.fill();
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
   this.paper.ctx.stroke();
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 
@@ -394,22 +421,22 @@ function ImageShape(params) {
     width = params.width,
     height = params.height;
 
-    this.paper.ctx.save();
-    if (this.paper.flip) {
-      if (this.paper.flip === 'horizontal') {
-        this.paper.ctx.scale(-1, 1);
-        width = width * -1;
-      }
-      if (this.paper.flip === 'vertical') {
-        this.paper.ctx.scale(1, -1);
-        height = height * -1;
-      }
+  this.paper.ctx.save();
+  if (this.paper.flip) {
+    if (this.paper.flip === 'horizontal') {
+      this.paper.ctx.scale(-1, 1);
+      width = width * -1;
     }
+    if (this.paper.flip === 'vertical') {
+      this.paper.ctx.scale(1, -1);
+      height = height * -1;
+    }
+  }
 
-    this.paper.ctx.beginPath();
-    this.paper.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
-    this.paper.ctx.closePath();
-    this.paper.ctx.restore();
+  this.paper.ctx.beginPath();
+  this.paper.ctx.drawImage(image, Math.floor((x || 0)), Math.floor((y || 0)), width, height);
+  this.paper.ctx.closePath();
+  this.paper.ctx.restore();
 }
 
 Screen.prototype.image = ImageShape;
@@ -461,6 +488,7 @@ Origami.image = function(image, x, y, width, height) {
 
   return self;
 };
+
 function LineShape(params) {
   var def = config.defaults.line,
       style = params.style,
@@ -468,25 +496,21 @@ function LineShape(params) {
       pointB = params.pointB;
 
   this.paper.ctx.beginPath();
+  this.paper.ctx.setLineDash(style.borderStyle);
   this.paper.ctx.moveTo((pointA.x || 0), (pointA.y || 0));
   this.paper.ctx.lineTo((pointB.x || 0), (pointB.y || 0));
 
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
   this.paper.ctx.stroke();
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 
 Screen.prototype.line = LineShape;
 
 Origami.line = function(pointA, pointB, style) {
-  if (!style)
-    style = {};
-
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
-  }
+  style = normalizeStyle(style);
 
   queue('line', {
     pointA: pointA,
@@ -502,9 +526,10 @@ function PolygonShape(params) {
     def = config.defaults.polygon;
 
   this.paper.ctx.beginPath();
+  this.paper.ctx.setLineDash(style.borderStyle);
   this.paper.ctx.fillStyle = (style.background) ? style.background : def.background;
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
 
   for (var p = 0; p < args.length; p++) {
     if (!args[p].x)
@@ -518,6 +543,7 @@ function PolygonShape(params) {
 
   this.paper.ctx.fill();
   this.paper.ctx.stroke();
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 
@@ -540,12 +566,14 @@ function RectShape(params) {
     args = params.args;
 
   this.paper.ctx.beginPath();
+  this.paper.ctx.setLineDash(style.borderStyle);
   this.paper.ctx.fillStyle = (style.background) ? style.background : def.background;
   this.paper.ctx.fillRect(args.x, args.y, args.width, (args.height || args.width));
 
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
   this.paper.ctx.strokeRect(args.x, args.y, args.width, (args.height || args.width));
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 
@@ -668,8 +696,9 @@ function TextShape(params) {
     style = params.style;
 
   this.paper.ctx.beginPath();
-  this.paper.ctx.lineWidth = (style.border) ? style.border[0] : def.lineWidth;
-  this.paper.ctx.strokeStyle = (style.border) ? style.border[1] : def.strokeStyle;
+  this.paper.ctx.setLineDash(style.borderStyle);
+  this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
+  this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
   this.paper.ctx.font = (style.font || def.font);
   this.paper.ctx.fillStyle = (style.color || def.color);
   this.paper.ctx.textAlign = (style.align || def.align);
@@ -677,19 +706,14 @@ function TextShape(params) {
   this.paper.ctx.strokeText(text, x, y);
   this.paper.ctx.fill();
   this.paper.ctx.stroke();
+  this.paper.ctx.setLineDash([]);
   this.paper.ctx.closePath();
 }
 
 Screen.prototype.text = TextShape;
 
 Origami.text = function(text, x, y, style) {
-  if (!style)
-    style = {};
-
-  if (style.border) {
-    style.border = style.border.split(' ');
-    style.border[0] = style.border[0].replace(/[^0-9]/g, '');
-  }
+  style = normalizeStyle(style);
 
   queue('text', {
     text: text,

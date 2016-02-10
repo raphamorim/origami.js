@@ -33,7 +33,7 @@ describe("Draw method", function() {
         origami('#canvas1')
           .arc(300, 100, 50, {
             background: 'blue',
-            border: '1px gold'
+            border: '1px solid gold'
           })
           .draw();
 
@@ -45,6 +45,7 @@ describe("Draw method", function() {
         ctx2.lineWidth = 1;
         ctx2.strokeStyle = 'gold';
         ctx2.stroke();
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         setTimeout(function() {
@@ -146,17 +147,21 @@ describe("Draw method", function() {
             x: 150,
             y: 200
           }, {
-            border: '1px #888'
+            borderSize: '1px',
+            borderColor: '#888',
+            borderStyle: 'dashed'
           })
           .draw();
 
         var ctx2 = canvas2.getContext('2d');
         ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['dashed']);
         ctx2.moveTo(10, 10);
         ctx2.lineTo(150, 200);
         ctx2.lineWidth = 1;
         ctx2.strokeStyle = '#888';
         ctx2.stroke();
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         setTimeout(function() {
@@ -208,12 +213,13 @@ describe("Draw method", function() {
             y: 110
           }, {
             background: '#2A80B9',
-            border: '2px #000'
+            border: '2px dotted #000'
           })
           .draw();
 
         var ctx2 = canvas2.getContext('2d');
         ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['dotted']);
         ctx2.fillStyle = '#2A80B9';
         ctx2.lineWidth = 2;
         ctx2.strokeStyle = '#000';
@@ -222,6 +228,7 @@ describe("Draw method", function() {
         ctx2.lineTo(300, 110);
         ctx2.fill();
         ctx2.stroke();
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         setTimeout(function() {
@@ -264,11 +271,13 @@ describe("Draw method", function() {
         origami('#canvas1')
           .rect(10, 10, 50, 100, {
             background: 'lightblue',
-            border: '4px #999'
+            borderSize: '4px',
+            borderColor: '#999',
+            borderStyle: 'dotted'
           })
           .rect(50, 10, 40, {
             background: 'lightgreen',
-            border: '10px green'
+            border: '10px solid green'
           })
           .draw();
 
@@ -276,20 +285,24 @@ describe("Draw method", function() {
 
         // First Rect
         ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['dotted']);
         ctx2.fillStyle = 'lightblue';
         ctx2.fillRect(10, 10, 50, 100);
         ctx2.lineWidth = 4;
         ctx2.strokeStyle = '#999';
         ctx2.strokeRect(10, 10, 50, 100);
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         // Second Rect
         ctx2.beginPath();
+        ctx2.setLineDash([]);
         ctx2.fillStyle = 'lightgreen';
         ctx2.fillRect(50, 10, 40, 40);
         ctx2.lineWidth = 10;
         ctx2.strokeStyle = 'green';
         ctx2.strokeRect(50, 10, 40, 40);
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         setTimeout(function() {
@@ -334,13 +347,14 @@ describe("Draw method", function() {
             color: '#000',
             font: '70px Helvetica',
             align: 'center',
-            border: '2px gold'
+            border: '2px dotted gold'
           })
           .draw();
 
         var ctx2 = canvas2.getContext('2d');
 
         ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['dotted']);
         ctx2.lineWidth = 2;
         ctx2.strokeStyle = 'gold';
         ctx2.font = '70px Helvetica';
@@ -350,6 +364,7 @@ describe("Draw method", function() {
         ctx2.strokeText('Nice!', 100, 100);
         ctx2.fill();
         ctx2.stroke();
+        ctx2.setLineDash([]);
         ctx2.closePath();
 
         setTimeout(function() {

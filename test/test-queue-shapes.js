@@ -231,7 +231,7 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.pointB.x).to.eql(150);
           expect(params.pointB.y).to.eql(205);
 
-          expect(params.style).to.eql({});
+          expect(params.style).to.eql(defaultStyleObject);
         });
       });
     context('-> ({x: 200, y: 0}, {x: 10, y: 305}, {border: "1px #000"})',
@@ -246,7 +246,7 @@ describe("Drawing Queues - Shapes", function() {
             x: 10,
             y: 305
           }, {
-            border: '1px #000'
+            border: '1px dotted #000'
           })
 
           var contexts = origami.getContexts();
@@ -273,9 +273,9 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.pointB.y).to.eql(305);
 
           expect(params.style).to.be.a('object');
-          expect(params.style.border).to.be.a('array');
-          expect(params.style.border[0]).to.eql('1');
-          expect(params.style.border[1]).to.eql('#000');
+          expect(params.style.borderSize).to.eql('1');
+          expect(params.style.borderStyle).to.eql(borderStyle['dotted']);
+          expect(params.style.borderColor).to.eql('#000');
         });
       });
   });
@@ -386,14 +386,16 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.style.background).to.eql(undefined);
         });
       });
-    context('-> (100, 210, 0, {background: "red", border: "1px #FFF"})',
-      function() {
+    context('-> (100, 210, 0, {background: "red", borderColor: "#FFF", \
+      borderSize: "1px", borderStyle: "solid"})', function() {
         it("should create a expected queue object", function() {
           var canvas = document.querySelector("canvas");
           expect(canvas).to.not.equal(null);
           origami('canvas').rect(100, 210, 0, {
             background: 'blue',
-            border: '1px #FFF'
+            borderColor: '#FFF',
+            borderSize: '1px',
+            borderStyle: 'solid'
           });
 
           var contexts = origami.getContexts();
@@ -419,9 +421,9 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.style).to.be.a('object');
           expect(params.style.bg).to.eql(undefined);
           expect(params.style.background).to.eql('blue');
-          expect(params.style.border).to.be.a('array');
-          expect(params.style.border[0]).to.eql('1');
-          expect(params.style.border[1]).to.eql('#FFF');
+          expect(params.style.borderSize).to.eql('1');
+          expect(params.style.borderStyle).to.eql(borderStyle['solid']);
+          expect(params.style.borderColor).to.eql('#FFF');
         });
       });
   });
@@ -492,7 +494,7 @@ describe("Drawing Queues - Shapes", function() {
     });
   });
 
-  // Text
+  // Text Method
   context('• Text', function() {
     beforeEach(function() {
       var canvas = document.createElement("canvas");
@@ -513,7 +515,7 @@ describe("Drawing Queues - Shapes", function() {
           expect(canvas).to.not.equal(null);
           origami('canvas').text('hello world', 150, 160, {
             font: '70px Helvetica',
-            border: '2px gold'
+            border: '2px dashed gold'
           })
 
           var contexts = origami.getContexts();
@@ -539,8 +541,9 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.height).to.eql(undefined);
           expect(params.style).to.be.a('object');
           expect(params.style.border).to.be.a('array');
-          expect(params.style.border[0]).to.eql('2');
-          expect(params.style.border[1]).to.eql('gold');
+          expect(params.style.borderSize).to.eql('2');
+          expect(params.style.borderStyle).to.eql(borderStyle['dashed']);
+          expect(params.style.borderColor).to.eql('gold');
           expect(params.style.font).to.eql('70px Helvetica');
         });
 

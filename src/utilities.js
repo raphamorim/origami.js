@@ -39,17 +39,41 @@ function argsByRules(argsArray, rules) {
       args[params.shift()] = argsArray[i];
   }
 
-  if (!args.style) {
-    args.style = {};
-  }
-
-  if (args.style.border) {
-    args.style.border = args.style.border.split(' ');
-    args.style.border[0] = args.style.border[0].replace(/[^0-9]/g, '');
-  }
-
+  args.style = normalizeStyle(args.style);
   return args;
 }
+
+function normalizeStyle(style) {
+  if (!style)
+    style = {};
+
+  if (style.border) {
+    style.border = style.border.split(' ');
+    if (!style.borderSize)
+      style.borderSize = style.border[0];
+    if (!style.borderStyle)
+      style.borderStyle = style.border[1];
+    if (!style.borderColor)
+      style.borderColor = style.border[2];
+  }
+
+  if (style.borderSize)
+    style.borderSize = style.borderSize.replace(/[^0-9]/g, '');
+
+  if (style.borderStyle) {
+    if (style.borderStyle === 'solid')
+      style.borderStyle = [];
+    else if (style.borderStyle === 'dashed')
+      style.borderStyle = [12];
+    else if (style.borderStyle === 'dotted')
+      style.borderStyle = [3];
+  } else {
+    style.borderStyle = [];
+  }
+
+  return style;
+}
+
 
 /**
  * Return all documentStyles to a especified origami context
@@ -112,10 +136,10 @@ function styleRuleValueFrom(selector, documentStyleRules) {
  * @returns {Object} cloned object
  */
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
+  if (null == obj || "object" != typeof obj) return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
 }

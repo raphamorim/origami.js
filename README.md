@@ -62,7 +62,7 @@ var style = {
   color: '#000',
   font: '70px Helvetica',
   align: 'center',
-  border: '2px gold'
+  border: '2px solid gold'
 };
 
 origami('.canvas-class')
@@ -109,7 +109,8 @@ Method that performs the operation of drawing. If you forget to use, nothing wil
 origami('#canvas')
   .arc(100, 75, 50, {
     background: '#2A80B9',
-    border: '4px gold' })
+    borderSize: '4px',
+    borderColor: 'gold' })
   .draw();
 
 ```
@@ -123,11 +124,11 @@ origami('#canvas')
 origami('.canvas')
   .rect(10, 10, 50, 100, {
     background: 'lightblue',
-    border: '4px #999'
+    border: '4px solid #999'
   })
   .rect(50, 10, 40, {
     background: 'lightgreen',
-    border: '10px green'
+    border: '10px solid green'
   })
   .draw()
 
@@ -143,7 +144,7 @@ origami('.canvas')
 
 origami('.one')
   .line({x: 10, y: 10}, {x: 150, y: 200}, 
-    {border: '1px #888'})
+    {border: '1px dashed #888'})
   .draw();
 
 ```
@@ -158,7 +159,7 @@ origami('.one')
 
 var style = {
   background: '#2A80B9',
-  border: '4px gold'
+  border: '4px dotted gold'
 }
 
 origami('.element')
@@ -231,7 +232,7 @@ origami('.one')
     color: '#000',
     font: '70px Helvetica',
     align: 'center',
-    border: '2px gold'
+    border: '2px solid gold'
   })
   .draw()
 
@@ -539,7 +540,7 @@ function draw() {
     .image('images/Canvas_earth.png', -12, -12)
     .restore()
     .arc(150,150,105, {
-      border: '1px #FFF'
+      border: '1px solid #FFF'
     })
     .image('images/Canvas_sun.png')
     .load(function(canvas){
@@ -559,7 +560,7 @@ function draw() {
 
 | <img src="http://raphamorim.com/assets/images/browser-support/chrome.png" width="100px" height="100px" alt="Chrome logo"> | <img src="http://raphamorim.com/assets/images/browser-support/firefox.png" width="100px" height="100px" alt="Firefox logo"> | <img src="http://raphamorim.com/assets/images/browser-support/ie.png" width="100px" height="100px" alt="Internet Explorer logo"> | <img src="http://raphamorim.com/assets/images/browser-support/opera.png" width="100px" height="100px" alt="Opera logo"> | <img src="http://raphamorim.com/assets/images/browser-support/safari.png" width="100px" height="100px" alt="Safari logo"> |
 |:---:|:---:|:---:|:---:|:---:|
-| 8+ ✔ | 9+ ✔ | 9+ ✔ | 10.1+ ✔ |  4+ ✔ |
+| 23+ ✔ | 27+ ✔ | 9+ ✔ | 10.1+ ✔ |  4+ ✔ |
 
 
 ## Roadmap:
