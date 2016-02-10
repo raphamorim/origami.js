@@ -1,9 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
+  - "5.5"
 script:
-  - "npm test"
+  - "npm run ci"
 before_install:
   - npm install -g grunt-cli
 cache:

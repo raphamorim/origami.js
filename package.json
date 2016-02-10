@@ -5,7 +5,9 @@
   "main": "dist/origami.js",
   "scripts": {
     "test": "grunt",
-    "test:only": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/*.html"
+    "test:only": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/*.html",
+    "coverage": "./node_modules/.bin/istanbul cover grunt test --report lcovonly -- -R spec",
+    "ci": "npm run-script coverage && node ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -19,12 +21,14 @@
   "homepage": "https://github.com/raphamorim/origami.js#readme",
   "devDependencies": {
     "chai": "3.4.1",
+    "coveralls": "^2.11.6",
     "grunt": "0.4.5",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-uglify": "^0.11.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-run": "^0.5.2",
     "imagediff": "^1.0.8",
+    "istanbul": "^0.4.2",
     "mocha": "2.3.4",
     "mocha-phantomjs": "4.0.2"
   }
