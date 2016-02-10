@@ -110,7 +110,8 @@ origami('#canvas')
   .arc(100, 75, 50, {
     background: '#2A80B9',
     borderSize: '4px',
-    borderColor: 'gold' })
+    borderColor: 'gold',
+    borderStyle: 'dotted' })
   .draw();
 
 ```
