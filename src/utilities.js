@@ -25,11 +25,8 @@ function exists(el, arr) {
  * @returns {Object} arguments filtered
  */
 function argsByRules(argsArray, rules) {
-  var params = ['x', 'y', 'width', 'height'],
+  var params = rules || ['x', 'y', 'width', 'height'],
     args = {};
-
-  if (rules)
-    params = rules;
 
   for (var i = 0; i < argsArray.length; i++) {
     if (typeof(argsArray[i]) === "object")
@@ -40,6 +37,8 @@ function argsByRules(argsArray, rules) {
   }
 
   args.style = normalizeStyle(args.style);
+  args = smartCoordinates(args);
+
   return args;
 }
 
@@ -74,6 +73,52 @@ function normalizeStyle(style) {
   return style;
 }
 
+function smartCoordinates(args) {
+  var hasX = args.hasOwnProperty('x') && (args.hasOwnProperty('width') || args.hasOwnProperty('r')),
+    hasY = args.hasOwnProperty('y') && ((args.hasOwnProperty('height') || args.hasOwnProperty('width')) || args.hasOwnProperty('r'));
+  
+  if (!hasX && !hasY)
+    return args;
+
+  var paper = Origami.getPaper(),
+    elmWidth = paper.element.width,
+    elmHeight = paper.element.height,
+    radius = (args.r || 0),
+    width = (args.width || radius),
+    height = (args.height || width),
+    axis = {
+      x: ['right', 'center', 'left'], 
+      y: ['top', 'center', 'bottom']
+    };
+
+  if (hasX) {
+    if (axis.x.indexOf(args.x) !== -1) {
+      if (args.x === 'right')
+        args.x = radius ? elmWidth : (elmWidth - width);
+      else if (args.x === 'center')
+        args.x = radius ? (elmWidth / 2) : ((elmWidth - width) / 2);
+      else if(args.x === 'left')
+        args.x = 0;
+    } else if ((args.x+'').substr(-1) === '%') {
+      args.x = (elmWidth * parseInt(args.x, 10)) / 100;
+    }    
+  }
+
+  if (hasY) {
+    if (axis.y.indexOf(args.y) !== -1) {
+      if (args.y === 'top')
+        args.y = 0;        
+      else if (args.y === 'center')
+        args.y = radius ? (elmHeight / 2) : ((elmHeight - height) / 2);
+      else if (args.y === 'bottom')
+        args.y = radius ? elmHeight : (elmHeight - height);
+    } else if ((args.y+'').substr(-1) === '%'){
+      args.y = (elmHeight * parseInt(args.y, 10)) / 100;
+    }    
+  } 
+  
+  return args;
+}
 
 /**
  * Return all documentStyles to a especified origami context
