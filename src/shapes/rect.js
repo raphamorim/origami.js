@@ -27,3 +27,20 @@ Origami.rect = function() {
   });
   return this;
 };
+
+Origami.border = function() {
+
+  var args = [].slice.call(arguments);
+  args = argsByRules(args);
+
+  queue('rect', {
+    style: args.style,
+    args: {
+      x: 0,
+      y: 0,
+      width: this.paper.ctx.canvas.clientWidth,
+      height: this.paper.ctx.canvas.clientHeight
+    }
+  });
+  return this;
+}

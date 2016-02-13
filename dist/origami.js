@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.3
+ * Origami.js 0.4.5
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-10T20:25Z
+ * Date: 2016-02-13T17:32Z
  */
 
 (function( window ) {
@@ -385,6 +385,7 @@ Screen.prototype.clear = function(){
 Screen.prototype.on = function(params) {
   this.paper.element.addEventListener(params.ev, params.fn);
 }
+
 function ArcShape(params) {
   var args = params.args,
     style = args.style,
@@ -589,6 +590,23 @@ Origami.rect = function() {
   });
   return this;
 };
+
+Origami.border = function() {
+
+  var args = [].slice.call(arguments);
+  args = argsByRules(args);
+
+  queue('rect', {
+    style: args.style,
+    args: {
+      x: 0,
+      y: 0,
+      width: this.paper.ctx.canvas.clientWidth,
+      height: this.paper.ctx.canvas.clientHeight
+    }
+  });
+  return this;
+}
 
 function SpriteShape(params) {
   var properties = params.properties,
