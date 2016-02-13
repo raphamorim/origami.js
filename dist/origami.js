@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-20T23:18Z
+ * Date: 2016-02-22T15:55Z
  */
 
 (function( window ) {
@@ -607,6 +607,22 @@ Origami.rect = function() {
   });
   return this;
 };
+
+Origami.border = function() {
+  var args = [].slice.call(arguments);
+  args = argsByRules(args);
+
+  queue('rect', {
+    style: args.style,
+    args: {
+      x: 0,
+      y: 0,
+      width: this.paper.ctx.canvas.clientWidth,
+      height: this.paper.ctx.canvas.clientHeight
+    }
+  });
+  return this;
+}
 
 function SpriteShape(params) {
   var properties = params.properties,
