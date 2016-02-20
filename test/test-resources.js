@@ -14,7 +14,9 @@ CanvasRenderingContext2D.prototype.setLineDash = function(dash) {
 */
 
 var defaultStyleObject = {
-  "borderStyle": []
+  "borderStyle": [],
+  "borderSize": null,
+  "borderColor": null,
 };
 
 var borderStyle = {

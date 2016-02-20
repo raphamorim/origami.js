@@ -52,25 +52,26 @@ function normalizeStyle(style) {
     borderStyle = (style.borderStyle || []);
 
   if (style.border) {
-    var border = [];
+    var border = [],
+      borderString = style.border;
 
     // 0 - Size: [0-9]px
     border = border.concat(style.border.match(/[0-9]*\.?[0-9]px?/i));
-    style.border = style.border.replace(/[0-9]*\.?[0-9]px?/i, '');
+    borderString = borderString.replace(/[0-9]*\.?[0-9]px?/i, '');
 
     // 1 - Style
-    border = border.concat(style.border.match(/^solid|dashed|dotted/i));
-    style.border = style.border.replace(/^solid|dashed|dotted/i, '');
+    border = border.concat(borderString.match(/solid|dashed|dotted/i));
+    borderString = borderString.replace(/solid|dashed|dotted/i, '');
 
     // 2 - Color
-    border = border.concat(style.border);
+    border = border.concat(borderString.match(/[^\s]+/i));
 
     if (!borderSize)
       borderSize = border[0];
-    if (!borderStyle)
-      borderStyle = border[1];
     if (!borderColor)
       borderColor = border[2];
+
+    borderStyle = border[1];
   }
 
   if (borderSize)
@@ -81,9 +82,9 @@ function normalizeStyle(style) {
       borderStyle = [12];
     else if (borderStyle === 'dotted')
       borderStyle = [3];
+    else
+      borderStyle = [];
   }
-
-
 
   style['borderSize'] = borderSize;
   style['borderStyle'] = borderStyle;

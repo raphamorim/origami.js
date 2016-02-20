@@ -35,7 +35,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      my_target: {
+      js: {
         options: {
           sourceMap: true
         },
@@ -72,5 +72,5 @@ module.exports = function(grunt) {
   grunt.registerTask("test", ["run:test"]);
   grunt.registerTask("watch:dev", ["watch"]);
   grunt.registerTask("build", ["concat"]);
-  grunt.registerTask("default", ["concat", "uglify", "test"]);
+  grunt.registerTask("default", ["concat", "uglify:js", "test"]);
 };
