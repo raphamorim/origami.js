@@ -246,7 +246,7 @@ describe("Drawing Queues - Shapes", function() {
             x: 10,
             y: 305
           }, {
-            border: '1px dotted #000'
+            border: 'dotted 1px #000'
           })
 
           var contexts = origami.getContexts();
@@ -515,7 +515,7 @@ describe("Drawing Queues - Shapes", function() {
           expect(canvas).to.not.equal(null);
           origami('canvas').text('hello world', 150, 160, {
             font: '70px Helvetica',
-            border: '2px dashed gold'
+            border: 'gold dashed 2px'
           })
 
           var contexts = origami.getContexts();
@@ -540,7 +540,7 @@ describe("Drawing Queues - Shapes", function() {
           expect(params.width).to.eql(undefined);
           expect(params.height).to.eql(undefined);
           expect(params.style).to.be.a('object');
-          expect(params.style.border).to.be.a('array');
+          expect(params.style.border).to.be.a('string');
           expect(params.style.borderSize).to.eql('2');
           expect(params.style.borderStyle).to.eql(borderStyle['dashed']);
           expect(params.style.borderColor).to.eql('gold');
