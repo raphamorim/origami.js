@@ -47,30 +47,47 @@ function normalizeStyle(style) {
   if (!style)
     style = {};
 
+  var borderSize = (style.borderSize || null),
+    borderColor = (style.borderColor || null),
+    borderStyle = (style.borderStyle || []);
+
   if (style.border) {
-    style.border = style.border.split(' ');
-    if (!style.borderSize)
-      style.borderSize = style.border[0];
-    if (!style.borderStyle)
-      style.borderStyle = style.border[1];
-    if (!style.borderColor)
-      style.borderColor = style.border[2];
+    var border = [];
+
+    // 0 - Size: [0-9]px
+    border = border.concat(style.border.match(/[0-9]*\.?[0-9]px?/i));
+    style.border = style.border.replace(/[0-9]*\.?[0-9]px?/i, '');
+
+    // 1 - Style
+    border = border.concat(style.border.match(/^solid|dashed|dotted/i));
+    style.border = style.border.replace(/^solid|dashed|dotted/i, '');
+
+    // 2 - Color
+    border = border.concat(style.border);
+
+    if (!borderSize)
+      borderSize = border[0];
+    if (!borderStyle)
+      borderStyle = border[1];
+    if (!borderColor)
+      borderColor = border[2];
   }
 
-  if (style.borderSize)
-    style.borderSize = style.borderSize.replace(/[^0-9]/g, '');
+  if (borderSize)
+    borderSize = borderSize.replace(/[^0-9]/g, '');
 
-  if (style.borderStyle) {
-    if (style.borderStyle === 'solid')
-      style.borderStyle = [];
-    else if (style.borderStyle === 'dashed')
-      style.borderStyle = [12];
-    else if (style.borderStyle === 'dotted')
-      style.borderStyle = [3];
-  } else {
-    style.borderStyle = [];
+  if (typeof(borderStyle) === 'string') {
+    if (borderStyle === 'dashed')
+      borderStyle = [12];
+    else if (borderStyle === 'dotted')
+      borderStyle = [3];
   }
 
+
+
+  style['borderSize'] = borderSize;
+  style['borderStyle'] = borderStyle;
+  style['borderColor'] = borderColor;
   return style;
 }
 
