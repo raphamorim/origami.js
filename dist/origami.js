@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-20T23:18Z
+ * Date: 2016-02-13T17:32Z
  */
 
 (function( window ) {
@@ -230,48 +230,30 @@ function normalizeStyle(style) {
   if (!style)
     style = {};
 
-  var borderSize = (style.borderSize || null),
-    borderColor = (style.borderColor || null),
-    borderStyle = (style.borderStyle || []);
-
   if (style.border) {
-    var border = [],
-      borderString = style.border;
-
-    // 0 - Size: [0-9]px
-    border = border.concat(style.border.match(/[0-9]*\.?[0-9]px?/i));
-    borderString = borderString.replace(/[0-9]*\.?[0-9]px?/i, '');
-
-    // 1 - Style
-    border = border.concat(borderString.match(/solid|dashed|dotted/i));
-    borderString = borderString.replace(/solid|dashed|dotted/i, '');
-
-    // 2 - Color
-    border = border.concat(borderString.match(/[^\s]+/i));
-
-    if (!borderSize)
-      borderSize = border[0];
-    if (!borderColor)
-      borderColor = border[2];
-
-    borderStyle = border[1];
+    style.border = style.border.split(' ');
+    if (!style.borderSize)
+      style.borderSize = style.border[0];
+    if (!style.borderStyle)
+      style.borderStyle = style.border[1];
+    if (!style.borderColor)
+      style.borderColor = style.border[2];
   }
 
-  if (borderSize)
-    borderSize = borderSize.replace(/[^0-9]/g, '');
+  if (style.borderSize)
+    style.borderSize = style.borderSize.replace(/[^0-9]/g, '');
 
-  if (typeof(borderStyle) === 'string') {
-    if (borderStyle === 'dashed')
-      borderStyle = [12];
-    else if (borderStyle === 'dotted')
-      borderStyle = [3];
-    else
-      borderStyle = [];
+  if (style.borderStyle) {
+    if (style.borderStyle === 'solid')
+      style.borderStyle = [];
+    else if (style.borderStyle === 'dashed')
+      style.borderStyle = [12];
+    else if (style.borderStyle === 'dotted')
+      style.borderStyle = [3];
+  } else {
+    style.borderStyle = [];
   }
 
-  style['borderSize'] = borderSize;
-  style['borderStyle'] = borderStyle;
-  style['borderColor'] = borderColor;
   return style;
 }
 
@@ -403,6 +385,7 @@ Screen.prototype.clear = function(){
 Screen.prototype.on = function(params) {
   this.paper.element.addEventListener(params.ev, params.fn);
 }
+
 function ArcShape(params) {
   var args = params.args,
     style = args.style,
@@ -607,6 +590,23 @@ Origami.rect = function() {
   });
   return this;
 };
+
+Origami.border = function() {
+
+  var args = [].slice.call(arguments);
+  args = argsByRules(args);
+
+  queue('rect', {
+    style: args.style,
+    args: {
+      x: 0,
+      y: 0,
+      width: this.paper.ctx.canvas.clientWidth,
+      height: this.paper.ctx.canvas.clientHeight
+    }
+  });
+  return this;
+}
 
 function SpriteShape(params) {
   var properties = params.properties,
