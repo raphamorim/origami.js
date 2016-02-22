@@ -312,6 +312,38 @@ describe("Draw method", function() {
           done();
         }, 100);
       });
+
+      it("should create a border in canvas", function(done) {
+        var canvas1 = document.querySelector('#canvas1'),
+          canvas2 = document.querySelector('#canvas2');
+
+          origami('#canvas1')
+            .border({
+              borderType: 'solid',
+              borderSize: '1px',
+              borderColor: 'black',
+              background: 'rgba(0,0,0,0)'
+            })
+            .draw();
+
+          var ctx2 = canvas2.getContext('2d');
+
+          ctx2.beginPath();
+          ctx2.setLineDash(borderStyle['solid']);
+          ctx2.fillStyle = 'rgba(0,0,0,0)';
+          ctx2.fillRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+          ctx2.lineWidth = 1;
+          ctx2.strokeStyle = 'black';
+          ctx2.strokeRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+          ctx2.setLineDash([]);
+          ctx2.closePath();
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(canvas1, canvas2);
+          expect(isEqual).to.eql(true);
+          done();
+        }, 100);
+      });
     });
   });
 

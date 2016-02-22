@@ -17,6 +17,7 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
     - [line](#line)
     - [arc](#arc)
     - [polygon](#polygon)
+    - [border](#border)
     - [shape](#shape)
     - [text](#text)
     - [image](#image)
@@ -144,7 +145,7 @@ origami('.canvas')
 ```javascript
 
 origami('.one')
-  .line({x: 10, y: 10}, {x: 150, y: 200}, 
+  .line({x: 10, y: 10}, {x: 150, y: 200},
     {border: '1px dashed #888'})
   .draw();
 
@@ -187,6 +188,21 @@ origami('.one')
 ###### Result:
 
 ![polygon](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/polygon.png)
+
+
+### border
+
+```javascript
+origami('#canvas')
+  .border({
+      border: '4px dotted #654'
+    })
+  .draw();
+```
+
+###### Result:
+
+![border](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/border.png)
 
 
 ### shape
@@ -585,9 +601,9 @@ function draw() {
  - compute CSS style to canvas objects [CHECKED]
  - write tests :)
  - centerOf
- - docs with examples and tutorial 
- - docs with examples by other users 
- - docs with live console 
+ - docs with examples and tutorial
+ - docs with examples by other users
+ - docs with live console
  - write tests :)
 
 ## Future Releases
