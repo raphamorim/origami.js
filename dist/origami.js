@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-22T15:55Z
+ * Date: 2016-03-10T00:42Z
  */
 
 (function( window ) {
@@ -386,10 +386,10 @@ Screen.prototype.scale = function(params) {
   this.paper.ctx.scale(params.width, params.height);
 }
 
-Screen.prototype.flip = function() {
+Screen.prototype.flip = function(params) {
   this.paper.flip = 'horizontal';
-  if (type && typeof(type) === 'string')
-    this.paper.flip = type;
+  if (params.type && typeof(params.type) === 'string')
+    this.paper.flip = params.type;
 }
 
 Screen.prototype.flipEnd = function() {
@@ -403,6 +403,7 @@ Screen.prototype.clear = function(){
 Screen.prototype.on = function(params) {
   this.paper.element.addEventListener(params.ev, params.fn);
 }
+
 function ArcShape(params) {
   var args = params.args,
     style = args.style,
@@ -444,10 +445,12 @@ function ImageShape(params) {
     if (this.paper.flip === 'horizontal') {
       this.paper.ctx.scale(-1, 1);
       width = width * -1;
+      x = x * -1;
     }
     if (this.paper.flip === 'vertical') {
       this.paper.ctx.scale(1, -1);
       height = height * -1;
+      y = y * -1;
     }
   }
 
@@ -890,9 +893,10 @@ if ( typeof exports !== "undefined" && exports ) {
 }
 
 // For browser, export only select globals
-if (typeof window === "object") {
+if ( typeof window === "object" ) {
     window.origami = extend(Origami.init.bind(Origami), Origami);
 }
+
 // Get a reference to the global object
 }( (function() {
     return this;

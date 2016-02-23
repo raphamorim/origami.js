@@ -10,10 +10,12 @@ function ImageShape(params) {
     if (this.paper.flip === 'horizontal') {
       this.paper.ctx.scale(-1, 1);
       width = width * -1;
+      x = x * -1;
     }
     if (this.paper.flip === 'vertical') {
       this.paper.ctx.scale(1, -1);
       height = height * -1;
+      y = y * -1;
     }
   }
 

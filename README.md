@@ -1,8 +1,8 @@
-![Origami Logo](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/logos/logo-origami.jpg)
+![Origami Logo](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/logos/logo-origami.png)
 
 > HTML5 Canvas for Humans
 
-[![Coverage Status](https://coveralls.io/repos/github/raphamorim/origami.js/badge.svg?branch=master)](https://coveralls.io/github/raphamorim/origami.js?branch=master) [![Build Status](https://travis-ci.org/raphamorim/origami.js.svg)](https://travis-ci.org/raphamorim/origami.js)
+[![Coverage Status](https://coveralls.io/repos/github/raphamorim/origami.js/badge.svg?branch=master)](https://coveralls.io/github/raphamorim/origami.js?branch=master) [![Build Status](https://travis-ci.org/raphamorim/origami.js.svg)](https://travis-ci.org/raphamorim/origami.js) [![Join the chat at https://gitter.im/raphamorim/origami.js](https://badges.gitter.im/raphamorim/origami.js.svg)](https://gitter.im/raphamorim/origami.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
 
@@ -132,7 +132,7 @@ origami('.canvas')
     background: 'lightgreen',
     border: '10px solid green'
   })
-  .draw()
+  .draw();
 
 ```
 
@@ -359,8 +359,6 @@ origami('#my-canvas').translate(); // Equals: reset
 
 ### flip
 
-**Alert: Experimental feature**
-
 Default: `horizontal`
 
 Options: `horizontal`, `vertical`
@@ -368,8 +366,16 @@ Options: `horizontal`, `vertical`
 ```javascript
 
 origami('#demo-1')
-  .flip('horizontal')
   .image('images/person.jpg', 0, 0, 200, 200)
+  .flip('horizontal')
+  .image('images/person.jpg', 0, 220, 200, 200)
+  .flipEnd()
+  .flip('vertical')
+  .image('images/person.jpg', 220, 0)
+  .flipEnd()
+  .load(function(canvas) {
+    canvas.draw();
+  })
 
 ```
 
