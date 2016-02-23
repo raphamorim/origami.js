@@ -1,4 +1,4 @@
-![Origami Logo](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/logos/logo-origami.jpg)
+![Origami Logo](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/logos/logo-origami.png)
 
 > HTML5 Canvas for Humans
 
