@@ -8,6 +8,8 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 
 ## Summary
 
+[![Join the chat at https://gitter.im/raphamorim/origami.js](https://badges.gitter.im/raphamorim/origami.js.svg)](https://gitter.im/raphamorim/origami.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 - [Why Origami.js?](#why)
     - [Styling with CSS](#styling-with-css)
 - [Getting](#getting)
