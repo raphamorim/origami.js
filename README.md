@@ -586,34 +586,9 @@ function draw() {
 | 23+ ✔ | 27+ ✔ | 9+ ✔ | 10.1+ ✔ |  4+ ✔ |
 
 
-## Roadmap:
+## Next Releases
 
-- Next Release
- - line (2d) [CHECKED]
- - rect (2d) [CHECKED]
- - polygon (2d) [CHECKED]
- - arc (2d) [CHECKED]
- - image (2d) [CHECKED]
- - text (2d) [CHECKED]
- - getContext [CHECKED]
- - rotate [CHECKED]
- - translate [CHECKED]
- - stop animation [CHECKED]
- - sprite [CHECKED]
- - scale [CHECKED]
- - mirror (horizontal and vertical) [CHECKED]
- - use origami by context instead selector [CHECKED]
- - on (event) [CHECKED]
- - compute CSS style to canvas objects [CHECKED]
- - write tests :)
- - centerOf
- - docs with examples and tutorial
- - docs with examples by other users
- - docs with live console
- - write tests :)
-
-## Future Releases
-
+- bring acessibility to canvas
 - .hover, .click -> fn to current object
 - Improve `style` and `shape` (add more features)
 - `.element` (draw a entire element in canvas)
