@@ -408,4 +408,72 @@ describe("Draw method", function() {
       });
     });
   });
+
+  // Flip Effect
+  context('Flip', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.id = 'canvas1';
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+
+      var canvasMock = document.createElement("canvas");
+      canvasMock.id = 'canvas2';
+      canvasMock.width = 500;
+      canvasMock.height = 500;
+      document.body.appendChild(canvasMock);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('#canvas1'));
+      document.body.removeChild(document.querySelector('#canvas2'));
+      origami.cleanContexts();
+    })
+
+    context('flip and flipEnd in multiple images', function() {
+      it("should apply flip effect", function(done) {
+        var imageSource = 'resources/person.jpg';
+        var canvas1 = document.querySelector('#canvas1'),
+          canvas2 = document.querySelector('#canvas2');
+
+        origami('#canvas1')
+          .image(imageSource, 0, 0, 200, 200)
+          .flip('horizontal')
+          .image(imageSource, 0, 220, 200, 200)
+          .flipEnd()
+          .flip('vertical')
+          .image(imageSource, 220, 0)
+          .flipEnd()
+          .load(function(canvas) {
+            canvas.draw();
+          })
+
+        var ctx2 = canvas2.getContext('2d');
+        var img = new Image();
+        img.src = imageSource;
+
+        img.addEventListener('load', function() {
+          ctx2.beginPath();
+          ctx2.drawImage(img, 0, 0, 200, 200);
+          ctx2.closePath();
+          ctx2.save();
+          ctx2.scale(-1, 1);
+          ctx2.drawImage(img, -0, 220, -200, 200);
+          ctx2.restore();
+          ctx2.save();
+          ctx2.scale(1, -1);
+          ctx2.drawImage(img, 220, -0, img.naturalWidth, -(img.naturalHeight));
+          ctx2.restore();
+        });
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(canvas1, canvas2);
+          expect(isEqual).to.eql(true);
+
+          done();
+        }, 250);
+      });
+    });
+  });
 });
