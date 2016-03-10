@@ -132,7 +132,7 @@ origami('.canvas')
     background: 'lightgreen',
     border: '10px solid green'
   })
-  .draw()
+  .draw();
 
 ```
 
@@ -359,8 +359,6 @@ origami('#my-canvas').translate(); // Equals: reset
 
 ### flip
 
-**Alert: Experimental feature**
-
 Default: `horizontal`
 
 Options: `horizontal`, `vertical`
@@ -368,8 +366,16 @@ Options: `horizontal`, `vertical`
 ```javascript
 
 origami('#demo-1')
-  .flip('horizontal')
   .image('images/person.jpg', 0, 0, 200, 200)
+  .flip('horizontal')
+  .image('images/person.jpg', 0, 220, 200, 200)
+  .flipEnd()
+  .flip('vertical')
+  .image('images/person.jpg', 220, 0)
+  .flipEnd()
+  .load(function(canvas) {
+    canvas.draw();
+  })
 
 ```
 

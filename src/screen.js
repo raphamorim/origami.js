@@ -39,10 +39,10 @@ Screen.prototype.scale = function(params) {
   this.paper.ctx.scale(params.width, params.height);
 }
 
-Screen.prototype.flip = function() {
+Screen.prototype.flip = function(params) {
   this.paper.flip = 'horizontal';
-  if (type && typeof(type) === 'string')
-    this.paper.flip = type;
+  if (params.type && typeof(params.type) === 'string')
+    this.paper.flip = params.type;
 }
 
 Screen.prototype.flipEnd = function() {

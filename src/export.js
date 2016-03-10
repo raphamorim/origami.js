@@ -9,6 +9,6 @@ if ( typeof exports !== "undefined" && exports ) {
 }
 
 // For browser, export only select globals
-if (typeof window === "object") {
+if ( typeof window === "object" ) {
     window.origami = extend(Origami.init.bind(Origami), Origami);
 }
