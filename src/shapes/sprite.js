@@ -59,19 +59,19 @@ Origami.sprite = function(x, y, properties) {
 
   image.src = properties.src;
 
-  var item = smartCoordinates({
+  var item = {
     x: x,
     y: y,
     image: image,
     properties: properties,
     width: 0,
     height: 0
-  });
+  };
 
   if (image.complete) {
     item.width = image.naturalWidth;
     item.height = image.naturalHeight;
-    queue('sprite', smartCoordinates(item));
+    queue('sprite', item);
     return self;
   }
 

@@ -36,19 +36,19 @@ Origami.image = function(image, x, y, width, height) {
     image = img;
   }
 
-  var item = smartCoordinates({
+  var item = {
     image: image,
     x: x,
     y: y,
     width: width,
     height: height
-  });
+  };
 
   if (image.complete) {
     item.width = width || image.naturalWidth;
     item.height = height || image.naturalHeight;
 
-    queue('image', smartCoordinates(item));
+    queue('image', item);
     return self;
   }
 

@@ -1,4 +1,4 @@
-describe("Initialize: ", function() {
+describe("Test Initialize", function() {
     var canvas = document.createElement("canvas");
         canvas.id = "canvas";
         canvas.width = 500;

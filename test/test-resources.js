@@ -8,7 +8,6 @@ CanvasRenderingContext2D.prototype.setLineDash = function(dash) {
   }
 }
 
-
 /*
   Test Settings
 */

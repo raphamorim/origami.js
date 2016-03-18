@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-02-13T21:33Z
+ * Date: 2016-03-18T05:47Z
  */
 
 (function( window ) {
@@ -187,7 +187,6 @@ var hasOwn = Object.prototype.hasOwnProperty;
 
 /**
  * Check if element exists in a Array of NodeItems
- * @private
  * @param {NodeItem} current nodeItem to check
  * @param {Array} array of NodeItems
  * @returns {NodeItem} NodeItem exitent in array
@@ -202,7 +201,6 @@ function exists(el, arr) {
 
 /**
  * Filter arguments by rules
- * @private
  * @param {Array} methods arguments
  * @param {Object} rules to apply
  * @returns {Object} arguments filtered
@@ -220,7 +218,9 @@ function argsByRules(argsArray, rules) {
   }
 
   args.style = normalizeStyle(args.style);
-  args = smartCoordinates(args);
+
+  if ((typeof(args.x) === 'string') && (typeof(args.y) === 'string'))
+    args = smartCoordinates(args);
 
   return args;
 }
@@ -256,56 +256,66 @@ function normalizeStyle(style) {
   return style;
 }
 
+/**
+ * Return args object with new coordinates based on behavior
+ * @returns {Object} args
+ */
 function smartCoordinates(args) {
-  var hasX = args.hasOwnProperty('x') && (args.hasOwnProperty('width') || args.hasOwnProperty('r')),
-    hasY = args.hasOwnProperty('y') && ((args.hasOwnProperty('height') || args.hasOwnProperty('width')) || args.hasOwnProperty('r'));
-  
-  if (!hasX && !hasY)
-    return args;
+  var x = args.x,
+    y = args.y;
 
   var paper = Origami.getPaper(),
     elmWidth = paper.element.width,
     elmHeight = paper.element.height,
-    radius = (args.r || 0),
-    width = (args.width || radius),
-    height = (args.height || width),
-    axis = {
-      x: ['right', 'center', 'left'], 
-      y: ['top', 'center', 'bottom']
-    };
+    radius = (args.r || 0);
 
-  if (hasX) {
-    if (axis.x.indexOf(args.x) !== -1) {
-      if (args.x === 'right')
-        args.x = radius ? elmWidth : (elmWidth - width);
-      else if (args.x === 'center')
-        args.x = radius ? (elmWidth / 2) : ((elmWidth - width) / 2);
-      else if(args.x === 'left')
-        args.x = 0;
-    } else if ((args.x+'').substr(-1) === '%') {
-      args.x = (elmWidth * parseInt(args.x, 10)) / 100;
-    }    
+  var width = (args.width || radius),
+    height = (args.height || width);
+
+  var axis = {
+    x: [ 'right', 'center', 'left' ],
+    y: [ 'top', 'center', 'bottom' ]
+  };
+
+  if (axis.x.indexOf(x) !== -1) {
+    if (x === 'right')
+      x = Math.floor(elmWidth - width);
+    else if (x === 'center')
+      if (radius)
+        x = Math.floor(elmWidth / 2)
+      else
+        x = Math.floor((elmWidth / 2) - (width / 2));
+    else if (x === 'left')
+      x = radius;
+  } else if ((x + '').substr(-1) === '%') {
+    x = (elmWidth * parseInt(x, 10)) / 100;
+  } else {
+    x = 0;
   }
 
-  if (hasY) {
-    if (axis.y.indexOf(args.y) !== -1) {
-      if (args.y === 'top')
-        args.y = 0;        
-      else if (args.y === 'center')
-        args.y = radius ? (elmHeight / 2) : ((elmHeight - height) / 2);
-      else if (args.y === 'bottom')
-        args.y = radius ? elmHeight : (elmHeight - height);
-    } else if ((args.y+'').substr(-1) === '%'){
-      args.y = (elmHeight * parseInt(args.y, 10)) / 100;
-    }    
-  } 
-  
+  if (axis.y.indexOf(y) !== -1) {
+    if (y === 'top')
+      y = radius;
+    else if (y === 'center')
+      if (radius)
+        y = Math.floor(elmHeight / 2);
+      else
+        y = Math.floor((elmHeight / 2) - (height / 2));
+    else if (y === 'bottom')
+      y = Math.floor(elmHeight - height);
+  } else if ((y + '').substr(-1) === '%') {
+    y = (elmHeight * parseInt(y, 10)) / 100;
+  } else {
+    y = 0;
+  }
+
+  args.y = y;
+  args.x = x;
   return args;
 }
 
 /**
  * Return all documentStyles to a especified origami context
- * @private
  * @returns undefined
  */
 function defineDocumentStyles() {
@@ -318,7 +328,6 @@ function defineDocumentStyles() {
 
 /**
  * Merge defaults with user options
- * @private
  * @param {Object} defaults Default settings
  * @param {Object} options User options
  * @returns {Object} Merged values of defaults and options
@@ -344,7 +353,6 @@ function extend(a, b, undefOnly) {
 
 /**
  * Get Style Rule from a specified element
- * @private
  * @param {String} selector from element
  * @param {Array} Document Style Rules
  * @returns {Object} Merged values of defaults and options
@@ -359,7 +367,6 @@ function styleRuleValueFrom(selector, documentStyleRules) {
 
 /**
  * Clone a object
- * @private
  * @param {Object} object
  * @returns {Object} cloned object
  */
@@ -497,19 +504,19 @@ Origami.image = function(image, x, y, width, height) {
     image = img;
   }
 
-  var item = smartCoordinates({
+  var item = {
     image: image,
     x: x,
     y: y,
     width: width,
     height: height
-  });
+  };
 
   if (image.complete) {
     item.width = width || image.naturalWidth;
     item.height = height || image.naturalHeight;
 
-    queue('image', smartCoordinates(item));
+    queue('image', item);
     return self;
   }
 
@@ -696,19 +703,19 @@ Origami.sprite = function(x, y, properties) {
 
   image.src = properties.src;
 
-  var item = smartCoordinates({
+  var item = {
     x: x,
     y: y,
     image: image,
     properties: properties,
     width: 0,
     height: 0
-  });
+  };
 
   if (image.complete) {
     item.width = image.naturalWidth;
     item.height = image.naturalHeight;
-    queue('sprite', smartCoordinates(item));
+    queue('sprite', item);
     return self;
   }
 

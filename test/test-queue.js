@@ -1,4 +1,4 @@
-describe("Drawing Queues - Shapes", function() {
+describe("Test Queue Shapes", function() {
 
   // Arc Method
   context('• Arc', function() {

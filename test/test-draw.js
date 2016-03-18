@@ -1,4 +1,4 @@
-describe("Draw method", function() {
+describe("Test Draw Shapes", function() {
 
   // Arc Draw
   context('arc', function() {
