@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.5
+ * Origami.js 0.4.6
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-03-10T00:42Z
+ * Date: 2016-03-18T14:33Z
  */
 
 (function( window ) {
@@ -187,7 +187,6 @@ var hasOwn = Object.prototype.hasOwnProperty;
 
 /**
  * Check if element exists in a Array of NodeItems
- * @private
  * @param {NodeItem} current nodeItem to check
  * @param {Array} array of NodeItems
  * @returns {NodeItem} NodeItem exitent in array
@@ -202,17 +201,13 @@ function exists(el, arr) {
 
 /**
  * Filter arguments by rules
- * @private
  * @param {Array} methods arguments
  * @param {Object} rules to apply
  * @returns {Object} arguments filtered
  */
 function argsByRules(argsArray, rules) {
-  var params = ['x', 'y', 'width', 'height'],
+  var params = rules || ['x', 'y', 'width', 'height'],
     args = {};
-
-  if (rules)
-    params = rules;
 
   for (var i = 0; i < argsArray.length; i++) {
     if (typeof(argsArray[i]) === "object")
@@ -223,6 +218,10 @@ function argsByRules(argsArray, rules) {
   }
 
   args.style = normalizeStyle(args.style);
+
+  if ((typeof(args.x) === 'string') && (typeof(args.y) === 'string'))
+    args = smartCoordinates(args);
+
   return args;
 }
 
@@ -275,10 +274,66 @@ function normalizeStyle(style) {
   return style;
 }
 
+/**
+ * Return args object with new coordinates based on behavior
+ * @returns {Object} args
+ */
+function smartCoordinates(args) {
+  var x = args.x,
+    y = args.y;
+
+  var paper = Origami.getPaper(),
+    elmWidth = paper.element.width,
+    elmHeight = paper.element.height,
+    radius = (args.r || 0);
+
+  var width = (args.width || radius),
+    height = (args.height || width);
+
+  var axis = {
+    x: [ 'right', 'center', 'left' ],
+    y: [ 'top', 'center', 'bottom' ]
+  };
+
+  if (axis.x.indexOf(x) !== -1) {
+    if (x === 'right')
+      x = Math.floor(elmWidth - width);
+    else if (x === 'center')
+      if (radius)
+        x = Math.floor(elmWidth / 2)
+      else
+        x = Math.floor((elmWidth / 2) - (width / 2));
+    else if (x === 'left')
+      x = radius;
+  } else if ((x + '').substr(-1) === '%') {
+    x = (elmWidth * parseInt(x, 10)) / 100;
+  } else {
+    x = 0;
+  }
+
+  if (axis.y.indexOf(y) !== -1) {
+    if (y === 'top')
+      y = radius;
+    else if (y === 'center')
+      if (radius)
+        y = Math.floor(elmHeight / 2);
+      else
+        y = Math.floor((elmHeight / 2) - (height / 2));
+    else if (y === 'bottom')
+      y = Math.floor(elmHeight - height);
+  } else if ((y + '').substr(-1) === '%') {
+    y = (elmHeight * parseInt(y, 10)) / 100;
+  } else {
+    y = 0;
+  }
+
+  args.y = y;
+  args.x = x;
+  return args;
+}
 
 /**
  * Return all documentStyles to a especified origami context
- * @private
  * @returns undefined
  */
 function defineDocumentStyles() {
@@ -291,7 +346,6 @@ function defineDocumentStyles() {
 
 /**
  * Merge defaults with user options
- * @private
  * @param {Object} defaults Default settings
  * @param {Object} options User options
  * @returns {Object} Merged values of defaults and options
@@ -317,7 +371,6 @@ function extend(a, b, undefOnly) {
 
 /**
  * Get Style Rule from a specified element
- * @private
  * @param {String} selector from element
  * @param {Array} Document Style Rules
  * @returns {Object} Merged values of defaults and options
@@ -332,7 +385,6 @@ function styleRuleValueFrom(selector, documentStyleRules) {
 
 /**
  * Clone a object
- * @private
  * @param {Object} object
  * @returns {Object} cloned object
  */
@@ -480,6 +532,9 @@ Origami.image = function(image, x, y, width, height) {
     width: width,
     height: height
   };
+
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
 
   if (image.complete) {
     item.width = width || image.naturalWidth;
@@ -752,12 +807,17 @@ Screen.prototype.text = TextShape;
 Origami.text = function(text, x, y, style) {
   style = normalizeStyle(style);
 
-  queue('text', {
+  var item = {
     text: text,
     x: x,
     y: y,
     style: style
-  });
+  };
+
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
+
+  queue('text', item);
   return this;
 };
 

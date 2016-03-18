@@ -25,11 +25,16 @@ Screen.prototype.text = TextShape;
 Origami.text = function(text, x, y, style) {
   style = normalizeStyle(style);
 
-  queue('text', {
+  var item = {
     text: text,
     x: x,
     y: y,
     style: style
-  });
+  };
+
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
+
+  queue('text', item);
   return this;
 };

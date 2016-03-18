@@ -11,6 +11,7 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 - [Why Origami.js?](#why)
     - [Styling with CSS](#styling-with-css)
 - [Getting](#getting)
+- [Smart Coordinates](#smart-coordinates)
 - [Usage](#usage)
     - [draw](#draw)
     - [rect](#rect)
@@ -97,6 +98,21 @@ Add the source before body tag end:
 ```html
 <script src="origami.min.js"></script>
 </body>
+```
+
+## Smart Coordinates
+
+Available for the following methods:
+
+` rect `, ` arc `, ` image `
+
+How it works?
+
+```javascript
+origami('#random-canvas')
+  .rect('top', 'left', 50, {
+    background: 'blue'
+  });
 ```
 
 ## Usage

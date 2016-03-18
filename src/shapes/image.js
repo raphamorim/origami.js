@@ -46,6 +46,9 @@ Origami.image = function(image, x, y, width, height) {
     height: height
   };
 
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
+
   if (image.complete) {
     item.width = width || image.naturalWidth;
     item.height = height || image.naturalHeight;
