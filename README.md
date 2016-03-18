@@ -12,6 +12,8 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
     - [Styling with CSS](#styling-with-css)
 - [Getting](#getting)
 - [Smart Coordinates](#smart-coordinates)
+  - [Based on Canvas Axis](#based-on-canvas-axis)
+  - [Based on Canvas Percentage](#based-on-canvas-percentage)
 - [Usage](#usage)
     - [draw](#draw)
     - [rect](#rect)
@@ -102,24 +104,42 @@ Add the source before body tag end:
 
 ## Smart Coordinates
 
-Available for the following methods:
+Available for the following methods: ` rect `, ` arc `, ` image `
 
-` rect `, ` arc `, ` image `
+### Based on Canvas Axis
 
-Available Axis: 
-
-x: `right`, `left`, `center`
-
-y: `top`, `bottom`, `center`
-
-How it works?
+**x:** `right`, `left`, `center` | **y:** `top`, `bottom`, `center`
 
 ```javascript
-origami('#random-canvas')
-  .rect('top', 'left', 50, {
-    background: 'blue'
+origami('.rect')
+  .rect('left', 'top', 20, style)
+  .rect('center', 'top', 20, style)
+  .rect('right', 'top', 20, style)
+  
+  .rect('left', 'center', 20, style)
+  .rect('center', 'center', 20, style)
+  .rect('right', 'center', 20, style)
+  
+  .rect('left', 'bottom', 20, style)
+  .rect('center', 'bottom', 20, style)
+  .rect('right', 'bottom', 20, style)
+  
+  .draw();
+```
+
+![axis](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/axis.png)
+
+### Based on Canvas Percentage
+
+```javascript
+origami('.rect')
+  .image('images/raphamorim.png', '5%', '5%', 200, 200)
+  .load(function(canvas) {
+    canvas.draw();
   });
 ```
+
+![percentage](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/percentage.png)
 
 ## Usage
 
