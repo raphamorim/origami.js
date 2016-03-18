@@ -31,35 +31,43 @@ describe("Test Smart Coordinates", function() {
         this.timeout(5000);
 
         origami('#canvas1')
-          .rect('center', 'center', 50, {
-            background: 'blue'
+          .rect('left', 'bottom', 50, {
+            background: 'red'
           })
-          // .arc('left', 'bottom', 50, {
-          //   background: 'blue'
-          // })
           .rect('right', 'top', 50, {
-            background: 'blue'
+            background: 'red'
           })
-          .draw();
+          .image('../images/firefox.png', 'center', 'center', 200, 200)
+          .load(function(canvas) {
+            canvas.draw();
+          });
 
         var ctx2 = canvas2.getContext('2d');
         ctx2.beginPath();
-        ctx2.rect(Math.floor(canvas2.width / 2 - 50/2), Math.floor(canvas2.height / 2 - 50/2), 50, 50);
-        // ctx2.arc(50, 450, 50, 0, (2 * Math.PI))
+        ctx2.rect(0, Math.floor(canvas2.height - 50), 50, 50);
         ctx2.rect(Math.floor(canvas2.width - 50), 0, 50, 50);
-        ctx2.fillStyle = 'blue';
+        ctx2.fillStyle = 'red';
         ctx2.fill();
+        ctx2.lineWidth = 1;
         ctx2.strokeStyle = 'rgba(0, 0, 0, 0)';
         ctx2.stroke();
         ctx2.setLineDash([]);
         ctx2.closePath();
+
+        var img = new Image();
+        img.src = '../images/firefox.png';
+        img.addEventListener('load', function() {
+          ctx2.beginPath();
+          ctx2.drawImage(img, Math.floor((canvas2.height / 2) - (200 / 2)), Math.floor((canvas2.width / 2) - (200 / 2)), 200, 200);
+          ctx2.closePath();
+        });
 
         setTimeout(function() {
           var isEqual = imagediff.equal(canvas1, canvas2);
           expect(isEqual).to.eql(true);
 
           done();
-        }, 700);
+        }, 300);
       });
     });
   });

@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-03-18T05:47Z
+ * Date: 2016-03-18T14:32Z
  */
 
 (function( window ) {
@@ -512,6 +512,9 @@ Origami.image = function(image, x, y, width, height) {
     height: height
   };
 
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
+
   if (image.complete) {
     item.width = width || image.naturalWidth;
     item.height = height || image.naturalHeight;
@@ -767,12 +770,17 @@ Screen.prototype.text = TextShape;
 Origami.text = function(text, x, y, style) {
   style = normalizeStyle(style);
 
-  queue('text', {
+  var item = {
     text: text,
     x: x,
     y: y,
     style: style
-  });
+  };
+
+  if ((typeof(item.x) === 'string') && (typeof(item.y) === 'string'))
+    item = smartCoordinates(item);
+
+  queue('text', item);
   return this;
 };
 
