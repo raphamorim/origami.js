@@ -106,6 +106,12 @@ Available for the following methods:
 
 ` rect `, ` arc `, ` image `
 
+Available Axis: 
+
+x: `right`, `left`, `center`
+
+y: `top`, `bottom`, `center`
+
 How it works?
 
 ```javascript
