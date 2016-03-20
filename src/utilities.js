@@ -92,6 +92,67 @@ function normalizeStyle(style) {
 }
 
 /**
+ * Return object with structured coordinate
+ * @returns {Object} structed coordinate
+ */
+function parseSmartCoordinates(coordinate, axis) {
+  var pattern = {
+        smart: new RegExp('('+axis.join('|')+')'),
+        numeric: /(\-|\+){0,1}([0-9\.]+)(\%){0,1}/,
+        spaces: /\s*/g
+      };
+
+  coordinate = coordinate.replace(pattern.spaces, '');
+  
+  if (axis.indexOf(coordinate) !== -1) {
+    return {
+      smart: coordinate,
+      numeric: false
+    };
+  }
+
+  var smart = coordinate.split(pattern.smart)
+                .filter(function(i){
+                  return i !== undefined && axis.indexOf(i) !== -1;
+                });
+
+  if(smart.length)
+    smart = smart[0];
+  else
+    smart = false;
+
+  var numeric = coordinate.split(pattern.numeric)
+                  .filter(function(i){
+                    return i !== undefined && i.length && i !== smart;
+                  });
+  
+  var numericLen = numeric.length;
+
+  if (numericLen) {
+    if (numericLen === 2) {
+      if(!parseInt(numeric[0]))
+        numeric = [numeric[0], numeric[1], 'px'];
+      else if(!parseInt(numeric[1]))
+        numeric = ['+', numeric[0], numeric[1]];
+    } else if(numericLen === 3 && parseInt(numeric[0])) {
+      numeric = ['+', numeric[0], numeric[1]];
+    }
+    
+    numeric = {
+      value: parseInt(numeric[0] + numeric[1], 10),
+      isPercent: numeric[2] !== undefined && numeric[2] === '%'
+    };
+  } else {
+    numeric = false;
+  }
+  
+  return {
+    smart: smart,
+    numeric: numeric
+  };
+}
+
+/**
  * Return args object with new coordinates based on behavior
  * @returns {Object} args
  */
@@ -112,36 +173,54 @@ function smartCoordinates(args) {
     y: [ 'top', 'center', 'bottom' ]
   };
 
-  if (axis.x.indexOf(x) !== -1) {
-    if (x === 'right')
-      x = Math.floor(elmWidth - width);
-    else if (x === 'center')
-      if (radius)
-        x = Math.floor(elmWidth / 2)
-      else
-        x = Math.floor((elmWidth / 2) - (width / 2));
-    else if (x === 'left')
-      x = radius;
-  } else if ((x + '').substr(-1) === '%') {
-    x = (elmWidth * parseInt(x, 10)) / 100;
-  } else {
-    x = 0;
+  var px = parseSmartCoordinates(x, axis.x),
+      py = parseSmartCoordinates(y, axis.y);
+
+  x = 0;
+  y = 0;
+
+  if (px.smart || px.numeric) {
+    if (px.numeric) {
+      if (px.numeric.isPercent) 
+        x = (elmWidth * px.numeric.value) / 100;
+      else 
+        x = px.numeric.value;
+    }
+
+    if (px.smart) {
+      px = px.smart;
+      if (px === 'right')
+        x += Math.floor(elmWidth - width);
+      else if (px === 'center')
+        if (radius)
+          x += Math.floor(elmWidth / 2);
+        else
+          x += Math.floor((elmWidth / 2) - (width / 2));
+      else if (px === 'left')
+        x += radius;
+    }
   }
 
-  if (axis.y.indexOf(y) !== -1) {
-    if (y === 'top')
-      y = radius;
-    else if (y === 'center')
-      if (radius)
-        y = Math.floor(elmHeight / 2);
+  if (py.smart || py.numeric) {
+    if (py.numeric) {
+      if (py.numeric.isPercent)
+        y = (elmHeight * py.numeric.value) / 100;
       else
-        y = Math.floor((elmHeight / 2) - (height / 2));
-    else if (y === 'bottom')
-      y = Math.floor(elmHeight - height);
-  } else if ((y + '').substr(-1) === '%') {
-    y = (elmHeight * parseInt(y, 10)) / 100;
-  } else {
-    y = 0;
+        y = py.numeric.value;
+    }
+
+    if (py.smart) {
+      py = py.smart;
+      if (py === 'top')
+        y += radius;
+      else if (py === 'center')
+        if (radius)
+          y += Math.floor(elmHeight / 2);
+        else
+          y += Math.floor((elmHeight / 2) - (height / 2));
+      else if (py === 'bottom')
+        y += Math.floor(elmHeight - height);
+    }
   }
 
   args.y = y;
