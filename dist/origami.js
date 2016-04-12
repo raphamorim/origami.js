@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.6
+ * Origami.js 0.4.7
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-03-18T14:33Z
+ * Date: 2016-04-12T02:16Z
  */
 
 (function( window ) {
@@ -108,16 +108,18 @@ Origami.init = function(el) {
 }
 
 Origami.styles = function() {
-  if (!this.documentStyles)
-    defineDocumentStyles(Origami);
+  if (!config.virtualStyles.length)
+    defineDocumentStyles(config);
 
   var selectors = arguments;
-  if (!selectors.length)
+  if (!selectors.length) {
+    config.virtualStyles['empty'] = true;
     return this;
+  }
 
   for (var i = 0; i < selectors.length; i++) {
-    var style = styleRuleValueFrom(selectors[i], (this.documentStyles[0] || []));
-    Origami.virtualStyles[selectors[i]] = style;
+    var style = styleRuleValueFrom(selectors[i], (config.documentStyles[0] || []));
+    config.virtualStyles[selectors[i]] = style;
   }
   return this;
 }
@@ -681,6 +683,48 @@ Origami.border = function() {
   });
   return this;
 }
+
+function CSSShape(style) {
+  var self = this,
+    style = config.virtualStyles[style];
+
+  if (!style)
+    return self;
+
+  // TODO: Draw in all canvas
+  var data = '<svg xmlns="http://www.w3.org/2000/svg" width="' +
+    self.paper.width + 'px" height="' + self.paper.height + 'px">' +
+    '<foreignObject width="100%" height="100%">' +
+    '<div xmlns="http://www.w3.org/1999/xhtml">' +
+    '<div style="' + style.cssText + '"></div>' +
+    '</div></foreignObject>' +
+    '</svg>';
+
+  var DOMURL = window.URL || window.webkitURL || window,
+    img = new Image(),
+    svg = new Blob([data], {
+      type: 'image/svg+xml;charset=utf-8'
+    });
+
+  var url = DOMURL.createObjectURL(svg);
+  img.src = url;
+
+  img.addEventListener('load', function() {
+    self.paper.ctx.beginPath();
+    self.paper.ctx.drawImage(img, 0, 0);
+    DOMURL.revokeObjectURL(url);
+    self.paper.ctx.closePath();
+  });
+
+  return self;
+}
+
+Screen.prototype.CSSShape = CSSShape;
+
+Origami.shape = function(style) {
+  queue('CSSShape', style);
+  return this;
+};
 
 function SpriteShape(params) {
   var properties = params.properties,

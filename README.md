@@ -247,7 +247,7 @@ origami('#canvas')
 ![border](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/border.png)
 
 
-### shape
+### shape (experimental feature yet)
 
 CSS properties:
 

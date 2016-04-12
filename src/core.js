@@ -35,16 +35,18 @@ Origami.init = function(el) {
 }
 
 Origami.styles = function() {
-  if (!this.documentStyles)
-    defineDocumentStyles(Origami);
+  if (!config.virtualStyles.length)
+    defineDocumentStyles(config);
 
   var selectors = arguments;
-  if (!selectors.length)
+  if (!selectors.length) {
+    config.virtualStyles['empty'] = true;
     return this;
+  }
 
   for (var i = 0; i < selectors.length; i++) {
-    var style = styleRuleValueFrom(selectors[i], (this.documentStyles[0] || []));
-    Origami.virtualStyles[selectors[i]] = style;
+    var style = styleRuleValueFrom(selectors[i], (config.documentStyles[0] || []));
+    config.virtualStyles[selectors[i]] = style;
   }
   return this;
 }

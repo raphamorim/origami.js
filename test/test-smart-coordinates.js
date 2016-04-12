@@ -67,7 +67,7 @@ describe("Test Smart Coordinates", function() {
           expect(isEqual).to.eql(true);
 
           done();
-        }, 300);
+        }, 400);
       });
     });
   });
@@ -140,7 +140,7 @@ describe("Test Smart Coordinates", function() {
           expect(isEqual).to.eql(true);
 
           done();
-        }, 300);
+        }, 400);
       });
     });
   });
