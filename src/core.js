@@ -34,23 +34,6 @@ Origami.init = function(el) {
   return this;
 }
 
-Origami.styles = function() {
-  if (!config.virtualStyles.length)
-    defineDocumentStyles(config);
-
-  var selectors = arguments;
-  if (!selectors.length) {
-    config.virtualStyles['empty'] = true;
-    return this;
-  }
-
-  for (var i = 0; i < selectors.length; i++) {
-    var style = styleRuleValueFrom(selectors[i], (config.documentStyles[0] || []));
-    config.virtualStyles[selectors[i]] = style;
-  }
-  return this;
-}
-
 Origami.getPaper = function() {
   return this.paper;
 }

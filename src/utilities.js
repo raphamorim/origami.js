@@ -150,18 +150,6 @@ function smartCoordinates(args) {
 }
 
 /**
- * Return all documentStyles to a especified origami context
- * @returns undefined
- */
-function defineDocumentStyles() {
-  for (var i = 0; i < document.styleSheets.length; i++) {
-    var mysheet = document.styleSheets[i],
-      myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
-    config.documentStyles.push(myrules);
-  }
-}
-
-/**
  * Merge defaults with user options
  * @param {Object} defaults Default settings
  * @param {Object} options User options
@@ -184,20 +172,6 @@ function extend(a, b, undefOnly) {
     }
   }
   return a;
-}
-
-/**
- * Get Style Rule from a specified element
- * @param {String} selector from element
- * @param {Array} Document Style Rules
- * @returns {Object} Merged values of defaults and options
- */
-function styleRuleValueFrom(selector, documentStyleRules) {
-  for (var j = 0; j < documentStyleRules.length; j++) {
-    if (documentStyleRules[j].selectorText && documentStyleRules[j].selectorText.toLowerCase() === selector) {
-      return documentStyleRules[j].style;
-    }
-  }
 }
 
 /**

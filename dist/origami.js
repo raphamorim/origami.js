@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-04-12T02:16Z
+ * Date: 2016-04-12T03:12Z
  */
 
 (function( window ) {
@@ -22,12 +22,6 @@ var Origami = {
 };
 
 var config = {
-  // Document Styles
-  documentStyles: [],
-
-  // Virtual Styles
-  virtualStyles: {},
-
   // All contexts saved
   contexts: [],
 
@@ -104,23 +98,6 @@ Origami.init = function(el) {
 
   config.contexts.push(current);
   this.paper = current;
-  return this;
-}
-
-Origami.styles = function() {
-  if (!config.virtualStyles.length)
-    defineDocumentStyles(config);
-
-  var selectors = arguments;
-  if (!selectors.length) {
-    config.virtualStyles['empty'] = true;
-    return this;
-  }
-
-  for (var i = 0; i < selectors.length; i++) {
-    var style = styleRuleValueFrom(selectors[i], (config.documentStyles[0] || []));
-    config.virtualStyles[selectors[i]] = style;
-  }
   return this;
 }
 
@@ -335,18 +312,6 @@ function smartCoordinates(args) {
 }
 
 /**
- * Return all documentStyles to a especified origami context
- * @returns undefined
- */
-function defineDocumentStyles() {
-  for (var i = 0; i < document.styleSheets.length; i++) {
-    var mysheet = document.styleSheets[i],
-      myrules = mysheet.cssRules ? mysheet.cssRules : mysheet.rules;
-    config.documentStyles.push(myrules);
-  }
-}
-
-/**
  * Merge defaults with user options
  * @param {Object} defaults Default settings
  * @param {Object} options User options
@@ -369,20 +334,6 @@ function extend(a, b, undefOnly) {
     }
   }
   return a;
-}
-
-/**
- * Get Style Rule from a specified element
- * @param {String} selector from element
- * @param {Array} Document Style Rules
- * @returns {Object} Merged values of defaults and options
- */
-function styleRuleValueFrom(selector, documentStyleRules) {
-  for (var j = 0; j < documentStyleRules.length; j++) {
-    if (documentStyleRules[j].selectorText && documentStyleRules[j].selectorText.toLowerCase() === selector) {
-      return documentStyleRules[j].style;
-    }
-  }
 }
 
 /**
@@ -684,45 +635,88 @@ Origami.border = function() {
   return this;
 }
 
-function CSSShape(style) {
-  var self = this,
-    style = config.virtualStyles[style];
+/**
+ * @author mrdoob / http://mrdoob.com/
+ * @co-author raphamorim
+ */
 
-  if (!style)
-    return self;
+function html2canvas(element) {
+  var range = document.createRange();
 
-  // TODO: Draw in all canvas
-  var data = '<svg xmlns="http://www.w3.org/2000/svg" width="' +
-    self.paper.width + 'px" height="' + self.paper.height + 'px">' +
-    '<foreignObject width="100%" height="100%">' +
-    '<div xmlns="http://www.w3.org/1999/xhtml">' +
-    '<div style="' + style.cssText + '"></div>' +
-    '</div></foreignObject>' +
-    '</svg>';
+  function getRect(rect) {
+    return {
+      left: rect.left - offset.left - 0.5,
+      top: rect.top - offset.top - 0.5,
+      width: rect.width,
+      height: rect.height
+    };
+  }
 
-  var DOMURL = window.URL || window.webkitURL || window,
-    img = new Image(),
-    svg = new Blob([data], {
-      type: 'image/svg+xml;charset=utf-8'
-    });
+  function drawText(style, x, y, string) {
+    context.font = style.fontSize + ' ' + style.fontFamily;
+    context.textBaseline = 'top';
+    context.fillStyle = style.color;
+    context.fillText(string, x, y);
+  }
 
-  var url = DOMURL.createObjectURL(svg);
-  img.src = url;
+  function drawBorder(style, which, x, y, width, height) {
+    var borderWidth = style[which + 'Width'];
+    var borderStyle = style[which + 'Style'];
+    var borderColor = style[which + 'Color'];
 
-  img.addEventListener('load', function() {
-    self.paper.ctx.beginPath();
-    self.paper.ctx.drawImage(img, 0, 0);
-    DOMURL.revokeObjectURL(url);
-    self.paper.ctx.closePath();
-  });
+    if (borderWidth !== '0px' && borderStyle !== 'none') {
+      context.strokeStyle = borderColor;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + width, y + height);
+      context.stroke();
+    }
+  }
 
-  return self;
+  function drawElement(element, style) {
+    var rect;
+    if (element.nodeType === 3) {
+      // text
+      range.selectNode(element);
+      rect = getRect(range.getBoundingClientRect());
+      drawText(style, rect.left, rect.top, element.nodeValue.trim());
+    } else {
+      rect = getRect(element.getBoundingClientRect());
+      style = window.getComputedStyle(element);
+
+      context.fillStyle = style.backgroundColor;
+      context.fillRect(rect.left, rect.top, rect.width, rect.height);
+
+      drawBorder(style, 'borderTop', rect.left, rect.top, rect.width, 0);
+      drawBorder(style, 'borderLeft', rect.left, rect.top, 0, rect.height);
+      drawBorder(style, 'borderBottom', rect.left, rect.top + rect.height, rect.width, 0);
+      drawBorder(style, 'borderRight', rect.left + rect.width, rect.top, 0, rect.height);
+
+      if (element.type === 'color' || element.type === 'text') {
+        drawText(style, rect.left + parseInt(style.paddingLeft), rect.top + parseInt(style.paddingTop), element.value);
+      }
+    }
+
+    for (var i = 0; i < element.childNodes.length; i++) {
+      drawElement(element.childNodes[i], style);
+    }
+  }
+
+  var offset = element.getBoundingClientRect();
+  var context = this.paper.ctx;
+  drawElement(element);
 }
 
-Screen.prototype.CSSShape = CSSShape;
+Screen.prototype.html2canvas = html2canvas;
 
-Origami.shape = function(style) {
-  queue('CSSShape', style);
+Origami.shape = function(selector) {
+  var element =  document.querySelector(selector);
+
+  if (!element)
+    this.error('Please use a valid selector in shape argument');
+  else
+    queue('html2canvas', element);
+
   return this;
 };
 
