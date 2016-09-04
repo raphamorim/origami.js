@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-04-12T02:16Z
+ * Date: 2016-09-04T20:27Z
  */
 
 (function( window ) {
@@ -140,6 +140,13 @@ Origami.cleanContexts = function() {
   config.contexts = [];
 }
 
+Origami.createComponent = function(component, fn) {
+  Origami[component] = function(props) {
+    fn.bind(this, this, props)();
+    return this;
+  };
+}
+
 Origami.draw = function(delay) {
   var self = this;
   var abs = new Screen(self.paper),
@@ -183,6 +190,7 @@ function Queue(assign, params, loaded) {
 }
 
 var queue = Queue.bind(Origami);
+
 // Utilities.js
 
 var hasOwn = Object.prototype.hasOwnProperty;
@@ -986,18 +994,20 @@ Origami.on = function(ev, fn) {
   return this;
 }
 
+var factory = extend(Origami.init.bind(this), Origami)
+
 // For consistency with CommonJS environments' exports
 if ( typeof module !== "undefined" && module && module.exports ){
-    module.exports = extend(Origami.init.bind(this), Origami);
+    module.exports = factory;
 }
 
 // For CommonJS with exports, but without module.exports, like Rhino
-if ( typeof exports !== "undefined" && exports ) {
-    exports.origami = extend(Origami.init.bind(this), Origami);
+else if ( typeof exports !== "undefined" && exports ) {
+    exports.origami = factory;
 }
 
 // For browser, export only select globals
-if ( typeof window === "object" ) {
+else if ( typeof window === "object" ) {
     window.origami = extend(Origami.init.bind(Origami), Origami);
 }
 
