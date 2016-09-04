@@ -11,6 +11,7 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 - [Why Origami.js?](#why)
     - [Styling with CSS](#styling-with-css)
 - [Getting](#getting)
+- [Component Ecosystem](#component-ecosystem)
 - [Smart Coordinates](#smart-coordinates)
   - [Based on Canvas Axis](#based-on-canvas-axis)
   - [Based on Canvas Percentage](#based-on-canvas-percentage)
@@ -41,6 +42,8 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
     - [nextFrame](#nextframe)
     - [stopFrame](#stopframe)
     - [examples](#first-example)
+- [Components](#components)
+    - [createComponent](#createcomponent)
 - [Browser Support](#browser-support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -101,6 +104,31 @@ Add the source before body tag end:
 <script src="origami.min.js"></script>
 </body>
 ```
+
+## Component Ecosystem
+
+The Origamijs let you to create components based on the OrigamiContext and CanvasContext2D, enabling the use of components stateless and isolated to be reused:
+
+```javascript
+
+origami.createComponent('Header', function(octx, props) {
+  var style = {
+    color: '#000',
+    font: '70px Helvetica',
+    align: 'center',
+    border: '2px solid gold'
+  };
+
+  octx.text(props.text, 200, 100, style);
+})
+
+origami('#canvas-id')
+  .Header({text: 'Random Text'})
+  .draw();
+
+```
+
+[See more about origami components](http://origamijs.com/docs/3-components)
 
 ## Smart Coordinates
 
@@ -620,6 +648,32 @@ function draw() {
 
 ![Earth Rotate](https://raw.githubusercontent.com/raphamorim/origami.js/master/images/examples/animation-earth.gif)
 
+## Components
+
+### createComponent
+
+Allows you to create stateless component to reuse in Origami current context:
+
+```javascript
+
+origami.createComponent('Gallery', function(octx, props) {
+  octx.image(props.imageSrc, 0, 0, 200, 200)
+  .flip('horizontal')
+  .image(props.imageSrc, 0, 220, 200, 200)
+  .flipEnd()
+  .flip('vertical')
+  .image(props.imageSrc, 220, 0)
+  .flipEnd()
+  .load(function(canvas) {
+    canvas.draw();
+  })
+})
+
+origami('#canvas-id')
+  .Gallery({imageSrc: 'images/person.jpg'})
+  .draw();
+
+```
 
 ## Browser Support
 
