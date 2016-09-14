@@ -66,3 +66,10 @@ Origami.getContexts = function() {
 Origami.cleanContexts = function() {
   config.contexts = [];
 }
+
+Origami.createComponent = function(component, fn) {
+  Origami[component] = function(props) {
+    fn.bind(this, this, props)();
+    return this;
+  };
+}
