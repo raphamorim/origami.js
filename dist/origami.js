@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-04T20:38Z
+ * Date: 2016-09-14T18:14Z
  */
 
 (function( window ) {
