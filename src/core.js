@@ -73,3 +73,5 @@ Origami.createComponent = function(component, fn) {
     return this;
   };
 }
+
+Origami.fn = {};

@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-14T18:14Z
+ * Date: 2016-09-15T04:31Z
  */
 
 (function( window ) {
@@ -147,8 +147,19 @@ Origami.createComponent = function(component, fn) {
   };
 }
 
-Origami.draw = function(delay) {
-  var self = this;
+Origami.fn = {};
+
+Origami.draw = function(options) {
+  var self = this,
+    delay = 0,
+    customRender = false,
+    ctx = self.paper.ctx;
+
+  if (typeof(options) === 'string') {
+    customRender = new origami.fn[options](self.paper);
+    self.paper['ctx'] = customRender;
+  } else delay = options;
+
   var abs = new Screen(self.paper),
     queueList = self.paper.queue;
 
@@ -160,6 +171,11 @@ Origami.draw = function(delay) {
       abs[queueList[i].assign](queueList[i].params);
     }
     self.paper.queue = [];
+
+    if (customRender) {
+      customRender.draw();
+      self.paper.ctx = ctx;
+    }
   }, delay);
 
   return self;

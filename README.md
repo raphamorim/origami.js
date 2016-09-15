@@ -4,7 +4,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/raphamorim/origami.js/badge.svg?branch=master)](https://coveralls.io/github/raphamorim/origami.js?branch=master) [![Build Status](https://travis-ci.org/raphamorim/origami.js.svg)](https://travis-ci.org/raphamorim/origami.js) [![Join the chat at https://gitter.im/raphamorim/origami.js](https://badges.gitter.im/raphamorim/origami.js.svg)](https://gitter.im/raphamorim/origami.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas
+Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas.
 
 ## Summary
 
@@ -44,6 +44,8 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
     - [examples](#first-example)
 - [Components](#components)
     - [createComponent](#createcomponent)
+- [Plugins](#plugins)
+    - [origamijs to SVG](#origamijs-to-svg)
 - [Browser Support](#browser-support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -127,6 +129,8 @@ origami('#canvas-id')
   .draw();
 
 ```
+
+Highlight: You can render each of these components in SVG or another format, [read about plugins to know more](#plugins).
 
 [See more about origami components](http://origamijs.com/docs/3-components)
 
@@ -674,6 +678,45 @@ origami('#canvas-id')
   .draw();
 
 ```
+
+## Plugins
+
+Origamijs allows you to use a [list of plugins](https://github.com/origamijs) to **render in formats beyond HTML5Canvas**.
+
+### Origamijs to SVG
+
+You can use [origami.svg plugin](https://github.com/origamijs/origami.svg) to render origamiContext to SVG element:
+
+Just use `svg` as argument in draw method:
+
+```js
+origami('#canvas-id')
+  .border({
+    border: '4px dotted #654'
+  })
+  .image('test/resources/image-1.jpg', '5%', '5%', 200, 200)
+  .arc(100, 75, 50, {
+    background: '#2A80B9',
+    borderSize: '4px',
+    borderColor: 'gold',
+    borderStyle: 'dotted'
+  })
+  .rect(10, 10, 50, 100, {
+    background: 'lightblue',
+    border: '4px solid #999'
+  })
+  .rect(50, 10, 40, {
+    background: 'lightgreen',
+    border: '10px solid green'
+  })
+  .load(function(octx) {
+    octx.draw('svg');
+  });
+```
+
+##### result:
+
+![result](https://raw.githubusercontent.com/origamijs/origami.svg/master/examples/result.jpg)
 
 ## Browser Support
 
