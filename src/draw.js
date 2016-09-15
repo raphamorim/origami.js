@@ -16,6 +16,25 @@ Origami.draw = function(delay) {
   return self;
 }
 
+Origami.drawSVG = function(delay) {
+  var self = this;
+  var abs = new SVG(self.paper.width, self.paper.width),
+    queueList = self.paper.queue;
+
+  setTimeout(function() {
+    for (var i = 0; i < queueList.length; i++) {
+      if (queueList[i].loaded === false || queueList[i].failed) {
+        Origami.warning('couldn\'t able to load:', queueList[i].params)
+      }
+      abs[queueList[i].assign](queueList[i].params);
+    }
+    console.log(abs.getSvg());
+    self.paper.queue = [];
+  }, delay);
+
+  return self; 
+}
+
 Origami.load = function(fn) {
   var mOrigami = clone(this);
   mOrigami.paper = this.paper;

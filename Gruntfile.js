@@ -21,6 +21,7 @@ module.exports = function(grunt) {
           "src/core/config.js",
           "src/core/initialize.js",
           "src/core/logging.js",
+          "src/transformers.js",
           "src/core.js",
           "src/draw.js",
           "src/utilities.js",
