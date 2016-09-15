@@ -28,7 +28,7 @@ Origami.drawSVG = function(delay) {
       }
       abs[queueList[i].assign](queueList[i].params);
     }
-    console.log(abs.getSvg());
+    console.log(abs.toDataURL("image/svg+xml"));
     self.paper.queue = [];
   }, delay);
 
