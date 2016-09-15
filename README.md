@@ -45,7 +45,7 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 - [Components](#components)
     - [createComponent](#createcomponent)
 - [Plugins](#plugins)
-    - [origamijs to SVG](#origamijstosvg)
+    - [origamijs to SVG](#origamijs-to-svg)
 - [Browser Support](#browser-support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -685,9 +685,9 @@ Origamijs allows you to use a [list of plugins](https://github.com/origamijs) to
 
 ### Origamijs to SVG
 
-You can use porigami.svg plugin](https://github.com/origamijs/origami.svg) to renderize origamiContext to SVG element:
+You can use [origami.svg plugin](https://github.com/origamijs/origami.svg) to render origamiContext to SVG element:
 
-After load, just use `svg` as argument in draw method:
+Just use `svg` as argument in draw method:
 
 ```js
 origami('#canvas-id')
