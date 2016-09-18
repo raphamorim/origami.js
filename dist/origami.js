@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-18T17:57Z
+ * Date: 2016-09-18T18:20Z
  */
 
 (function( window ) {
@@ -90,6 +90,8 @@ Origami.init = function(el) {
   if (!el.getContext)
     this.error('Please verify if it\'s a valid canvas element');
 
+  el.width = el.clientWidth;
+  el.height = el.clientHeight;
   var context = el.getContext('2d');
   var current = {
     element: el,
@@ -98,8 +100,8 @@ Origami.init = function(el) {
     flip: false,
     frame: null,
     ctx: context,
-    width: el.offsetWidth,
-    height: el.offsetHeight,
+    width: el.width,
+    height: el.height,
   };
 
   config.contexts.push(current);
@@ -701,8 +703,8 @@ Origami.border = function() {
     args: {
       x: 0,
       y: 0,
-      width: this.paper.ctx.canvas.clientWidth,
-      height: this.paper.ctx.canvas.clientHeight
+      width: this.paper.width,
+      height: this.paper.height
     }
   });
   return this;

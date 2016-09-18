@@ -37,8 +37,8 @@ Origami.border = function() {
     args: {
       x: 0,
       y: 0,
-      width: this.paper.ctx.canvas.clientWidth,
-      height: this.paper.ctx.canvas.clientHeight
+      width: this.paper.width,
+      height: this.paper.height
     }
   });
   return this;

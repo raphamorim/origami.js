@@ -17,6 +17,8 @@ Origami.init = function(el) {
   if (!el.getContext)
     this.error('Please verify if it\'s a valid canvas element');
 
+  el.width = el.clientWidth;
+  el.height = el.clientHeight;
   var context = el.getContext('2d');
   var current = {
     element: el,
@@ -25,8 +27,8 @@ Origami.init = function(el) {
     flip: false,
     frame: null,
     ctx: context,
-    width: el.offsetWidth,
-    height: el.offsetHeight,
+    width: el.width,
+    height: el.height,
   };
 
   config.contexts.push(current);
