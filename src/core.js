@@ -25,8 +25,8 @@ Origami.init = function(el) {
     flip: false,
     frame: null,
     ctx: context,
-    width: el.width,
-    height: el.height,
+    width: el.offsetWidth,
+    height: el.offsetHeight,
   };
 
   config.contexts.push(current);

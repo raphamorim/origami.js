@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.4.7
+ * Origami.js 0.5.0
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-15T04:31Z
+ * Date: 2016-09-18T17:57Z
  */
 
 (function( window ) {
@@ -98,8 +98,8 @@ Origami.init = function(el) {
     flip: false,
     frame: null,
     ctx: context,
-    width: el.width,
-    height: el.height,
+    width: el.offsetWidth,
+    height: el.offsetHeight,
   };
 
   config.contexts.push(current);
