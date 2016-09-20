@@ -545,7 +545,7 @@ Stop frame animation
 
 ```javascript
 
-origami('#demo-1').stop(frame)
+origami('#demo-1').stopFrame(frame)
 
 ```
 
@@ -641,7 +641,6 @@ function draw() {
     })
     .image('images/Canvas_sun.png')
     .load(function(canvas){
-      canvas.draw()
       canvas.nextFrame(draw)
     })
 }
