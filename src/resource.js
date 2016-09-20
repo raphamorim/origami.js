@@ -74,15 +74,18 @@ Origami.rotate = function(degrees) {
   return this;
 }
 
-Origami.stop = function() {
-  queue('stop')
+Origami.stopFrame = function() {
+  console.log(1000);
+  queue('stopFrame')
+  this.draw();
   return this;
 }
 
-Origami.nextFrame = function(fn) {
-  queue('nextFrame', {
+Origami.runFrame = function(fn) {
+  queue('runFrame', {
     fn: fn
   })
+  this.draw();
   return this;
 }
 

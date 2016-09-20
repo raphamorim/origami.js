@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-18T18:20Z
+ * Date: 2016-09-20T16:58Z
  */
 
 (function( window ) {
@@ -453,13 +453,19 @@ Screen.prototype.rotate = function(params) {
   this.paper.ctx.rotate(params.degrees);
 }
 
-Screen.prototype.stop = function() {
-  window.cancelAnimationFrame(this.paper.frame);
+Screen.prototype.stopFrame = function() {
+  var cancelAnimationFrame = window.cancelAnimationFrame ||
+    window.mozCancelAnimationFrame;
+  cancelAnimationFrame(this.paper.frame);
   this.paper.frame = false;
 }
 
-Screen.prototype.nextFrame = function(params) {
-  this.paper.frame = window.requestAnimationFrame(params.fn);
+Screen.prototype.runFrame = function(params) {
+  var requestAnimationFrame = window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.msRequestAnimationFrame;
+  this.paper.frame = requestAnimationFrame(params.fn);
 }
 
 Screen.prototype.scale = function(params) {
@@ -476,14 +482,13 @@ Screen.prototype.flipEnd = function() {
   this.paper.flip = false;
 }
 
-Screen.prototype.clear = function(){
+Screen.prototype.clear = function() {
   this.paper.ctx.clearRect(0, 0, this.paper.width, this.paper.height);
 }
 
 Screen.prototype.on = function(params) {
   this.paper.element.addEventListener(params.ev, params.fn);
 }
-
 function ArcShape(params) {
   var args = params.args,
     style = args.style,
@@ -967,15 +972,18 @@ Origami.rotate = function(degrees) {
   return this;
 }
 
-Origami.stop = function() {
-  queue('stop')
+Origami.stopFrame = function() {
+  console.log(1000);
+  queue('stopFrame')
+  this.draw();
   return this;
 }
 
-Origami.nextFrame = function(fn) {
-  queue('nextFrame', {
+Origami.runFrame = function(fn) {
+  queue('runFrame', {
     fn: fn
   })
+  this.draw();
   return this;
 }
 

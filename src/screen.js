@@ -26,13 +26,19 @@ Screen.prototype.rotate = function(params) {
   this.paper.ctx.rotate(params.degrees);
 }
 
-Screen.prototype.stop = function() {
-  window.cancelAnimationFrame(this.paper.frame);
+Screen.prototype.stopFrame = function() {
+  var cancelAnimationFrame = window.cancelAnimationFrame ||
+    window.mozCancelAnimationFrame;
+  cancelAnimationFrame(this.paper.frame);
   this.paper.frame = false;
 }
 
-Screen.prototype.nextFrame = function(params) {
-  this.paper.frame = window.requestAnimationFrame(params.fn);
+Screen.prototype.runFrame = function(params) {
+  var requestAnimationFrame = window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.msRequestAnimationFrame;
+  this.paper.frame = requestAnimationFrame(params.fn);
 }
 
 Screen.prototype.scale = function(params) {
@@ -49,7 +55,7 @@ Screen.prototype.flipEnd = function() {
   this.paper.flip = false;
 }
 
-Screen.prototype.clear = function(){
+Screen.prototype.clear = function() {
   this.paper.ctx.clearRect(0, 0, this.paper.width, this.paper.height);
 }
 
