@@ -1,8 +1,7 @@
 describe("Test Initialize", function() {
     var canvas = document.createElement("canvas");
         canvas.id = "canvas";
-        canvas.width = 500;
-        canvas.height = 500;
+        canvas.classList.add('based-style-css');
         document.body.appendChild(canvas);
 
     var myCanvas = document.getElementById('canvas');
@@ -55,9 +54,11 @@ describe("Test Initialize", function() {
 
             expect(contexts[0].flip).to.eql(false);
             expect(contexts[0].frame).to.eql(null);
-            expect(contexts[0].width).to.eql(canvas.width);
-            expect(contexts[0].height).to.eql(canvas.width);
+            expect(contexts[0].width).to.eql(canvas.clientWidth);
+            expect(contexts[0].height).to.eql(canvas.clientHeight);
             expect(contexts[0].element).to.eql(canvas);
+            expect(contexts[0].element.width).to.eql(canvas.clientWidth);
+            expect(contexts[0].element.height).to.eql(canvas.clientHeight);
             expect(contexts[0].ctx).to.eql(canvas.getContext('2d'));
         });
     });
