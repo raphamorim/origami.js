@@ -1,33 +1,31 @@
 Origami.draw = function(options) {
   var self = this,
-    delay = 0,
     customRender = false,
     ctx = self.paper.ctx;
 
   if (typeof(options) === 'string') {
     customRender = new origami.fn[options](self.paper);
     self.paper['ctx'] = customRender;
-  } else delay = options;
+  }
 
   var abs = new Screen(self.paper),
     queueList = self.paper.queue;
 
-  setTimeout(function() {
-    for (var i = 0; i < queueList.length; i++) {
-      if (queueList[i].loaded === false || queueList[i].failed) {
-        Origami.warning('couldn\'t able to load:', queueList[i].params)
-      }
-      abs[queueList[i].assign](queueList[i].params);
+  for (var i = 0; i < queueList.length; i++) {
+    if (queueList[i].loaded === false || queueList[i].failed) {
+      Origami.warning('couldn\'t able to load:', queueList[i].params)
     }
-    self.paper.queue = [];
+    abs[queueList[i].assign](queueList[i].params);
+  }
+  self.paper.queue = [];
 
-    if (customRender) {
-      customRender.draw();
-      self.paper.ctx = ctx;
-    }
-  }, delay);
+  if (customRender) {
+    customRender.draw();
+    self.paper.ctx = ctx;
+  }
 
-  return self;
+  if (typeof(options) === 'function')
+    options();
 }
 
 Origami.load = function(fn) {
@@ -43,7 +41,7 @@ Origami.load = function(fn) {
       clearInterval(loadInterval);
       fn.bind(mOrigami, mOrigami)();
     }
-  }, 200);
+  }, 300);
 }
 
 function Queue(assign, params, loaded) {

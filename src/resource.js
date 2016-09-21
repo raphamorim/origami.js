@@ -54,18 +54,18 @@ Origami.rotate = function(degrees) {
   if (typeof(degrees) === 'string') {
     // Slow
     if (degrees === 'slow')
-      degrees = ((2*Math.PI)/60)*new Date().getSeconds() +
-        ((2*Math.PI)/60000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 60) * new Date().getSeconds() +
+      ((2 * Math.PI) / 60000) * new Date().getMilliseconds();
 
     // Normal
     else if (degrees === 'normal')
-      degrees = ((2*Math.PI)/30)*new Date().getSeconds() +
-        ((2*Math.PI)/30000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 30) * new Date().getSeconds() +
+      ((2 * Math.PI) / 30000) * new Date().getMilliseconds();
 
     // Fast
     else if (degrees === 'fast')
-      degrees = ((2*Math.PI)/6)*new Date().getSeconds() +
-        ((2*Math.PI)/6000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 6) * new Date().getSeconds() +
+      ((2 * Math.PI) / 6000) * new Date().getMilliseconds();
   }
 
   queue('rotate', {
@@ -74,19 +74,24 @@ Origami.rotate = function(degrees) {
   return this;
 }
 
-Origami.stopFrame = function() {
-  console.log(1000);
-  queue('stopFrame')
-  this.draw();
+Origami.stopRender = function() {
+  window.cancelAnimationFrame(this.paper.frame);
+  this.paper.frame = false;
+}
+
+Origami.able = function() {
+  this.paper.frame = 1;
   return this;
 }
 
-Origami.runFrame = function(fn) {
-  queue('runFrame', {
-    fn: fn
-  })
-  this.draw();
-  return this;
+Origami.startRender = function(fn) {
+  var self = this;
+  if (self.paper.frame === false)
+    return;
+
+  self.draw(function() {
+    self.paper.frame = window.requestAnimationFrame(fn.bind(this));
+  });
 }
 
 Origami.scale = function(width, height) {
@@ -115,9 +120,6 @@ Origami.clear = function() {
 }
 
 Origami.on = function(ev, fn) {
-  queue('on', {
-    ev: ev,
-    fn: fn
-  })
+  this.paper.element.addEventListener(ev, fn);
   return this;
 }

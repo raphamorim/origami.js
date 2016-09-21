@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-20T16:58Z
+ * Date: 2016-09-20T23:59Z
  */
 
 (function( window ) {
@@ -153,34 +153,32 @@ Origami.fn = {};
 
 Origami.draw = function(options) {
   var self = this,
-    delay = 0,
     customRender = false,
     ctx = self.paper.ctx;
 
   if (typeof(options) === 'string') {
     customRender = new origami.fn[options](self.paper);
     self.paper['ctx'] = customRender;
-  } else delay = options;
+  }
 
   var abs = new Screen(self.paper),
     queueList = self.paper.queue;
 
-  setTimeout(function() {
-    for (var i = 0; i < queueList.length; i++) {
-      if (queueList[i].loaded === false || queueList[i].failed) {
-        Origami.warning('couldn\'t able to load:', queueList[i].params)
-      }
-      abs[queueList[i].assign](queueList[i].params);
+  for (var i = 0; i < queueList.length; i++) {
+    if (queueList[i].loaded === false || queueList[i].failed) {
+      Origami.warning('couldn\'t able to load:', queueList[i].params)
     }
-    self.paper.queue = [];
+    abs[queueList[i].assign](queueList[i].params);
+  }
+  self.paper.queue = [];
 
-    if (customRender) {
-      customRender.draw();
-      self.paper.ctx = ctx;
-    }
-  }, delay);
+  if (customRender) {
+    customRender.draw();
+    self.paper.ctx = ctx;
+  }
 
-  return self;
+  if (typeof(options) === 'function')
+    options();
 }
 
 Origami.load = function(fn) {
@@ -196,7 +194,7 @@ Origami.load = function(fn) {
       clearInterval(loadInterval);
       fn.bind(mOrigami, mOrigami)();
     }
-  }, 200);
+  }, 300);
 }
 
 function Queue(assign, params, loaded) {
@@ -453,21 +451,6 @@ Screen.prototype.rotate = function(params) {
   this.paper.ctx.rotate(params.degrees);
 }
 
-Screen.prototype.stopFrame = function() {
-  var cancelAnimationFrame = window.cancelAnimationFrame ||
-    window.mozCancelAnimationFrame;
-  cancelAnimationFrame(this.paper.frame);
-  this.paper.frame = false;
-}
-
-Screen.prototype.runFrame = function(params) {
-  var requestAnimationFrame = window.requestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame;
-  this.paper.frame = requestAnimationFrame(params.fn);
-}
-
 Screen.prototype.scale = function(params) {
   this.paper.ctx.scale(params.width, params.height);
 }
@@ -486,9 +469,6 @@ Screen.prototype.clear = function() {
   this.paper.ctx.clearRect(0, 0, this.paper.width, this.paper.height);
 }
 
-Screen.prototype.on = function(params) {
-  this.paper.element.addEventListener(params.ev, params.fn);
-}
 function ArcShape(params) {
   var args = params.args,
     style = args.style,
@@ -952,18 +932,18 @@ Origami.rotate = function(degrees) {
   if (typeof(degrees) === 'string') {
     // Slow
     if (degrees === 'slow')
-      degrees = ((2*Math.PI)/60)*new Date().getSeconds() +
-        ((2*Math.PI)/60000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 60) * new Date().getSeconds() +
+      ((2 * Math.PI) / 60000) * new Date().getMilliseconds();
 
     // Normal
     else if (degrees === 'normal')
-      degrees = ((2*Math.PI)/30)*new Date().getSeconds() +
-        ((2*Math.PI)/30000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 30) * new Date().getSeconds() +
+      ((2 * Math.PI) / 30000) * new Date().getMilliseconds();
 
     // Fast
     else if (degrees === 'fast')
-      degrees = ((2*Math.PI)/6)*new Date().getSeconds() +
-        ((2*Math.PI)/6000)*new Date().getMilliseconds();
+      degrees = ((2 * Math.PI) / 6) * new Date().getSeconds() +
+      ((2 * Math.PI) / 6000) * new Date().getMilliseconds();
   }
 
   queue('rotate', {
@@ -972,19 +952,24 @@ Origami.rotate = function(degrees) {
   return this;
 }
 
-Origami.stopFrame = function() {
-  console.log(1000);
-  queue('stopFrame')
-  this.draw();
+Origami.stopRender = function() {
+  window.cancelAnimationFrame(this.paper.frame);
+  this.paper.frame = false;
+}
+
+Origami.able = function() {
+  this.paper.frame = 1;
   return this;
 }
 
-Origami.runFrame = function(fn) {
-  queue('runFrame', {
-    fn: fn
-  })
-  this.draw();
-  return this;
+Origami.startRender = function(fn) {
+  var self = this;
+  if (self.paper.frame === false)
+    return;
+
+  self.draw(function() {
+    self.paper.frame = window.requestAnimationFrame(fn.bind(this));
+  });
 }
 
 Origami.scale = function(width, height) {
@@ -1013,10 +998,7 @@ Origami.clear = function() {
 }
 
 Origami.on = function(ev, fn) {
-  queue('on', {
-    ev: ev,
-    fn: fn
-  })
+  this.paper.element.addEventListener(ev, fn);
   return this;
 }
 
