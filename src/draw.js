@@ -41,7 +41,7 @@ Origami.load = function(fn) {
       clearInterval(loadInterval);
       fn.bind(mOrigami, mOrigami)();
     }
-  }, 300);
+  }, 200);
 }
 
 function Queue(assign, params, loaded) {

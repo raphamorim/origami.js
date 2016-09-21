@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-20T23:59Z
+ * Date: 2016-09-21T00:08Z
  */
 
 (function( window ) {
@@ -194,7 +194,7 @@ Origami.load = function(fn) {
       clearInterval(loadInterval);
       fn.bind(mOrigami, mOrigami)();
     }
-  }, 300);
+  }, 200);
 }
 
 function Queue(assign, params, loaded) {
@@ -957,7 +957,7 @@ Origami.stopRender = function() {
   this.paper.frame = false;
 }
 
-Origami.able = function() {
+Origami.play = function() {
   this.paper.frame = 1;
   return this;
 }

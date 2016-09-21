@@ -79,7 +79,7 @@ Origami.stopRender = function() {
   this.paper.frame = false;
 }
 
-Origami.able = function() {
+Origami.play = function() {
   this.paper.frame = 1;
   return this;
 }
