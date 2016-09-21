@@ -6,30 +6,7 @@
 
 Initially it's a tool for teaching geometry, web and javascript in schools. Currently it's a powerful library to create using HTML5 Canvas.
 
-## [Documentation](http://origamijs.com/docs/)
-
-## Getting
-
-First of all, get Origami.js using [Download Option](https://github.com/raphamorim/origami.js/archive/master.zip) or via bower.
-
-To get using [Bower](http://bower.io) just run this command
-
-```sh
-bower install origamijs
-```
-
-Or get using NPM just run this command
-
-```sh
-npm install origamijs
-```
-
-Add the source before body tag end:
-
-```html
-<script src="origami.min.js"></script>
-</body>
-```
+## [Read Documentation](http://origamijs.com/docs/)
 
 ## Contributing
 
