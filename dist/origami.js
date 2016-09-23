@@ -1,11 +1,11 @@
 /*!
- * Origami.js 0.5.0
+ * Origami.js 0.5.1
  * https://origamijs.com/
  *
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-23T03:42Z
+ * Date: 2016-09-23T22:19Z
  */
 
 (function( window ) {
@@ -885,12 +885,11 @@ function ChartLine(config) {
     width = this.paper.width,
     height = this.paper.height;
 
-  var line = getBorderStyleObject(config.line || "1px solid #000");
   var lineVariance = 2;
 
   var xPadding = 40;
   var yPadding = 40;
-  var data = [];
+  var sets = config.datasets;
 
   var gridLines = {
     vertical: true,
@@ -905,19 +904,38 @@ function ChartLine(config) {
       gridLines.horizontal = false;
   }
 
+  // Labels
+  ctx.textAlign = "left"
   for (var i = 0; i < config.labels.length; i++) {
-    data.push({
-      X: config.labels[i],
-      Y: config.data[i]
-    });
+    if (gridLines.vertical) {
+      ctx.beginPath();
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = '#e7e7e7';
+      ctx.moveTo(getXPixel(i), height - yPadding + 10);
+      ctx.lineTo(getXPixel(i), yPadding / lineVariance);
+      ctx.stroke();
+    }
+    ctx.fillText(config.labels[i], getXPixel(i), height - yPadding + 20);
+  }
+
+  // for (var i = 0; i < config.labels.length; i++) {
+  //   data.push({
+  //     X: config.labels[i],
+  //     Y: config.data[i]
+  //   });
+  // }
+
+  function getMaxOfArray(numArray) {
+    return Math.max.apply(null, numArray);
   }
 
   function getMaxY() {
     var max = 0;
 
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].Y > max) {
-        max = data[i].Y;
+    for (var i = 0; i < sets.length; i++) {
+      var m = getMaxOfArray(sets[i].data)
+      if (m > max) {
+        max = m;
       }
     }
 
@@ -926,7 +944,7 @@ function ChartLine(config) {
   }
 
   function getXPixel(val) {
-    return ((width - xPadding) / data.length) * val + xPadding;
+    return ((width - xPadding) / config.labels.length) * val + xPadding;
   }
 
   function getYPixel(val) {
@@ -957,44 +975,34 @@ function ChartLine(config) {
       ctx.lineTo(width - (xPadding / lineVariance), getYPixel(i));
       ctx.stroke();
     }
-
     ctx.fillText(i, xPadding - 10, getYPixel(i));
   }
 
-  // Labels
-  ctx.textAlign = "left"
-  for (var i = 0; i < data.length; i++) {
-    if (gridLines.vertical) {
-      ctx.beginPath();
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = '#e7e7e7';
-      ctx.moveTo(getXPixel(i), height - yPadding + 10);
-      ctx.lineTo(getXPixel(i), yPadding / lineVariance);
-      ctx.stroke();
+  // Draw Lines
+  for (var i = 0; i < sets.length; i++) {
+    var set = sets[i],
+      line = getBorderStyleObject(set.line || "1px solid #000");
+    ctx.beginPath();
+    ctx.lineWidth = line.borderSize;
+    ctx.setLineDash(line.borderStyle);
+    ctx.strokeStyle = line.borderColor;
+    ctx.moveTo(getXPixel(0), getYPixel(set.data[0]));
+
+    for (var x = 1; x < set.data.length; x++) {
+      ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
     }
+    ctx.stroke();
+    ctx.setLineDash([]);
 
-    ctx.fillText(data[i].X, getXPixel(i), height - yPadding + 20);
-  }
-
-  ctx.beginPath();
-  ctx.lineWidth = line.borderSize;
-  ctx.setLineDash(line.borderStyle);
-  ctx.strokeStyle = line.borderColor;
-  ctx.moveTo(getXPixel(0), getYPixel(data[0].Y));
-
-  for (var i = 1; i < data.length; i++) {
-    ctx.lineTo(getXPixel(i), getYPixel(data[i].Y));
-  }
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  if (config.points) {
-    ctx.fillStyle = (config.pointsColor) ? config.pointsColor : 'rgb(75,75,75)';
-    for (var i = 0; i < data.length; i++) {
-      ctx.beginPath();
-      ctx.arc(getXPixel(i), getYPixel(data[i].Y), 3, 0, Math.PI * 2, true);
-      ctx.fill();
+    if (set.points) {
+      ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
+      for (var rael = 0; rael < set.data.length; rael++) {
+        ctx.beginPath();
+        ctx.arc(getXPixel(rael), getYPixel(set.data[rael]), 3, 0, Math.PI * 2, true);
+        ctx.fill();
+      }
     }
+    ctx.closePath();
   }
 }
 
@@ -1004,6 +1012,7 @@ Origami.chartLine = function(config) {
   queue('chartLine', config);
   return this;
 };
+
 // Resource.js
 
 Origami.background = function(color) {
