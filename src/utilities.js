@@ -42,6 +42,10 @@ function argsByRules(argsArray, rules) {
   return args;
 }
 
+function getBorderStyleObject(prop) {
+  return normalizeStyle({border: prop});
+}
+
 function normalizeStyle(style) {
   if (!style)
     style = {};

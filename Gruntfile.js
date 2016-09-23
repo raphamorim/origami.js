@@ -26,6 +26,7 @@ module.exports = function(grunt) {
           "src/utilities.js",
           "src/screen.js",
           "src/shapes/*.js",
+          "src/charts/*.js",
           "src/resource.js",
           "src/export.js",
           "src/outro.js",
