@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-09-23T22:19Z
+ * Date: 2016-09-23T23:21Z
  */
 
 (function( window ) {
@@ -918,12 +918,24 @@ function ChartLine(config) {
     ctx.fillText(config.labels[i], getXPixel(i), height - yPadding + 20);
   }
 
-  // for (var i = 0; i < config.labels.length; i++) {
-  //   data.push({
-  //     X: config.labels[i],
-  //     Y: config.data[i]
-  //   });
-  // }
+  // Data
+  ctx.textAlign = "right"
+  ctx.textBaseline = "middle";
+  var maxY = getMaxY();
+  var gridItems = 10;
+  var variance = Math.round(Math.round(maxY / gridItems) / 10) * 10;
+
+  for (var i = 0; i < maxY; i += variance) {
+    if (gridLines.horizontal) {
+      ctx.beginPath();
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = '#e7e7e7';
+      ctx.moveTo(xPadding - 5, getYPixel(i));
+      ctx.lineTo(width - (xPadding / lineVariance), getYPixel(i));
+      ctx.stroke();
+    }
+    ctx.fillText(i, xPadding - 10, getYPixel(i));
+  }
 
   function getMaxOfArray(numArray) {
     return Math.max.apply(null, numArray);
@@ -933,13 +945,12 @@ function ChartLine(config) {
     var max = 0;
 
     for (var i = 0; i < sets.length; i++) {
-      var m = getMaxOfArray(sets[i].data)
+      var m = getMaxOfArray(sets[i].data);
       if (m > max) {
         max = m;
       }
     }
-
-    max += 10 - max % 10;
+    max += yPadding - max % 10;
     return max;
   }
 
@@ -962,21 +973,6 @@ function ChartLine(config) {
   ctx.lineTo(xPadding, height - yPadding);
   ctx.lineTo(width - (xPadding / lineVariance), height - yPadding);
   ctx.stroke()
-
-  // Data
-  ctx.textAlign = "right"
-  ctx.textBaseline = "middle";
-  for (var i = 0; i < getMaxY(); i += 10) {
-    if (gridLines.horizontal) {
-      ctx.beginPath();
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = '#e7e7e7';
-      ctx.moveTo(xPadding - 5, getYPixel(i));
-      ctx.lineTo(width - (xPadding / lineVariance), getYPixel(i));
-      ctx.stroke();
-    }
-    ctx.fillText(i, xPadding - 10, getYPixel(i));
-  }
 
   // Draw Lines
   for (var i = 0; i < sets.length; i++) {
