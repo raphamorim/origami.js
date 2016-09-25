@@ -43,3 +43,7 @@ Screen.prototype.flipEnd = function() {
 Screen.prototype.clear = function() {
   this.paper.ctx.clearRect(0, 0, this.paper.width, this.paper.height);
 }
+
+Screen.prototype.opacity = function(params) {
+  this.paper.ctx.globalAlpha = params.opacity;
+}

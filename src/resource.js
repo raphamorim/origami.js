@@ -123,3 +123,8 @@ Origami.on = function(ev, fn) {
   this.paper.element.addEventListener(ev, fn);
   return this;
 }
+
+Origami.opacity = function(opacity) {
+  queue('opacity', {opacity: opacity});
+  return this;
+}
