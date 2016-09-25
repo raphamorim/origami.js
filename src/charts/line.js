@@ -3,7 +3,18 @@ function ChartLine(config) {
     width = this.paper.width,
     height = this.paper.height;
 
+  if (config.frame)
+    ctx.clearRect(0, 0, this.paper.width, this.paper.height);
+
   var lineVariance = 2;
+
+  var animation = config.animation;
+
+  if (!config.props) {
+    config['props'] = {
+      alpha: 1
+    }
+  }
 
   var xPadding = 40;
   var yPadding = 40;
@@ -22,8 +33,14 @@ function ChartLine(config) {
       gridLines.horizontal = false;
   }
 
+  ctx.fillStyle = '#5e5e5e';
+  ctx.font = 'normal 11px Helvetica';
+
+  ctx.globalAlpha = 1;
+
   // Labels
   ctx.textAlign = "left"
+  ctx.textBaseline = "alphabetic";
   for (var i = 0; i < config.labels.length; i++) {
     if (gridLines.vertical) {
       ctx.beginPath();
@@ -80,6 +97,12 @@ function ChartLine(config) {
     return height - (((height - yPadding) / getMaxY()) * val) - yPadding;
   }
 
+  if (animation) {
+    if (animation === 'fade' && config.props.alpha === 1) {
+      config.props.alpha = 0.0025;
+    }
+  }
+
   ctx.lineWidth = 0.8;
   ctx.strokeStyle = '#999';
   ctx.font = 'normal 12px Helvetica';
@@ -92,10 +115,18 @@ function ChartLine(config) {
   ctx.lineTo(width - (xPadding / lineVariance), height - yPadding);
   ctx.stroke()
 
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
   // Draw Lines
   for (var i = 0; i < sets.length; i++) {
+    ctx.globalAlpha = config.props.alpha;
+    config.props.alpha += config.props.alpha / getRandomArbitrary(10, 50);
+
     var set = sets[i],
       line = getBorderStyleObject(set.line || "1px solid #000");
+
     ctx.beginPath();
     ctx.lineWidth = line.borderSize;
     ctx.setLineDash(line.borderStyle);
@@ -110,13 +141,21 @@ function ChartLine(config) {
 
     if (set.points) {
       ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
-      for (var rael = 0; rael < set.data.length; rael++) {
+      for (var z = 0; z < set.data.length; z++) {
         ctx.beginPath();
-        ctx.arc(getXPixel(rael), getYPixel(set.data[rael]), 3, 0, Math.PI * 2, true);
+        ctx.arc(getXPixel(z), getYPixel(set.data[z]), 3, 0, Math.PI * 2, true);
         ctx.fill();
       }
     }
     ctx.closePath();
+  }
+
+  if (animation) {
+    if (config.props.alpha < 1) {
+      config['frame'] = requestAnimationFrame(ChartLine.bind(this, config));
+    } else {
+      cancelAnimationFrame(config.frame);
+    }
   }
 }
 
