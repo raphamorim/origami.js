@@ -7,6 +7,7 @@ function TextShape(params) {
 
   this.paper.ctx.beginPath();
   this.paper.ctx.setLineDash(style.borderStyle);
+  this.paper.ctx.textBaseline = 'middle';
   this.paper.ctx.lineWidth = (style.borderSize) ? style.borderSize : def.lineWidth;
   this.paper.ctx.strokeStyle = (style.borderColor) ? style.borderColor : def.strokeStyle;
   this.paper.ctx.font = (style.font || def.font);
