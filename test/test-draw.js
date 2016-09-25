@@ -388,6 +388,7 @@ describe("Test Draw Shapes", function() {
         ctx2.beginPath();
         ctx2.setLineDash(borderStyle['dotted']);
         ctx2.lineWidth = 2;
+        ctx2.textBaseline = 'middle';
         ctx2.strokeStyle = 'gold';
         ctx2.font = '70px Helvetica';
         ctx2.fillStyle = '#000';
