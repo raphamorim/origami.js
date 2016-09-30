@@ -136,8 +136,19 @@ function ChartLine(config) {
     for (var x = 1; x < set.data.length; x++) {
       ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
     }
+
+
     ctx.stroke();
     ctx.setLineDash([]);
+    if (config.fill) {
+      ctx.lineTo(getXPixel(set.data.length - 1), 310);
+      ctx.lineTo(xPadding, 310);
+      ctx.closePath();
+      ctx.globalAlpha = 0.2;
+      ctx.fillStyle = line.borderColor;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
 
     if (set.points) {
       ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
