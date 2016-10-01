@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-10-01T04:04Z
+ * Date: 2016-10-01T04:10Z
  */
 
 (function( window ) {
@@ -954,7 +954,7 @@ function ChartLine(config) {
       ctx.lineWidth = 0.8;
       ctx.strokeStyle = '#e7e7e7';
       ctx.moveTo(xPadding - 5, getYPixel(i));
-      ctx.lineTo(width - (xPadding / lineVariance + 70), getYPixel(i));
+      ctx.lineTo(width - (xPadding / lineVariance + 30), getYPixel(i));
       ctx.stroke();
     }
     ctx.fillText(i, xPadding - 10, getYPixel(i));
@@ -1000,7 +1000,7 @@ function ChartLine(config) {
   ctx.beginPath();
   ctx.moveTo(xPadding, yPadding / lineVariance);
   ctx.lineTo(xPadding, height - yPadding);
-  ctx.lineTo(width - (xPadding / lineVariance + 70), height - yPadding);
+  ctx.lineTo(width - (xPadding / lineVariance + 30), height - yPadding);
   ctx.stroke()
 
   function getRandomArbitrary(min, max) {
