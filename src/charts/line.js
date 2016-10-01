@@ -39,7 +39,7 @@ function ChartLine(config) {
   ctx.globalAlpha = 1;
 
   // Labels
-  ctx.textAlign = "left"
+  ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
   for (var i = 0; i < config.labels.length; i++) {
     if (gridLines.vertical) {
@@ -50,7 +50,8 @@ function ChartLine(config) {
       ctx.lineTo(getXPixel(i), yPadding / lineVariance);
       ctx.stroke();
     }
-    ctx.fillText(config.labels[i], getXPixel(i), height - yPadding + 20);
+
+    ctx.fillText(config.labels[i], getXPixel(i) - config.labels[i].length * 2.5, height - yPadding + 22);
   }
 
   // Data
@@ -66,7 +67,7 @@ function ChartLine(config) {
       ctx.lineWidth = 0.8;
       ctx.strokeStyle = '#e7e7e7';
       ctx.moveTo(xPadding - 5, getYPixel(i));
-      ctx.lineTo(width - (xPadding / lineVariance), getYPixel(i));
+      ctx.lineTo(width - (xPadding / lineVariance + 70), getYPixel(i));
       ctx.stroke();
     }
     ctx.fillText(i, xPadding - 10, getYPixel(i));
@@ -112,7 +113,7 @@ function ChartLine(config) {
   ctx.beginPath();
   ctx.moveTo(xPadding, yPadding / lineVariance);
   ctx.lineTo(xPadding, height - yPadding);
-  ctx.lineTo(width - (xPadding / lineVariance), height - yPadding);
+  ctx.lineTo(width - (xPadding / lineVariance + 70), height - yPadding);
   ctx.stroke()
 
   function getRandomArbitrary(min, max) {
@@ -137,12 +138,11 @@ function ChartLine(config) {
       ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
     }
 
-
     ctx.stroke();
     ctx.setLineDash([]);
     if (config.fill) {
-      ctx.lineTo(getXPixel(set.data.length - 1), 310);
-      ctx.lineTo(xPadding, 310);
+      ctx.lineTo(getXPixel(set.data.length - 1), getYPixel(0));
+      ctx.lineTo(xPadding, getYPixel(0));
       ctx.closePath();
       ctx.globalAlpha = 0.2;
       ctx.fillStyle = line.borderColor;
