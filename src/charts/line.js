@@ -26,7 +26,6 @@ function ChartLine(config) {
   };
 
   var gridLinesColor = '#e7e7e7';
-
   if (config.gridLinesColor) {
     gridLinesColor = config.gridLinesColor;
   }

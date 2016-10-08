@@ -5,7 +5,7 @@
  * Copyright Raphael Amorim 2016
  * Released under the GPL-4.0 license
  *
- * Date: 2016-10-01T04:10Z
+ * Date: 2016-10-08T20:47Z
  */
 
 (function( window ) {
@@ -912,6 +912,11 @@ function ChartLine(config) {
     horizontal: true
   };
 
+  var gridLinesColor = '#e7e7e7';
+  if (config.gridLinesColor) {
+    gridLinesColor = config.gridLinesColor;
+  }
+
   if (config.gridLines) {
     if (config.gridLines.vertical === false)
       gridLines.vertical = false;
@@ -921,8 +926,11 @@ function ChartLine(config) {
   }
 
   ctx.fillStyle = '#5e5e5e';
-  ctx.font = 'normal 11px Helvetica';
+  if (config.labelColor) {
+    ctx.fillStyle = config.labelColor;
+  }
 
+  ctx.font = 'normal 11px Helvetica';
   ctx.globalAlpha = 1;
 
   // Labels
@@ -932,7 +940,7 @@ function ChartLine(config) {
     if (gridLines.vertical) {
       ctx.beginPath();
       ctx.lineWidth = 0.8;
-      ctx.strokeStyle = '#e7e7e7';
+      ctx.strokeStyle = gridLinesColor;
       ctx.moveTo(getXPixel(i), height - yPadding + 10);
       ctx.lineTo(getXPixel(i), yPadding / lineVariance);
       ctx.stroke();
@@ -952,7 +960,7 @@ function ChartLine(config) {
     if (gridLines.horizontal) {
       ctx.beginPath();
       ctx.lineWidth = 0.8;
-      ctx.strokeStyle = '#e7e7e7';
+      ctx.strokeStyle = gridLinesColor;
       ctx.moveTo(xPadding - 5, getYPixel(i));
       ctx.lineTo(width - (xPadding / lineVariance + 30), getYPixel(i));
       ctx.stroke();
@@ -1038,14 +1046,19 @@ function ChartLine(config) {
     }
 
     if (set.points) {
-      ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
       for (var z = 0; z < set.data.length; z++) {
         ctx.beginPath();
-        ctx.arc(getXPixel(z), getYPixel(set.data[z]), 3, 0, Math.PI * 2, true);
+        ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
+        ctx.arc(getXPixel(z), getYPixel(set.data[z]), 4, 0, Math.PI * 2, true);
         ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.fillStyle = '#FFF';
+        ctx.arc(getXPixel(z), getYPixel(set.data[z]), 2, 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.closePath();
       }
     }
-    ctx.closePath();
   }
 
   if (animation) {
