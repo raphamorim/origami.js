@@ -12,6 +12,3 @@ Initially it's a tool for teaching geometry, web and javascript in schools. Curr
 
 Want to contribute? [Follow these recommendations](https://github.com/raphamorim/origami.js/blob/master/CONTRIBUTING.md).
 
-## License
-
-[![CC0](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
