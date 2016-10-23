@@ -17,8 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
- * Date: 2016-10-08T20:47Z
+ * Date: 2016-10-23T15:49Z
  */
 
 (function( window ) {
@@ -764,7 +763,7 @@ function SpriteShape(params) {
 
   drawSprite.call(this, {
     image: params.image,
-    posX: 0,
+    posX: (properties.frame > 0 && properties.frame <= properties.frames ? (dw *(properties.frame -1)) : 0),
     posY: 0,
     frame: properties.frames,
     loop: properties.loop,
@@ -774,7 +773,9 @@ function SpriteShape(params) {
     dx: params.x,
     dy: params.y,
     speed: properties.speed,
-    animation: null
+    update: null,
+    animation: properties.animation === true ? true : false,
+    loop: properties.loop === true ? true : false
   });
 }
 
@@ -783,7 +784,7 @@ function drawSprite(sprite) {
 
   if (sprite.posX === sprite.widthTotal) {
     if (sprite.loop === false) {
-      window.cancelAnimationFrame(sprite.animation);
+      window.cancelAnimationFrame(sprite.update);
       return;
     }
     sprite.posX = 0;
@@ -797,11 +798,13 @@ function drawSprite(sprite) {
     sprite.width, sprite.height);
   self.paper.ctx.closePath();
 
-  sprite.posX = sprite.posX + sprite.width;
+  if (sprite.animation) {
+    sprite.posX = sprite.posX + sprite.width;
+  }
 
   setTimeout(function() {
-    sprite.animation = window.requestAnimationFrame(drawSprite.bind(self, sprite));
-  }, sprite.speed);
+      sprite.update = window.requestAnimationFrame(drawSprite.bind(self, sprite));
+    }, sprite.speed);
 }
 
 Screen.prototype.sprite = SpriteShape;
