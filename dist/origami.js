@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Date: 2016-10-23T15:49Z
+ * Date: 2016-10-26T03:41Z
  */
 
 (function( window ) {
@@ -763,7 +763,7 @@ function SpriteShape(params) {
 
   drawSprite.call(this, {
     image: params.image,
-    posX: (properties.frame > 0 && properties.frame <= properties.frames ? (dw *(properties.frame -1)) : 0),
+    posX: (properties.currentFrame > 0 && properties.currentFrame <= properties.frames ? (dw *(properties.currentFrame -1)) : 0),
     posY: 0,
     frame: properties.frames,
     loop: properties.loop,
@@ -774,8 +774,8 @@ function SpriteShape(params) {
     dy: params.y,
     speed: properties.speed,
     update: null,
-    animation: properties.animation === true ? true : false,
-    loop: properties.loop === true ? true : false
+    animation: properties.animation,
+    loop: properties.loop
   });
 }
 
@@ -783,7 +783,7 @@ function drawSprite(sprite) {
   var self = this;
 
   if (sprite.posX === sprite.widthTotal) {
-    if (sprite.loop === false) {
+    if (!sprite.loop) {
       window.cancelAnimationFrame(sprite.update);
       return;
     }

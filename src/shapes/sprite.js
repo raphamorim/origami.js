@@ -4,7 +4,7 @@ function SpriteShape(params) {
 
   drawSprite.call(this, {
     image: params.image,
-    posX: (properties.frame > 0 && properties.frame <= properties.frames ? (dw *(properties.frame -1)) : 0),
+    posX: (properties.currentFrame > 0 && properties.currentFrame <= properties.frames ? (dw *(properties.currentFrame -1)) : 0),
     posY: 0,
     frame: properties.frames,
     loop: properties.loop,
@@ -15,8 +15,8 @@ function SpriteShape(params) {
     dy: params.y,
     speed: properties.speed,
     update: null,
-    animation: properties.animation === true ? true : false,
-    loop: properties.loop === true ? true : false
+    animation: properties.animation,
+    loop: properties.loop
   });
 }
 
@@ -24,7 +24,7 @@ function drawSprite(sprite) {
   var self = this;
 
   if (sprite.posX === sprite.widthTotal) {
-    if (sprite.loop) {
+    if (!sprite.loop) {
       window.cancelAnimationFrame(sprite.update);
       return;
     }
