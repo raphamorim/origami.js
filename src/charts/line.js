@@ -59,17 +59,20 @@ function ChartLine(config) {
       ctx.stroke();
     }
 
-    ctx.fillText(config.labels[i], getXPixel(i) - config.labels[i].length * 2.5, height - yPadding + 22);
+    var str = String(config.labels[i])
+    ctx.fillText(str, getXPixel(i) - str.length * 2.5, height - yPadding + 22);
   }
 
   // Data
   ctx.textAlign = "right"
   ctx.textBaseline = "middle";
-  var maxY = getMaxY();
-  var gridItems = 10;
-  var variance = Math.round(Math.round(maxY / gridItems) / 10) * 10;
+  var maxAndMin = getMaxAndMin();
+  var maxY = Math.round(maxAndMin.max);
+  var minY = Math.round(maxAndMin.min);
+  var gridItems = config.tense || 7;
+  var variance = Math.round(maxY / gridItems) / 10 * 10;
 
-  for (var i = 0; i < maxY; i += variance) {
+  for (var i = minY; i < maxY; i += variance) {
     if (gridLines.horizontal) {
       ctx.beginPath();
       ctx.lineWidth = 0.8;
@@ -85,25 +88,49 @@ function ChartLine(config) {
     return Math.max.apply(null, numArray);
   }
 
-  function getMaxY() {
-    var max = 0;
+  function getMinOfArray(numArray) {
+    return Math.min.apply(null, numArray);
+  }
+
+  function getMaxAndMin() {
+    var max = 0,
+        realMax = 0,
+        min = 0;
 
     for (var i = 0; i < sets.length; i++) {
-      var m = getMaxOfArray(sets[i].data);
-      if (m > max) {
-        max = m;
+      var biggest, lowerst;
+      if (typeof(sets[i].data[0]) === 'object') {
+        biggest = getMaxOfArray(sets[i].data.map(function(x){
+          return x[1]
+        }));
+        lowerst = getMinOfArray(sets[i].data.map(function(x){
+          return x[1]
+        }));
+      } else {
+        biggest = getMaxOfArray(sets[i].data);
+        lowerst = getMinOfArray(sets[i].data);
+      }
+      if (biggest > max) {
+        max = biggest;
+      }
+      if (lowerst < min) {
+        min = lowerst;
       }
     }
-    max += yPadding - max % 10;
-    return max;
+
+    max += Math.abs(max / 3);
+    return {
+      max: max,
+      min: min
+    };
   }
 
   function getXPixel(val) {
-    return ((width - xPadding) / config.labels.length) * val + xPadding;
+    return parseFloat(((width - xPadding) / config.labels.length) * val + xPadding);
   }
 
   function getYPixel(val) {
-    return height - (((height - yPadding) / getMaxY()) * val) - yPadding;
+    return parseFloat(height - (((height - yPadding) / getMaxAndMin().max) * val) - yPadding);
   }
 
   if (animation) {
@@ -142,8 +169,11 @@ function ChartLine(config) {
     ctx.strokeStyle = line.borderColor;
     ctx.moveTo(getXPixel(0), getYPixel(set.data[0]));
 
-    for (var x = 1; x < set.data.length; x++) {
-      ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
+    for (var x = 0; x < set.data.length; x++) {
+      if (typeof(set.data[x]) === 'object')
+        ctx.lineTo(getXPixel(set.data[x][0]), getYPixel(set.data[x][1]));
+      else   
+        ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
     }
 
     ctx.stroke();
@@ -162,7 +192,12 @@ function ChartLine(config) {
       for (var z = 0; z < set.data.length; z++) {
         ctx.beginPath();
         ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
-        ctx.arc(getXPixel(z), getYPixel(set.data[z]), 4, 0, Math.PI * 2, true);
+        
+        if (typeof(set.data[z]) === 'object')
+          ctx.arc(getXPixel(set.data[z][0]), getYPixel(set.data[z][1]), 4, 0, Math.PI * 2, true);
+        else
+          ctx.arc(getXPixel(z), getYPixel(set.data[z]), 4, 0, Math.PI * 2, true);
+        
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
