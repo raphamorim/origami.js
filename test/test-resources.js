@@ -8,6 +8,11 @@ CanvasRenderingContext2D.prototype.setLineDash = function(dash) {
   }
 }
 
+// Mocked only for test
+window.requestAnimationFrame = function(callback, element) {
+    return window.setTimeout(function() { callback(); }, 60);
+};
+
 /*
   Test Settings
 */
