@@ -530,14 +530,13 @@ describe("Test Draw Shapes", function() {
 
         sprite.addEventListener('load', function() {
           expectedContext.beginPath();
-          expectedContext.drawImage(sprite, (options.currentFrame > 0 && options.currentFrame <= options.frames ? ((options.width, options.frames) *(options.currentFrame -1)) : 0), 0, sprite.naturalWidth, sprite.naturalHeight);
+          expectedContext.drawImage(sprite, (options.currentFrame > 0 && options.currentFrame <= options.frames ? ((options.width  /options.frames) *(options.currentFrame -1)) : 0), 0, sprite.with, sprite.height);
           expectedContext.closePath();
         });
 
         setTimeout(function() {
-          // var isEqual = imagediff.equal(result, expected);
-          // expect(isEqual).to.eql(true);
-          expect(true).to.eql(true);
+          var isEqual = imagediff.equal(result, expected);
+          expect(isEqual).to.eql(true);
           done();
         }, 100);
       });
