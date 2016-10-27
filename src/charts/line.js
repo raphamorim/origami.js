@@ -172,7 +172,7 @@ function ChartLine(config) {
     for (var x = 0; x < set.data.length; x++) {
       if (typeof(set.data[x]) === 'object')
         ctx.lineTo(getXPixel(set.data[x][0]), getYPixel(set.data[x][1]));
-      else   
+      else
         ctx.lineTo(getXPixel(x), getYPixel(set.data[x]));
     }
 
@@ -192,12 +192,12 @@ function ChartLine(config) {
       for (var z = 0; z < set.data.length; z++) {
         ctx.beginPath();
         ctx.fillStyle = (set.pointsColor) ? set.pointsColor : 'rgb(75,75,75)';
-        
+
         if (typeof(set.data[z]) === 'object')
           ctx.arc(getXPixel(set.data[z][0]), getYPixel(set.data[z][1]), 4, 0, Math.PI * 2, true);
         else
           ctx.arc(getXPixel(z), getYPixel(set.data[z]), 4, 0, Math.PI * 2, true);
-        
+
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
