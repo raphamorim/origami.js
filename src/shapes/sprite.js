@@ -6,6 +6,7 @@ function SpriteShape(params) {
     image: params.image,
     posX: (properties.currentFrame > 0 && properties.currentFrame <= properties.frames ? (dw *(properties.currentFrame -1)) : 0),
     posY: 0,
+    animation: properties.animation,
     frame: properties.frames,
     loop: properties.loop,
     width: dw,
@@ -14,9 +15,7 @@ function SpriteShape(params) {
     dx: params.x,
     dy: params.y,
     speed: properties.speed,
-    update: null,
-    animation: properties.animation,
-    loop: properties.loop
+    update: null
   });
 }
 

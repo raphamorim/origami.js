@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Date: 2016-10-27T16:13Z
+ * Date: 2016-10-28T12:52Z
  */
 
 (function( window ) {
@@ -765,6 +765,7 @@ function SpriteShape(params) {
     image: params.image,
     posX: (properties.currentFrame > 0 && properties.currentFrame <= properties.frames ? (dw *(properties.currentFrame -1)) : 0),
     posY: 0,
+    animation: properties.animation,
     frame: properties.frames,
     loop: properties.loop,
     width: dw,
@@ -773,9 +774,7 @@ function SpriteShape(params) {
     dx: params.x,
     dy: params.y,
     speed: properties.speed,
-    update: null,
-    animation: properties.animation,
-    loop: properties.loop
+    update: null
   });
 }
 
