@@ -56,6 +56,14 @@ module.exports = function(grunt) {
       }
     },
 
+    'watch-test': {
+      files: ['test/**/*.js'],
+      tasks: ['test'],
+      options: {
+        spawn: false,
+      }
+    },
+
     watch: {
       files: ['src/**/*.js'],
       tasks: ['build'],
@@ -72,6 +80,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("test", ["run:test"]);
   grunt.registerTask("watch:dev", ["watch"]);
+  grunt.registerTask("watch:test", ["watch-test"]);
   grunt.registerTask("build", ["concat"]);
   grunt.registerTask("default", ["concat", "uglify:js", "test"]);
 };
