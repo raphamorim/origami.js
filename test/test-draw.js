@@ -317,26 +317,26 @@ describe("Test Draw Shapes", function() {
         var canvas1 = document.querySelector('#canvas1'),
           canvas2 = document.querySelector('#canvas2');
 
-          origami('#canvas1')
-            .border({
-              borderType: 'solid',
-              borderSize: '1px',
-              borderColor: 'black',
-              background: 'rgba(0,0,0,0)'
-            })
-            .draw();
+        origami('#canvas1')
+          .border({
+            borderType: 'solid',
+            borderSize: '1px',
+            borderColor: 'black',
+            background: 'rgba(0,0,0,0)'
+          })
+          .draw();
 
-          var ctx2 = canvas2.getContext('2d');
+        var ctx2 = canvas2.getContext('2d');
 
-          ctx2.beginPath();
-          ctx2.setLineDash(borderStyle['solid']);
-          ctx2.fillStyle = 'rgba(0,0,0,0)';
-          ctx2.fillRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
-          ctx2.lineWidth = 1;
-          ctx2.strokeStyle = 'black';
-          ctx2.strokeRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
-          ctx2.setLineDash([]);
-          ctx2.closePath();
+        ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['solid']);
+        ctx2.fillStyle = 'rgba(0,0,0,0)';
+        ctx2.fillRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+        ctx2.lineWidth = 1;
+        ctx2.strokeStyle = 'black';
+        ctx2.strokeRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+        ctx2.setLineDash([]);
+        ctx2.closePath();
 
         setTimeout(function() {
           var isEqual = imagediff.equal(canvas1, canvas2);
@@ -502,24 +502,23 @@ describe("Test Draw Shapes", function() {
 
     context('draw sprite frame', function() {
       it('should draw the third frame', function(done) {
-        var result = document.querySelector('#result')
-        ,   expected = document.querySelector('#expected');
+        var result = document.querySelector('#result'),
+          expected = document.querySelector('#expected');
 
         var options = {
-          width: 612,
-          height: 148,
           src: 'resources/walk.png',
-          frames: 6,
-          speed: 60,
-          currentFrame: 3
+          frames: {
+            total: 6,
+            current: 3
+          },
+          animation: false
         };
 
         origami('#result')
-          .sprite(options.width, options.height, {
+          .sprite(0, 0, {
             src: options.src,
             frames: options.frames,
-            speed: options.speed,
-            currentFrame: options.currentFrame
+            animation: options.animation,
           }).load(function(octx) {
             octx.draw();
           });
@@ -530,7 +529,11 @@ describe("Test Draw Shapes", function() {
 
         sprite.addEventListener('load', function() {
           expectedContext.beginPath();
-          expectedContext.drawImage(sprite, (options.currentFrame > 0 && options.currentFrame <= options.frames ? ((options.width  /options.frames) *(options.currentFrame -1)) : 0), 0, sprite.with, sprite.height);
+          var dw = sprite.naturalWidth / options.frames.total;
+          var posX = dw * (options.frames.current - 1),
+            posY = 0;
+          expectedContext.drawImage(sprite, posX, posY,
+            dw, sprite.naturalHeight, 0, 0, dw, sprite.naturalHeight);
           expectedContext.closePath();
         });
 
@@ -538,7 +541,7 @@ describe("Test Draw Shapes", function() {
           var isEqual = imagediff.equal(result, expected);
           expect(isEqual).to.eql(true);
           done();
-        }, 100);
+        }, 800);
       });
     });
 
