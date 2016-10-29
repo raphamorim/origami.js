@@ -1,20 +1,25 @@
 function SpriteShape(params) {
-  var properties = params.properties,
-    dw = params.width / properties.frames;
+  var props = params.properties,
+    dw = params.width / props.frames.total,
+    frames = props.frames,
+    posX = 0;
+
+  if (frames.current && frames.current <= frames.total)
+    posX = dw * (frames.current - 1)
 
   drawSprite.call(this, {
     image: params.image,
-    posX: (properties.currentFrame > 0 && properties.currentFrame <= properties.frames ? (dw *(properties.currentFrame -1)) : 0),
+    posX: posX,
     posY: 0,
-    animation: properties.animation,
-    frame: properties.frames,
-    loop: properties.loop,
+    frames: props.frames,
+    animation: props.animation,
+    loop: props.loop,
     width: dw,
     widthTotal: params.width,
     height: params.height,
     dx: params.x,
     dy: params.y,
-    speed: properties.speed,
+    speed: props.speed,
     update: null
   });
 }
@@ -23,7 +28,7 @@ function drawSprite(sprite) {
   var self = this;
 
   if (sprite.posX === sprite.widthTotal) {
-    if (!sprite.loop) {
+    if (sprite.loop !== true) {
       window.cancelAnimationFrame(sprite.update);
       return;
     }
@@ -38,29 +43,29 @@ function drawSprite(sprite) {
     sprite.width, sprite.height);
   self.paper.ctx.closePath();
 
-  if (sprite.animation) {
+  if (sprite.animation !== false) {
     sprite.posX = sprite.posX + sprite.width;
   }
 
   setTimeout(function() {
-      sprite.update = window.requestAnimationFrame(drawSprite.bind(self, sprite));
-    }, sprite.speed);
+    sprite.update = window.requestAnimationFrame(drawSprite.bind(self, sprite));
+  }, sprite.speed);
 }
 
 Screen.prototype.sprite = SpriteShape;
 
 Origami.sprite = function(x, y, properties) {
-  var self = this;
+  var self = this,
+    framesConfig = properties.frames;
 
-  if (!properties || !properties.src)
+  if (!properties || !properties.src || !framesConfig.total)
     return this;
 
-  var image = new Image(),
-    frames = (properties.frames || 0),
-    loop = (properties.loop || true),
-    speed = (properties.speed || 10);
-
+  var image = new Image();
   image.src = properties.src;
+
+  // normalize properties
+  properties.speed = properties.speed || 10;
 
   var item = {
     x: x,
