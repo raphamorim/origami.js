@@ -25,6 +25,10 @@ function ChartLine(config) {
     horizontal: true
   };
 
+  var maxAndMin = getMaxAndMin();
+  var maxY = Math.round(maxAndMin.max);
+  var minY = Math.round(maxAndMin.min);
+
   var gridLinesColor = '#e7e7e7';
   if (config.gridLinesColor) {
     gridLinesColor = config.gridLinesColor;
@@ -66,13 +70,10 @@ function ChartLine(config) {
   // Data
   ctx.textAlign = "right"
   ctx.textBaseline = "middle";
-  var maxAndMin = getMaxAndMin();
-  var maxY = Math.round(maxAndMin.max);
-  var minY = Math.round(maxAndMin.min);
   var gridItems = config.tense || 7;
-  var variance = Math.round(maxY / gridItems) / 10 * 10;
+  var variance = Math.round(Math.round((maxY - minY) / gridItems) / 10) * 10;
 
-  for (var i = minY; i < maxY; i += variance) {
+  for (var i = minY + variance; i < maxY; i += variance) {
     if (gridLines.horizontal) {
       ctx.beginPath();
       ctx.lineWidth = 0.8;
@@ -94,7 +95,6 @@ function ChartLine(config) {
 
   function getMaxAndMin() {
     var max = 0,
-        realMax = 0,
         min = 0;
 
     for (var i = 0; i < sets.length; i++) {
@@ -118,7 +118,8 @@ function ChartLine(config) {
       }
     }
 
-    max += Math.abs(max / 3);
+    max += yPadding - max % 10;
+    min -= yPadding + min % 10;
     return {
       max: max,
       min: min
@@ -130,7 +131,8 @@ function ChartLine(config) {
   }
 
   function getYPixel(val) {
-    return parseFloat(height - (((height - yPadding) / getMaxAndMin().max) * val) - yPadding);
+    var scale = maxY / (maxY - minY);
+    return parseFloat((height - (((height - yPadding) / maxY) * val)) * scale);
   }
 
   if (animation) {
