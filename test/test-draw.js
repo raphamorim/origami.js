@@ -53,7 +53,7 @@ describe("Test Draw Shapes", function() {
           expect(isEqual).to.eql(true);
 
           done();
-        }, 100);
+        }, 400);
       });
     });
   });
@@ -317,26 +317,26 @@ describe("Test Draw Shapes", function() {
         var canvas1 = document.querySelector('#canvas1'),
           canvas2 = document.querySelector('#canvas2');
 
-          origami('#canvas1')
-            .border({
-              borderType: 'solid',
-              borderSize: '1px',
-              borderColor: 'black',
-              background: 'rgba(0,0,0,0)'
-            })
-            .draw();
+        origami('#canvas1')
+          .border({
+            borderType: 'solid',
+            borderSize: '1px',
+            borderColor: 'black',
+            background: 'rgba(0,0,0,0)'
+          })
+          .draw();
 
-          var ctx2 = canvas2.getContext('2d');
+        var ctx2 = canvas2.getContext('2d');
 
-          ctx2.beginPath();
-          ctx2.setLineDash(borderStyle['solid']);
-          ctx2.fillStyle = 'rgba(0,0,0,0)';
-          ctx2.fillRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
-          ctx2.lineWidth = 1;
-          ctx2.strokeStyle = 'black';
-          ctx2.strokeRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
-          ctx2.setLineDash([]);
-          ctx2.closePath();
+        ctx2.beginPath();
+        ctx2.setLineDash(borderStyle['solid']);
+        ctx2.fillStyle = 'rgba(0,0,0,0)';
+        ctx2.fillRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+        ctx2.lineWidth = 1;
+        ctx2.strokeStyle = 'black';
+        ctx2.strokeRect(0, 0, ctx2.canvas.clientWidth, ctx2.canvas.clientHeight);
+        ctx2.setLineDash([]);
+        ctx2.closePath();
 
         setTimeout(function() {
           var isEqual = imagediff.equal(canvas1, canvas2);
@@ -476,5 +476,74 @@ describe("Test Draw Shapes", function() {
         }, 250);
       });
     });
+  });
+
+  // Sprite draw
+  context('sprite', function() {
+    beforeEach(function() {
+      var canvas = document.createElement("canvas");
+      canvas.id = 'result';
+      canvas.width = 500;
+      canvas.height = 500;
+      document.body.appendChild(canvas);
+
+      var canvasMock = document.createElement("canvas");
+      canvasMock.id = 'expected';
+      canvasMock.width = 500;
+      canvasMock.height = 500;
+      document.body.appendChild(canvasMock);
+    });
+
+    afterEach(function() {
+      document.body.removeChild(document.querySelector('#result'));
+      document.body.removeChild(document.querySelector('#expected'));
+      origami.cleanContexts();
+    });
+
+    context('draw sprite frame', function() {
+      it('should draw the third frame', function(done) {
+        var result = document.querySelector('#result'),
+          expected = document.querySelector('#expected');
+
+        var options = {
+          src: 'resources/walk.png',
+          frames: {
+            total: 6,
+            current: 3
+          },
+          animation: false
+        };
+
+        origami('#result')
+          .sprite(0, 0, {
+            src: options.src,
+            frames: options.frames,
+            animation: options.animation,
+          }).load(function(octx) {
+            octx.draw();
+          });
+
+        var expectedContext = expected.getContext('2d');
+        var sprite = new Image();
+        sprite.src = options.src;
+
+        sprite.addEventListener('load', function() {
+          expectedContext.beginPath();
+          var dw = sprite.naturalWidth / options.frames.total;
+          var posX = dw * (options.frames.current - 1),
+            posY = 0;
+          expectedContext.drawImage(sprite, posX, posY,
+            dw, sprite.naturalHeight, 0, 0, dw, sprite.naturalHeight);
+          expectedContext.closePath();
+        });
+
+        setTimeout(function() {
+          var isEqual = imagediff.equal(result, expected);
+          expect(isEqual).to.eql(true);
+          done();
+        }, 800);
+      });
+    });
+
   });
 });

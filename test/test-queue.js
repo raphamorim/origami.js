@@ -450,7 +450,9 @@ describe("Test Queue Shapes", function() {
           expect(canvas).to.not.equal(null);
           origami('canvas').sprite(15, 30, {
             src: srcImage,
-            frames: 10,
+            frames: {
+              total: 10
+            },
             speed: 60,
             loop: true
           });
