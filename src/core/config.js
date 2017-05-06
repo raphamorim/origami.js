@@ -10,13 +10,7 @@ var Origami = {
 };
 
 var config = {
-  // Document Styles
-  documentStyles: [],
-
-  // Virtual Styles
-  virtualStyles: {},
-
-  // All contexts saved
+// All contexts saved
   contexts: [],
 
   // Origami Shapes Defaults
