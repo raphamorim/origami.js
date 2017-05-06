@@ -191,20 +191,6 @@ function extend(a, b, undefOnly) {
 }
 
 /**
- * Get Style Rule from a specified element
- * @param {String} selector from element
- * @param {Array} Document Style Rules
- * @returns {Object} Merged values of defaults and options
- */
-function styleRuleValueFrom(selector, documentStyleRules) {
-  for (var j = 0; j < documentStyleRules.length; j++) {
-    if (documentStyleRules[j].selectorText && documentStyleRules[j].selectorText.toLowerCase() === selector) {
-      return documentStyleRules[j].style;
-    }
-  }
-}
-
-/**
  * Clone a object
  * @param {Object} object
  * @returns {Object} cloned object
