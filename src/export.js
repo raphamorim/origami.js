@@ -6,7 +6,8 @@ if ( typeof module !== "undefined" && module && module.exports ){
 }
 
 // For CommonJS with exports, but without module.exports, like Rhino
-else if ( typeof exports !== "undefined" && exports ) {
+else 
+  if ( typeof exports !== "undefined" && exports ) {
     exports.origami = factory;
 }
 
