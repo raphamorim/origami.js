@@ -1,7 +1,9 @@
-// Resource.js
+//program - Resource.js
 
-Origami.background = function(color) {
-  queue('background', {
+Origami.background = function(color)
+{
+  queue('background',
+        {
     color: color
   });
   return this;
@@ -62,7 +64,7 @@ Origami.rotate = function(degrees) {
       degrees = ((2 * Math.PI) / 30) * new Date().getSeconds() +
       ((2 * Math.PI) / 30000) * new Date().getMilliseconds();
 
-    // Fast
+    /* Fast */
     else if (degrees === 'fast')
       degrees = ((2 * Math.PI) / 6) * new Date().getSeconds() +
       ((2 * Math.PI) / 6000) * new Date().getMilliseconds();
