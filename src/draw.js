@@ -13,7 +13,7 @@ Origami.draw = function(options) {
 
   for (var i = 0; i < queueList.length; i++) {
     if (queueList[i].loaded === false || queueList[i].failed) {
-      Origami.warning('couldn\'t able to load:', queueList[i].params)
+      Origami.warning('wasn\'t able to load:', queueList[i].params)
     }
     abs[queueList[i].assign](queueList[i].params);
   }
