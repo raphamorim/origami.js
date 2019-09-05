@@ -6,7 +6,7 @@
 
 Initially, it's a tool for teaching geometry, web, and javascript in schools. Currently, it's a powerful library to create using HTML5 Canvas.
 
-## [Read Documentation](http://origamijs.com/docs/)
+## [Read Documentation](https://raphamorim.io/origamijs/docs/)
 
 ## Contributing
 
